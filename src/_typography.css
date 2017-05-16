@@ -1,0 +1,9 @@
+@import "_variables.css";
+
+.title {
+  &__main {
+    color: var(--brand-color);
+    font-weight: var(--font-bold);
+    font-size: 1.2em;
+  }
+}

@@ -1,0 +1,86 @@
+@import "../../_variables.css";
+
+.container {
+  display: block;
+  float: none;
+  clear: left;
+  position: relative;
+  padding: 0 0 0 var(--size-input);
+  margin-bottom: var(--size-input);
+}
+
+.input,
+.label {
+  font-size: 1em;
+}
+
+.input {
+  position: absolute;
+  cursor: pointer;
+  left: 0;
+  top: 0;
+  width: var(--size-input);
+  height: var(--size-input);
+  z-index: 1;
+  margin: 0;
+  zoom: 1;
+  filter: alpha(opacity=0);
+  opacity: 0;
+
+  &:focus + label::before {
+    border-color: var(--brand-color);
+  }
+
+  &:checked + .label::after {
+    zoom: 1;
+    filter: alpha(opacity=100);
+    opacity: 1;
+  }
+}
+
+.label {
+  cursor: pointer;
+  display: block;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+
+  &::before {
+    content: "";
+    display: block;
+    width: var(--size-input);
+    height: var(--size-input);
+    background-color: var(--color-white);
+    border: var(--border-size) solid var(--border-color);
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  &::after {
+    content: "";
+    border: solid var(--brand-color);
+    border-width: 0 0 calc(var(--size-input) / 6) calc(var(--size-input) / 6);
+    width: calc(var(--size-input) / 2);
+    height: calc(var(--size-input) / 4);
+    position: absolute;
+    top: calc(var(--size-input) / 4);
+    left: calc(var(--size-input) / 4.5);
+    transform: rotate(-45deg);
+    zoom: 1;
+    filter: alpha(opacity=0);
+    opacity: 0;
+  }
+}
+
+.noLabel {
+  & .content {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }
+}

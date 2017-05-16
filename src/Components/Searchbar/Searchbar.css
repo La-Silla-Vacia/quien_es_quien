@@ -1,0 +1,60 @@
+@import "../../_variables.css";
+
+.container {
+  width: 100%;
+  margin-bottom: 1em;
+  position: relative;
+}
+
+.input {
+  font-family: var(--brand-font);
+  font-size: 1em;
+  font-weight: var(--font-light);
+  width: 100%;
+  height: var(--size-input);
+  border: var(--border-size) solid var(--border-color);
+  padding: 1em 1em 1em 2.15em;
+  color: var(--brand-color);
+
+  &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: var(--brand-color);
+  }
+  &::-moz-placeholder { /* Firefox 19+ */
+    color: var(--brand-color);
+  }
+  &:-ms-input-placeholder { /* IE 10+ */
+    color: var(--brand-color);
+  }
+  &:-moz-placeholder { /* Firefox 18- */
+    color: var(--brand-color);
+  }
+
+  &:focus {
+    border-color: var(--brand-color);
+    outline: none;
+  }
+}
+
+.icon {
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0.5em;
+  width: calc(var(--size-input) * 0.7);
+  height: calc(var(--size-input) * 0.7);
+
+  &__circle {
+    fill: none;
+    stroke: #675FB5;
+    stroke-width: 1.0941;
+    stroke-miterlimit: 10;
+  }
+  &__line {
+    fill: none;
+    stroke: #675FB5;
+    stroke-width: 1.0941;
+    stroke-linecap: round;
+    stroke-miterlimit: 10;
+  }
+}

@@ -1,0 +1,22 @@
+:root {
+  /* Colors */
+  --brand-color: #675FB5;
+  --brand-color--light: #f7f7fb;
+  --color-black: map(colors, primary, xdark);
+  --color-white: #fff;
+
+  --color-grey--light: #DBDBDB;
+  --border-color: var(--color-grey--light);
+  --border-size: 1px;
+
+  /* Fonts */
+  --brand-font: map(fonts, family-sans-especial	);
+
+  --font-small: .8em;
+  --font-light: 300;
+  --font-bold: 700;
+  --font-black: 900;
+
+  /* Sizes */
+  --size-input: 1.75em;
+}
