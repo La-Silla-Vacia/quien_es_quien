@@ -63,7 +63,7 @@
   }
 
   &:last-child {
-    border-right: var(--border-size) solid var(--border-color);;
+    border-right: var(--border-size) solid var(--border-color);
   }
 }
 
