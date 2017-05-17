@@ -1,27 +1,46 @@
 import { h, render, Component } from 'preact';
-import cx from 'classnames';
+import { Router, Route } from 'preact-enroute';
+
+const getHash = hash => {
+  if (typeof hash === 'string' && hash.length) {
+    if (hash.substring(0, 1) === '#') {
+      return hash.substring(1);
+    }
+    return hash;
+  }
+  return '/';
+};
+
+const state = {
+  location: getHash(window.location.hash),
+  people: [],
+  connections: []
+};
+
+import TableView from './Pages/TableView';
 
 import Searchbar from './Components/Searchbar';
-import Checkbox from './Components/Checkbox';
 
 import s from './base.css';
 import t from './_typography.css';
 import strings from './strings.json';
 
-export default class Base extends Component {
+class Base extends Component {
 
   constructor() {
     super();
-
-    this.state = {
-      people: [],
-      show: 5,
-      connections: []
-    }
+    this.state = state;
   }
 
   componentWillMount() {
     this.setData();
+  }
+
+  componentDidMount() {
+    window.addEventListener('popstate', () => {
+      const newLocation = getHash(window.location.hash);
+      this.setState({ location: newLocation });
+    });
   }
 
   setData() {
@@ -47,7 +66,6 @@ export default class Base extends Component {
     const connections = [];
 
     rawPeople.map((rawPerson) => {
-      console.log(rawPerson);
       const {
         id = 0,
         label = 'Sin definir',
@@ -74,7 +92,8 @@ export default class Base extends Component {
         numberOfWorkConnections: nRelLaboral,
         numberOfRivalryConnections: nRelRivalidad,
         numberOfAllianceConnections: nRelAlianza,
-        children: hilos
+        children: hilos,
+        lastUpdate: '20170510'
       };
 
       people.push(person);
@@ -83,62 +102,40 @@ export default class Base extends Component {
     this.setState({ people, connections });
   }
 
-  handleClick(e) {
-    const preventClick = e.target.classList.contains('preventClick');
-    if (preventClick) return;
-    console.log('hi!');
-  }
-
-  getRows() {
-    const { people, show } = this.state;
-    return people.map((person, index) => {
-      if (index > show - 1) return;
-      console.log(person);
-      const { id, title, occupation, imgurl, numberOfConnections } = person;
-      return (
-        <div tabIndex={0} onClick={this.handleClick} key={id} href="#" className={s.row}>
-          <div className={cx(s.cell)}>
-            <Checkbox id={id} labelHidden>{title}</Checkbox>
-          </div>
-          <div className={s.cell}>
-            <div className={s.inner}>
-              <img className={s.photo} src={imgurl} width={40} alt="" />
-              <div>
-                <h3 className={s.name}>{title}</h3>
-                <span className={s.occupation}>{occupation}</span>
-              </div>
-            </div>
-          </div>
-          <div className={s.cell}>
-            {numberOfConnections}
-          </div>
-        </div>
-      )
-    });
+  getChildContext() {
+    return {
+      navigate: path => {
+        window.location.hash = path;
+        this.setState({ location: path });
+      },
+    };
   }
 
   render(props, state) {
+    const { people } = state;
     const { title } = strings;
-    const rows = this.getRows();
-    return (
-      <div className={s.container}>
-        <header className={s.header}>
-          <h2 className={t.title__main}>{title}</h2>
-        </header>
-        <div className={s.wrap}>
-          <Searchbar />
-          <div className={s.table}>
-            <div className={s.row}>
-              <div className={s.head}>Comparar</div>
-              <div className={s.head}>Información básica</div>
-              <div className={s.head}>Cantidad de conexiones</div>
-            </div>
 
-            {rows}
-
+    if (!people.length) {
+      return (
+        <div>Loading</div>
+      )
+    } else {
+      return (
+        <div className={s.container}>
+          <header className={s.header}>
+            <h2 className={t.title__main}>{title}</h2>
+          </header>
+          <div className={s.wrap}>
+            <Searchbar />
+            <Router {...state}>
+              <Route path="/" {...people} component={TableView} />
+              <Route path="/abc" component={TableView} />
+            </Router>
           </div>
         </div>
-      </div>
-    )
+      );
+    }
   }
 }
+
+export default Base;

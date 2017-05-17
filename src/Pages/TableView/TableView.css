@@ -1,11 +1,4 @@
-@import "_variables.css";
-
-.container {
-  font-family: var(--brand-font);
-  font-size: 16px;
-  display: block;
-  color: var(--color-black);
-}
+@import "../../_variables.css";
 
 .header {
   padding: 0 2em;
@@ -16,7 +9,7 @@
   padding: 1em 2em;
 }
 
-.table {
+.container {
   display: table;
   width: 100%;
   border-collapse: separate;

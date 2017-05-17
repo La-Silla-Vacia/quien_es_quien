@@ -6,3 +6,8 @@ html, body {
 * {
   box-sizing: border-box;
 }
+
+.lsv-interactive {
+  width: 100%;
+  overflow: hidden;
+}

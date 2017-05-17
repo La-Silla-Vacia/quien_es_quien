@@ -1,0 +1,19 @@
+@import "../../_variables.css";
+
+.container {
+  list-style: none;
+  margin: 0;
+  padding: 0 0.5em 0 0;
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.label {
+  font-size: var(--font-small);
+  background-color: var(--brand-color);
+  border-radius: var(--size-radius);
+  color: var(--color-white);
+  margin-left: 0.5em;
+  padding: 0.15em 1em;
+}
