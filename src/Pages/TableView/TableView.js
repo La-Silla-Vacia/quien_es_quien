@@ -11,13 +11,19 @@ export default class Base extends Component {
 
     this.state = {
       show: 50,
-    }
+      width: 400
+    };
+
+    this.handleResize = this.handleResize.bind(this);
   }
 
-  handleClick(e) {
-    const preventClick = e.target.classList.contains('preventClick');
-    if (preventClick) return;
-    console.log('hi!');
+  componentDidMount() {
+    this.handleResize();
+    window.addEventListener('resize', this.handleResize);
+  }
+
+  handleResize() {
+    this.setState({ width: this.tableHead.offsetWidth })
   }
 
   getRows() {
@@ -33,18 +39,23 @@ export default class Base extends Component {
   }
 
   render(props, state) {
+    const { width } = state;
     const rows = this.getRows();
     return (
       <div className={s.container}>
-        <div className={s.row}>
+        <div ref={(el) => {this.tableHead = el}} className={s.row}>
           <div className={s.head}>Comparar</div>
           <div className={s.head}>Información básica</div>
-          <div className={s.head}>Ocupación</div>
+          <div className={cx(s.head, { [s.hidden]: width < 1088 })}>Ocupación</div>
           <div className={s.head}>Total conexiones</div>
           <div className={s.head} />
         </div>
 
-        {rows}
+        {/*<div className={s.wrap}>*/}
+          <div className={s.body} style={{width}}>
+            {rows}
+          </div>
+        {/*</div>*/}
 
       </div>
     )

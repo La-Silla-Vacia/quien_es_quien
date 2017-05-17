@@ -14,7 +14,8 @@ const getHash = hash => {
 const state = {
   location: getHash(window.location.hash),
   people: [],
-  connections: []
+  connections: [],
+  width: 400
 };
 
 import TableView from './Pages/TableView';
@@ -37,6 +38,7 @@ class Base extends Component {
   }
 
   componentDidMount() {
+    this.setState({ width: this.props.width });
     window.addEventListener('popstate', () => {
       const newLocation = getHash(window.location.hash);
       this.setState({ location: newLocation });
@@ -115,26 +117,33 @@ class Base extends Component {
     const { people } = state;
     const { title } = strings;
 
-    if (!people.length) {
-      return (
-        <div>Loading</div>
+    let content;
+    if (people.length) {
+      content = (
+        <div className={s.wrap}>
+          <Searchbar />
+          <Router {...state}>
+            <Route path="/" {...people} component={TableView} />
+            <Route path="/person/:id" component={TableView} />
+          </Router>
+        </div>
       )
     } else {
-      return (
-        <div className={s.container}>
-          <header className={s.header}>
-            <h2 className={t.title__main}>{title}</h2>
-          </header>
-          <div className={s.wrap}>
-            <Searchbar />
-            <Router {...state}>
-              <Route path="/" {...people} component={TableView} />
-              <Route path="/abc" component={TableView} />
-            </Router>
-          </div>
+      content = (
+        <div className={s.wrap}>
+          <em>El "quién es quién" está siendo cargado</em>
         </div>
-      );
+      )
     }
+
+    return (
+      <div className={s.container}>
+        <header className={s.header}>
+          <h2 className={t.title__main}><a href="#/">{title}</a></h2>
+        </header>
+        {content}
+      </div>
+    );
   }
 }
 

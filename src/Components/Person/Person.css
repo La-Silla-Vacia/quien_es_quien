@@ -2,9 +2,11 @@
 
 .container {
   display: table-row;
+  font-family: var(--font-text);
 
   &:focus {
     outline: none;
+    text-decoration: none;
 
     & .cell {
       border-color: var(--brand-color);
@@ -53,6 +55,11 @@
   margin: 0.25em 1em 0.25em 0;
 }
 
-.occupation {
+.text {
   font-size: var(--font-small);
+  color: var(--color-black);
+}
+
+.hidden {
+  display: none;
 }

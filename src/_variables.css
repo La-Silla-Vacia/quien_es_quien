@@ -2,7 +2,7 @@
   /* Colors */
   --brand-color: #675FB5;
   --brand-color--light: #f7f7fb;
-  --color-black: map(colors, primary, xdark);
+  --color-black: map(colors, primary, dark);
   --color-white: #fff;
 
   --color-grey--light: #DBDBDB;
@@ -11,6 +11,7 @@
 
   /* Fonts */
   --brand-font: map(fonts, family-sans-especial	);
+  --font-text: map(fonts, family-sans);
 
   --font-small: .8em;
   --font-light: 300;
