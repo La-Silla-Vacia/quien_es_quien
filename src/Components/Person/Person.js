@@ -26,6 +26,7 @@ export default class Person extends Component {
 
   handleResize() {
     const element = this.rootElement;
+    if (!element) return;
     const width = element.offsetWidth;
     this.formatSize(width);
   }
@@ -46,9 +47,21 @@ export default class Person extends Component {
 
   render(props, state) {
     const { size } = state;
-    const { id, title, occupation, imgurl, numberOfConnections, lastUpdate, className } = props;
+    const { id, title, occupation, imgurl, numberOfConnections, lastUpdate, className, profile, bio } = props;
     const labels = ['Información nueva'];
     if (lastUpdate) labels.push('Ahora tendencia');
+
+    if (profile) {
+      return (
+        <div className={cx(className, s.container)}>
+          <header className={s.cell}>
+            <img className={s.photo} src={imgurl} width={40} alt="" />
+            <h3 className={s.name}>{title}</h3>
+          </header>
+          <div className={s.cell} dangerouslySetInnerHTML={{__html: bio}} />
+        </div>
+      )
+    }
 
     return (
       <a

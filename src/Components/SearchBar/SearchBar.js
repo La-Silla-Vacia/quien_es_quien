@@ -1,6 +1,6 @@
 import { h, render } from 'preact';
 import cx from 'classnames';
-import s from './Searchbar.css';
+import s from './SearchBar.css';
 
 import strings from '../../strings.json';
 

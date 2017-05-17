@@ -15,12 +15,14 @@ const state = {
   location: getHash(window.location.hash),
   people: [],
   connections: [],
-  width: 400
+  width: 400,
+  peopleLookup: {}
 };
 
 import TableView from './Pages/TableView';
+import PersonView from './Pages/PersonView';
 
-import Searchbar from './Components/Searchbar';
+import SearchBar from './Components/SearchBar';
 
 import s from './base.css';
 import t from './_typography.css';
@@ -101,7 +103,12 @@ class Base extends Component {
       people.push(person);
     });
 
-    this.setState({ people, connections });
+    const lookup = {};
+    for (let i = 0, len = people.length; i < len; i++) {
+      lookup[people[i].id] = people[i];
+    }
+
+    this.setState({ people, peopleLookup: lookup, connections });
   }
 
   getChildContext() {
@@ -113,6 +120,17 @@ class Base extends Component {
     };
   }
 
+  personView(props, state) {
+    const {peopleLookup, params} = props;
+
+    const id = params.id;
+    const person = peopleLookup[id];
+
+    return (
+      <PersonView person={person} />
+    )
+  }
+
   render(props, state) {
     const { people } = state;
     const { title } = strings;
@@ -121,10 +139,10 @@ class Base extends Component {
     if (people.length) {
       content = (
         <div className={s.wrap}>
-          <Searchbar />
+          <SearchBar />
           <Router {...state}>
             <Route path="/" {...people} component={TableView} />
-            <Route path="/person/:id" component={TableView} />
+            <Route path="/person/:id" component={this.personView} />
           </Router>
         </div>
       )

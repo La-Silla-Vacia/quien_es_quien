@@ -4,7 +4,7 @@ import cx from 'classnames';
 import s from './TableView.css';
 import Person from "../../Components/Person/Person";
 
-export default class Base extends Component {
+export default class TableView extends Component {
 
   constructor() {
     super();

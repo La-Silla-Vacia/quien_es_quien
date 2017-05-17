@@ -1,0 +1,6 @@
+@import "../../_variables.css";
+
+.person {
+  width: 30em;
+  display: block;
+}
