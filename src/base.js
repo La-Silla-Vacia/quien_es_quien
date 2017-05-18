@@ -1,5 +1,6 @@
 import { h, render, Component } from 'preact';
 import { Router, Route } from 'preact-enroute';
+import pathToRegexp from 'path-to-regexp';
 
 const getHash = hash => {
   if (typeof hash === 'string' && hash.length) {
@@ -16,7 +17,8 @@ const state = {
   people: [],
   connections: [],
   width: 400,
-  peopleLookup: {}
+  peopleLookup: {},
+  currentPerson: false
 };
 
 import TableView from './Pages/TableView';
@@ -121,12 +123,37 @@ class Base extends Component {
     };
   }
 
+  getBreadcrumbs() {
+    const { peopleLookup, location } = this.state;
+    const keys = [];
+    const re = pathToRegexp('/person/:id', keys);
+    const personId = re.exec(location);
+    console.log('a', personId);
+    if (personId) {
+      const person = peopleLookup[personId[1]];
+      if (!person) return;
+      const { title, id } = person;
+      const items = [
+        {
+          'title': 'Inicio',
+          'link': '#/'
+        },
+        {
+          'title': title,
+          'link': `#/person/${id}`
+        }
+      ];
+      return (
+        <Breadcrumbs items={items} />
+      )
+    }
+  }
+
   personView(props, state) {
     const { peopleLookup, params } = props;
 
     const id = params.id;
     const person = peopleLookup[id];
-
     return (
       <PersonView person={person} />
     )
@@ -135,13 +162,14 @@ class Base extends Component {
   render(props, state) {
     const { people } = state;
     const { title } = strings;
+    const breadcrumbs = this.getBreadcrumbs();
 
     let content;
     if (people.length) {
       content = (
         <div className={s.wrap}>
           <SearchBar />
-          <Breadcrumbs items={['Home', 'Ulribe']} />
+          {breadcrumbs}
           <Router {...state}>
             <Route path="/" {...people} component={TableView} />
             <Route path="/person/:id" component={this.personView} />

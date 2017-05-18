@@ -7,8 +7,9 @@ export default class Breadcrumbs extends Component {
   getLabels() {
     const { items } = this.props;
     return items.map((item, index) => {
+      const {title, link} = item;
       return (
-        <Breadcrumb key={index}>{item}</Breadcrumb>
+        <Breadcrumb key={index} href={link}>{title}</Breadcrumb>
       )
     });
   }

@@ -3,7 +3,7 @@ import s from './Breadcrumbs.css';
 
 const Breadcrumb = ({ children, ...props }) => (
   <li className={s.item}>
-    <a href="/#">
+    <a href={props.href}>
       { children }
     </a>
   </li>
