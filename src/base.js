@@ -23,6 +23,7 @@ import TableView from './Pages/TableView';
 import PersonView from './Pages/PersonView';
 
 import SearchBar from './Components/SearchBar';
+import Breadcrumbs from './Components/Breadcrumbs';
 
 import s from './base.css';
 import t from './_typography.css';
@@ -121,7 +122,7 @@ class Base extends Component {
   }
 
   personView(props, state) {
-    const {peopleLookup, params} = props;
+    const { peopleLookup, params } = props;
 
     const id = params.id;
     const person = peopleLookup[id];
@@ -140,6 +141,7 @@ class Base extends Component {
       content = (
         <div className={s.wrap}>
           <SearchBar />
+          <Breadcrumbs items={['Home', 'Ulribe']} />
           <Router {...state}>
             <Route path="/" {...people} component={TableView} />
             <Route path="/person/:id" component={this.personView} />

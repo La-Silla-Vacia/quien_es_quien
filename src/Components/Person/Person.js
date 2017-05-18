@@ -53,12 +53,21 @@ export default class Person extends Component {
 
     if (profile) {
       return (
-        <div className={cx(className, s.container)}>
-          <header className={s.cell}>
+        <div
+          className={cx(className, s.container, s.profile)}
+          key={id}
+          ref={(person) => {
+            this.rootElement = person;
+          }}
+        >
+          <header className={s.header}>
             <img className={s.photo} src={imgurl} width={40} alt="" />
-            <h3 className={s.name}>{title}</h3>
+            <div>
+              <h3 className={s.name}>{title}</h3>
+              <span className={cx(s.text, { [s.hidden]: size <= 2 })}>{occupation}</span>
+            </div>
           </header>
-          <div className={s.cell} dangerouslySetInnerHTML={{__html: bio}} />
+          <div dangerouslySetInnerHTML={{ __html: bio }} />
         </div>
       )
     }
@@ -81,16 +90,16 @@ export default class Person extends Component {
             <img className={s.photo} src={imgurl} width={40} alt="" />
             <div>
               <h3 className={s.name}>{title}</h3>
-              <span className={cx(s.text, {[s.hidden]: size <= 2})}>{occupation}</span>
+              <span className={cx(s.text, { [s.hidden]: size <= 2 })}>{occupation}</span>
             </div>
           </div>
         </div>
-        <div className={cx(s.cell, {[s.hidden]: size > 2})}>
+        <div className={cx(s.cell, { [s.hidden]: size > 2 })}>
           <span className={s.text}>{occupation}</span>
         </div>
         <div className={s.cell}>
           <span className={s.text}>{numberOfConnections}</span>
-          <span className={cx(s.text, {[s.hidden]: size > 1})}> conexiones</span>
+          <span className={cx(s.text, { [s.hidden]: size > 1 })}> conexiones</span>
         </div>
         <div className={s.cell}>
           <Labels items={labels} />
