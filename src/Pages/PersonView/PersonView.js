@@ -20,11 +20,24 @@ export default class PersonView extends Component {
     connections.map((connection) => {
       show[connection.name] = 5;
     });
-    this.setState({show});
+    this.setState({ show });
+  }
+
+  showMore(category) {
+    const { show } = this.state;
+    show[category] += 5;
+    this.setState({ show });
   }
 
   getPeople(name, children) {
+    const { show } = this.state;
+    const peopleToShow = (show[name]) ? show[name] : 5;
     return children.map((child, index) => {
+      if (peopleToShow === index) {
+        return (<div onClick={this.showMore.bind(this, name)}>Ver mas</div>);
+      } else if (peopleToShow - 1 < index) {
+        return;
+      }
       return (
         <Person className={s.person} {...child} profile collapsed />
       )
