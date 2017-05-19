@@ -1,1 +1,12 @@
 @import "../../_variables.css";
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+}

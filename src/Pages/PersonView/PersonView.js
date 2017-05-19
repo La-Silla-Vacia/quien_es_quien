@@ -44,6 +44,16 @@ export default class PersonView extends Component {
     });
   }
 
+  getTitles() {
+    const { connections } = this.props;
+    return connections.map((connection) => {
+      const { name } = connection;
+      return (
+        <h3>{name}</h3>
+      )
+    });
+  }
+
   getConnections() {
     const { connections } = this.props;
 
@@ -52,26 +62,27 @@ export default class PersonView extends Component {
 
       const people = this.getPeople(name, children);
       return (
-        <li>
-          {name}
-          <ul>
-            {people}
-          </ul>
-        </li>
+        <div className={s.group}>
+          {people}
+        </div>
       )
     });
   }
 
   render(props, state) {
     const { person } = props;
+    const titles = this.getTitles();
     const connections = this.getConnections();
 
     return (
       <div className={s.container}>
         <Person className={s.person} {...person} profile />
-        <ul>
+        <div className={s.title}>
+          {titles}
+        </div>
+        <div className={s.connections}>
           {connections}
-        </ul>
+        </div>
       </div>
     )
   }

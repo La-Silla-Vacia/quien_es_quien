@@ -184,21 +184,22 @@ class Base extends Component {
 
     const id = params.id;
     const person = peopleLookup[id];
-    const connections = connectionsLookup[id];
+    const connections = (connectionsLookup[id]) ? connectionsLookup[id] : [];
 
     const types = [];
-    connections.map((rawConnection) => {
-      const { category, target } = rawConnection;
-      const connection = peopleLookup[target];
-      let inArray;
-      types.map((type) => {
-        if (type.name === category) {
-          inArray = true;
-          type.children.push(connection);
-        }
+    if (connections)
+      connections.map((rawConnection) => {
+        const { category, target } = rawConnection;
+        const connection = peopleLookup[target];
+        let inArray;
+        types.map((type) => {
+          if (type.name === category) {
+            inArray = true;
+            type.children.push(connection);
+          }
+        });
+        if (!inArray) types.push({ name: category, children: [connection] });
       });
-      if (!inArray) types.push({name: category, children: [connection]});
-    });
 
     return (
       <PersonView person={person} connections={types} />
