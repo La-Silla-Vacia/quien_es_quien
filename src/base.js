@@ -106,12 +106,43 @@ class Base extends Component {
       people.push(person);
     });
 
-    const lookup = {};
+    rawConnections.map((rawConnection) => {
+      const {
+        category,
+        color,
+        id,
+        size,
+        source,
+        subcategory,
+        target
+      } = rawConnection;
+      const connection = {
+        category,
+        color,
+        id,
+        size,
+        source,
+        subcategory,
+        target
+      };
+      connections.push(connection);
+    });
+
+    const peopleLookup = {};
     for (let i = 0, len = people.length; i < len; i++) {
-      lookup[people[i].id] = people[i];
+      peopleLookup[people[i].id] = people[i];
     }
 
-    this.setState({ people, peopleLookup: lookup, connections });
+    const connectionsLookup = {};
+    for (let i = 0, len = connections.length; i < len; i++) {
+      const source = connections[i].source;
+      if (!connectionsLookup[source]) {
+        connectionsLookup[source] = [];
+      }
+      connectionsLookup[source].push(connections[i]);
+    }
+
+    this.setState({ people, peopleLookup, connections, connectionsLookup });
   }
 
   getChildContext() {
@@ -128,7 +159,6 @@ class Base extends Component {
     const keys = [];
     const re = pathToRegexp('/person/:id', keys);
     const personId = re.exec(location);
-    console.log('a', personId);
     if (personId) {
       const person = peopleLookup[personId[1]];
       if (!person) return;
@@ -150,12 +180,28 @@ class Base extends Component {
   }
 
   personView(props, state) {
-    const { peopleLookup, params } = props;
+    const { peopleLookup, connectionsLookup, params } = props;
 
     const id = params.id;
     const person = peopleLookup[id];
+    const connections = connectionsLookup[id];
+
+    const types = [];
+    connections.map((rawConnection) => {
+      const { category, target } = rawConnection;
+      const connection = peopleLookup[target];
+      let inArray;
+      types.map((type) => {
+        if (type.name === category) {
+          inArray = true;
+          type.children.push(connection);
+        }
+      });
+      if (!inArray) types.push({name: category, children: [connection]});
+    });
+
     return (
-      <PersonView person={person} />
+      <PersonView person={person} connections={types} />
     )
   }
 

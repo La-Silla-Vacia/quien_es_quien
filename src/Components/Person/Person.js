@@ -9,15 +9,21 @@ export default class Person extends Component {
   constructor() {
     super();
     this.state = {
-      size: 400
+      size: 400,
+      collapser: false,
+      collapsed: true
     };
 
     this.handleResize = this.handleResize.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
     this.handleResize();
     window.addEventListener('resize', this.handleResize);
+
+    const { collapsed } = this.props;
+    if (collapsed) this.setState({ collapser: true });
   }
 
   componentWillUnmount() {
@@ -45,16 +51,34 @@ export default class Person extends Component {
     this.setState({ size: sizeName });
   }
 
+  getBio() {
+    const { collapser, collapsed } = this.state;
+    const { bio } = this.props;
+    if (collapser && collapsed) return;
+    return (
+      <div dangerouslySetInnerHTML={{ __html: bio }} />
+    )
+  }
+
+  handleClick() {
+    const { collapser, collapsed } = this.state;
+    if (!collapser) return;
+    this.setState({collapsed: !collapsed});
+  }
+
   render(props, state) {
-    const { size } = state;
-    const { id, title, occupation, imgurl, numberOfConnections, lastUpdate, className, profile, bio } = props;
+    const { size, collapser } = state;
+    const { id, title, occupation, imgurl, numberOfConnections, lastUpdate, className, profile } = props;
     const labels = ['Información nueva'];
     if (lastUpdate) labels.push('Ahora tendencia');
+
+    const bio = this.getBio();
 
     if (profile) {
       return (
         <div
-          className={cx(className, s.container, s.profile)}
+          className={cx(className, s.container, s.profile, {[s.compact]: collapser})}
+          onClick={this.handleClick}
           key={id}
           ref={(person) => {
             this.rootElement = person;
@@ -67,7 +91,7 @@ export default class Person extends Component {
               <span className={cx(s.text, { [s.hidden]: size <= 2 })}>{occupation}</span>
             </div>
           </header>
-          <div dangerouslySetInnerHTML={{ __html: bio }} />
+          {bio}
         </div>
       )
     }

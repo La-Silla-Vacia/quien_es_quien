@@ -25,6 +25,7 @@
 
   & a {
     float: left;
+    font-size: var(--font-small);
     padding: 0.375em 0 0.375em var(--size-input);
     font-weight: var(--font-light);
     background-color: var(--color-white);

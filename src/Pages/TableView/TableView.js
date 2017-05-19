@@ -22,6 +22,10 @@ export default class TableView extends Component {
     window.addEventListener('resize', this.handleResize);
   }
 
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleResize);
+  }
+
   handleResize() {
     this.setState({ width: this.tableHead.offsetWidth })
   }
