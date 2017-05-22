@@ -18,7 +18,8 @@ const state = {
   connections: [],
   width: 400,
   peopleLookup: {},
-  currentPerson: false
+  currentPerson: false,
+  breadcrumbs: []
 };
 
 import TableView from './Pages/TableView';
@@ -40,6 +41,7 @@ class Base extends Component {
 
   componentWillMount() {
     this.setData();
+    this.getBreadcrumbs();
   }
 
   componentDidMount() {
@@ -47,6 +49,7 @@ class Base extends Component {
     window.addEventListener('popstate', () => {
       const newLocation = getHash(window.location.hash);
       this.setState({ location: newLocation });
+      this.getBreadcrumbs();
     });
   }
 
@@ -147,6 +150,7 @@ class Base extends Component {
   }
 
   getChildContext() {
+    // this.getBreadcrumbs();
     return {
       navigate: path => {
         window.location.hash = path;
@@ -174,15 +178,13 @@ class Base extends Component {
           'link': `#/person/${id}`
         }
       ];
-      return (
-        <Breadcrumbs items={items} />
-      )
+
+      this.setState({ breadcrumbs: items });
     }
   }
 
   personView(props, state) {
-    const { peopleLookup, connectionsLookup, params } = props;
-
+    const { peopleLookup, connectionsLookup, params, breadcrumbs } = props;
     const id = params.id;
     const person = peopleLookup[id];
     const connections = (connectionsLookup[id]) ? connectionsLookup[id] : [];
@@ -204,20 +206,17 @@ class Base extends Component {
       });
 
     return (
-      <PersonView person={person} connections={types} />
+      <PersonView person={person} breadcrumbs={breadcrumbs} connections={types} />
     )
   }
 
   render(props, state) {
     const { people } = state;
     const { title } = strings;
-    const breadcrumbs = this.getBreadcrumbs();
-
     let content;
     if (people.length) {
       content = (
         <div className={s.wrap}>
-          {breadcrumbs}
           <Router {...state}>
             <Route path="/" {...people} component={TableView} />
             <Route path="/person/:id" component={this.personView} />

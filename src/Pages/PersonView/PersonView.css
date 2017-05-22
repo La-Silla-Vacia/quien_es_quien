@@ -1,6 +1,6 @@
 @import "../../_variables.css";
 
-.container {
+.wrap {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -27,7 +27,11 @@
   left: 0;
   width: 100%;
   height: 100%;
-  pointer-events: none;
+}
+
+.line {
+  transition: .2s;
+  stroke-width: 2;
 }
 
 .connectionAnchor {
@@ -46,4 +50,9 @@
     right: 0;
     transform: translate(50%, -50%);
   }
+}
+
+.connections {
+  position: relative;
+  z-index: 10;
 }

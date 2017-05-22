@@ -2,7 +2,9 @@ import { h, render, Component } from 'preact';
 import cx from 'classnames';
 
 import s from './PersonView.css';
-import Person from "../../Components/Person/Person";
+import Person from "../../Components/Person";
+import SearchBar from "../../Components/SearchBar";
+import Breadcrumbs from "../../Components/Breadcrumbs/Breadcrumbs";
 
 export default class PersonView extends Component {
 
@@ -12,17 +14,20 @@ export default class PersonView extends Component {
     this.state = {
       show: [],
       width: 320,
-      height: 568
+      height: 568,
+      searchText: ''
     };
 
     this.connections = {};
 
     this.handleResize = this.handleResize.bind(this);
+    this.handleSearchChange = this.handleSearchChange.bind(this);
   }
 
   componentDidMount() {
     const { show } = this.state;
     const { connections } = this.props;
+
     connections.map((connection) => {
       show[connection.name] = 3;
       this.connections[connection.name] = {
@@ -30,8 +35,14 @@ export default class PersonView extends Component {
       };
     });
     this.setState({ show });
-    setTimeout(this.handleResize, 100);
+    this.handleResize;
     window.addEventListener('resize', this.handleResize);
+  }
+
+  shouldComponentUpdate() {
+    console.log('will update', this.connections);
+    // setTimeout(this.handleResize, 10)
+    // this.handleResize();
   }
 
   handleResize() {
@@ -53,19 +64,32 @@ export default class PersonView extends Component {
 
   getPeople(connection) {
     const { name, color, connections } = connection;
-    const { show } = this.state;
-    const peopleToShow = (show[name]) ? show[name] : 5;
+    const { show, searchText } = this.state;
+    const peopleToShow = (show[name]) ? show[name] : 3;
+
+    let i = 0;
+    this.getWires();
     return connections.map((child, index) => {
       const { id } = child;
-      if (peopleToShow === index) {
+      if (searchText) {
+        if (
+          child.title.toLowerCase().indexOf(searchText) === -1 &&
+          child.occupation.toLowerCase().indexOf(searchText) === -1
+        ) return;
+      }
+
+      if (peopleToShow === i) {
+        i += 0.1;
         return (<div onClick={this.showMore.bind(this, name)}>Ver mas</div>);
-      } else if (peopleToShow - 1 < index) {
+      } else if (peopleToShow < i) {
         return;
       }
+
+      i++;
       if (!this.connections[name]) this.connections[name] = { targets: [] };
       return (
         <Person key={id} className={s.person} color={color} {...child} profile collapsed>
-          <div className={s.connectionAnchor} id={id} ref={(el) => this.connections[name].targets.push(el)} />
+          <div className={s.connectionAnchor} id={id} ref={(el) => this.connections[name].targets[index] = el} />
         </Person>
       )
     });
@@ -75,6 +99,7 @@ export default class PersonView extends Component {
     const { connections } = this.props;
     return connections.map((connection, index) => {
       const { name, color } = connection;
+
       return (
         <h3 key={index} className={s.title}>
           {name}
@@ -124,35 +149,51 @@ export default class PersonView extends Component {
         const targetX = (targetBB.left + halfTargetSize) - containerLeft;
         const targetY = (targetBB.top + halfTargetSize) - containerTop;
 
-        if (targetX < 0) console.log(target.parentNode);
+        if (targetX < 0) return;
         return (
-          <line key={id} x1={sourceX} y1={sourceY} x2={targetX} y2={targetY}
-                style={{ stroke: color, strokeWidth: 2 }} />
+          <line
+            x1={sourceX}
+            y1={sourceY}
+            x2={targetX}
+            y2={targetY}
+            style={{ stroke: color }}
+            className={s.line}
+          />
         )
       });
     });
   }
 
+  handleSearchChange(value) {
+    this.setState({ searchText: value.toLowerCase() });
+  }
+
   render(props, state) {
-    const { person } = props;
+    const { person, breadcrumbs } = props;
     const { width, height } = state;
     const titles = this.getTitles();
     const connections = this.getConnections();
     const wires = this.getWires();
-
     return (
-      <div className={s.container} ref={(el) => {
-        this.rootElement = el
-      }}>
-        <svg className={s.lines} width={width} height={height}>
-          {wires}
-        </svg>
-        <Person className={s.person} {...person} profile />
-        <div className={s.title_group}>
-          {titles}
-        </div>
-        <div className={s.connections}>
-          {connections}
+      <div className={s.container}>
+        <SearchBar onChange={this.handleSearchChange} />
+        <Breadcrumbs items={breadcrumbs} />
+        <div
+          className={s.wrap}
+          ref={(el) => {
+            this.rootElement = el
+          }}
+        >
+          <svg className={s.lines} width={width} height={height}>
+            {wires}
+          </svg>
+          <Person className={s.person} {...person} profile />
+          <div className={s.title_group}>
+            {titles}
+          </div>
+          <div className={s.connections}>
+            {connections}
+          </div>
         </div>
       </div>
     )
