@@ -99,7 +99,7 @@ class Base extends Component {
         numberOfWorkConnections: nRelLaboral,
         numberOfRivalryConnections: nRelRivalidad,
         numberOfAllianceConnections: nRelAlianza,
-        children: hilos,
+        connections: hilos,
         lastUpdate: '20170510'
       };
 
@@ -116,9 +116,10 @@ class Base extends Component {
         subcategory,
         target
       } = rawConnection;
+
       const connection = {
         category,
-        color,
+        color: (color) ? color.replace('0.45', 1).replace('0.3', 1) : color,
         id,
         size,
         source,
@@ -189,16 +190,17 @@ class Base extends Component {
     const types = [];
     if (connections)
       connections.map((rawConnection) => {
-        const { category, target } = rawConnection;
+        const { category, target, color } = rawConnection;
         const connection = peopleLookup[target];
         let inArray;
         types.map((type) => {
           if (type.name === category) {
             inArray = true;
-            type.children.push(connection);
+            type.connections.push(connection);
           }
         });
-        if (!inArray) types.push({ name: category, children: [connection] });
+        // console.log(rawConnection);
+        if (!inArray) types.push({ name: category, color, connections: [connection] });
       });
 
     return (

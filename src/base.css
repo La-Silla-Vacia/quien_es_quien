@@ -5,6 +5,8 @@
   font-size: 16px;
   display: block;
   color: var(--color-black);
+  border-left: var(--border-size) solid var(--color-white);
+  border-right: var(--border-size) solid var(--color-white);
 }
 
 .header {

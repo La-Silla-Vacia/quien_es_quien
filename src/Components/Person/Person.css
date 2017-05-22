@@ -3,6 +3,7 @@
 .container {
   display: table-row;
   font-family: var(--font-text);
+  position: relative;
 
   &:focus {
     outline: none;
@@ -58,6 +59,7 @@
 .text {
   font-size: var(--font-small);
   color: var(--color-black);
+  white-space: nowrap;
 }
 
 .hidden {
@@ -73,14 +75,30 @@
 }
 
 .compact {
-  padding: .25em;
+  padding: .25em 0.25em 0.25em 0.5em;
+  margin-bottom: .25em;
 
   & .photo {
     margin: 0 0.5em 0 0;
+    width: 2em;
+    height: 2em;
+  }
+
+  & .name {
+    font-size: 0.9em;
   }
 }
 
 .header {
   display: flex;
   align-items: center;
+}
+
+.overflow {
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.hasLabel {
+  border-left: 0.3em solid;
 }

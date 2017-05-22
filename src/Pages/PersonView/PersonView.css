@@ -4,9 +4,46 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
 }
 
 .group {
-  display: flex;
-  flex-direction: column;
+  margin-bottom: 1em;
+}
+
+.title {
+  background-color: var(--color-white);
+  border: var(--border-size) solid var(--border-color);
+  font-size: 1em;
+  font-weight: var(--font-bold);
+  margin: 0 0 0.25em;
+  padding: 0.5em 0.75em;
+  position: relative;
+}
+
+.lines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.connectionAnchor {
+  width: 0.75em;
+  height: 0.75em;
+  background: var(--color-white);
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: -2px;
+  transform: translate(-50%, -50%);
+  border: var(--border-size) solid var(--brand-color);
+
+  &__source {
+    left: inherit;
+    right: 0;
+    transform: translate(50%, -50%);
+  }
 }

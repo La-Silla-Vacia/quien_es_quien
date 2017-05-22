@@ -63,35 +63,39 @@ export default class Person extends Component {
   handleClick() {
     const { collapser, collapsed } = this.state;
     if (!collapser) return;
-    this.setState({collapsed: !collapsed});
+    this.setState({ collapsed: !collapsed });
   }
 
   render(props, state) {
     const { size, collapser } = state;
-    const { id, title, occupation, imgurl, numberOfConnections, lastUpdate, className, profile } = props;
+    const { id, title, occupation, imgurl, numberOfConnections, lastUpdate, className, profile, color, children } = props;
     const labels = ['Información nueva'];
     if (lastUpdate) labels.push('Ahora tendencia');
 
     const bio = this.getBio();
 
+    const style = (color) ? { borderLeftColor: color } : {};
+// console.log('c', connections);
     if (profile) {
       return (
         <div
-          className={cx(className, s.container, s.profile, {[s.compact]: collapser})}
+          className={cx(className, s.container, s.profile, { [s.hasLabel]: color }, { [s.compact]: collapser })}
           onClick={this.handleClick}
           key={id}
+          style={style}
           ref={(person) => {
             this.rootElement = person;
           }}
         >
           <header className={s.header}>
             <img className={s.photo} src={imgurl} width={40} alt="" />
-            <div>
+            <div className={s.overflow}>
               <h3 className={s.name}>{title}</h3>
               <span className={cx(s.text, { [s.hidden]: size <= 2 })}>{occupation}</span>
             </div>
           </header>
           {bio}
+          {children}
         </div>
       )
     }

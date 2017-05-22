@@ -4,6 +4,7 @@ Source files for quien_es_quien
 ## Description
 
 Please provide a short description of this project
+![](![alt text](https://raw.githubusercontent.com/la-silla-vacia/quien_es_quien/master/screenshot.png))
 
 ## Data
 Please link to any external data used, as well as scripts for cleaning and analyzing that data, all of which should live in the `/data` directory.
@@ -11,17 +12,17 @@ Please link to any external data used, as well as scripts for cleaning and analy
 ## Installation
 After cloning the repository run:
 ```
-npm install
+yarn install
 ```
 
 To start watching the project and opening in the browser run:
 ```
-npm start
+yarn start
 ```
 
 To deploy to GitHub pages run:
 ```
-npm run deploy
+yarn run deploy
 ```
 
 ---
