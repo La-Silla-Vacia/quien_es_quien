@@ -217,7 +217,6 @@ class Base extends Component {
     if (people.length) {
       content = (
         <div className={s.wrap}>
-          <SearchBar />
           {breadcrumbs}
           <Router {...state}>
             <Route path="/" {...people} component={TableView} />

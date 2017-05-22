@@ -64,8 +64,8 @@ export default class PersonView extends Component {
       }
       if (!this.connections[name]) this.connections[name] = { targets: [] };
       return (
-        <Person className={s.person} color={color} {...child} profile collapsed>
-          <div className={s.connectionAnchor} ref={(el) => this.connections[name].targets.push(el)} />
+        <Person key={id} className={s.person} color={color} {...child} profile collapsed>
+          <div className={s.connectionAnchor} id={id} ref={(el) => this.connections[name].targets.push(el)} />
         </Person>
       )
     });
@@ -73,10 +73,10 @@ export default class PersonView extends Component {
 
   getTitles() {
     const { connections } = this.props;
-    return connections.map((connection) => {
+    return connections.map((connection, index) => {
       const { name, color } = connection;
       return (
-        <h3 className={s.title}>
+        <h3 key={index} className={s.title}>
           {name}
           <div className={cx(s.connectionAnchor, s.connectionAnchor__source)}
                ref={(el) => {
@@ -91,10 +91,10 @@ export default class PersonView extends Component {
   getConnections() {
     const { connections } = this.props;
 
-    return connections.map((connection) => {
+    return connections.map((connection, index) => {
       const people = this.getPeople(connection);
       return (
-        <div className={s.group}>
+        <div key={index} className={s.group}>
           {people}
         </div>
       )
@@ -116,18 +116,18 @@ export default class PersonView extends Component {
       const halfSourceSize = source.offsetWidth / 2;
       const sourceX = (sourceBB.left + halfSourceSize) - containerLeft;
       const sourceY = (sourceBB.top + halfSourceSize) - containerTop;
-
       return targets.map((target) => {
         if (!target || !target.parentNode) return;
+        const id = `t${target.id}`;
         const targetBB = target.getBoundingClientRect();
         const halfTargetSize = target.offsetWidth / 2;
         const targetX = (targetBB.left + halfTargetSize) - containerLeft;
         const targetY = (targetBB.top + halfTargetSize) - containerTop;
 
         if (targetX < 0) console.log(target.parentNode);
-
         return (
-          <line x1={sourceX} y1={sourceY} x2={targetX} y2={targetY} style={{ stroke: color, strokeWidth: 3 }} />
+          <line key={id} x1={sourceX} y1={sourceY} x2={targetX} y2={targetY}
+                style={{ stroke: color, strokeWidth: 2 }} />
         )
       });
     });
