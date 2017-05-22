@@ -4,7 +4,7 @@ Source files for quien_es_quien
 ## Description
 
 Please provide a short description of this project
-![](![alt text](https://raw.githubusercontent.com/la-silla-vacia/quien_es_quien/master/screenshot.png))
+![](https://raw.githubusercontent.com/la-silla-vacia/quien_es_quien/master/screenshot.png)
 
 ## Data
 Please link to any external data used, as well as scripts for cleaning and analyzing that data, all of which should live in the `/data` directory.

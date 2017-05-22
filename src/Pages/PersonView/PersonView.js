@@ -35,6 +35,7 @@ export default class PersonView extends Component {
   }
 
   handleResize() {
+    console.log('handleResize');
     const element = this.rootElement;
     if (!element) return;
     const width = element.offsetWidth;
@@ -46,6 +47,8 @@ export default class PersonView extends Component {
     const { show } = this.state;
     show[category] += 5;
     this.setState({ show });
+    setTimeout(this.handleResize, 100);
+    // this.handleResize();
   }
 
   getPeople(connection) {

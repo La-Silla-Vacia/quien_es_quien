@@ -88,7 +88,7 @@ export default class Person extends Component {
           }}
         >
           <header className={s.header}>
-            <img className={s.photo} src={imgurl} width={40} alt="" />
+            <div className={s.photo} style={{backgroundImage: `url(${imgurl})`}} />
             <div className={s.overflow}>
               <h3 className={s.name}>{title}</h3>
               <span className={cx(s.text, { [s.hidden]: size <= 2 })}>{occupation}</span>
@@ -115,7 +115,7 @@ export default class Person extends Component {
         </div>
         <div className={s.cell}>
           <div className={s.inner}>
-            <img className={s.photo} src={imgurl} width={40} alt="" />
+            <div className={s.photo} style={{backgroundImage: `url(${imgurl})`}} />
             <div>
               <h3 className={s.name}>{title}</h3>
               <span className={cx(s.text, { [s.hidden]: size <= 2 })}>{occupation}</span>
