@@ -72,9 +72,28 @@ class Base extends Component {
     const rawPeople = data.nodes;
     const rawConnections = data.edges;
 
-    const people = [];
-    const connections = [];
+    const people = this.formatPerson(rawPeople);
+    const connections = this.formatConnections(rawConnections);
 
+    const peopleLookup = {};
+    for (let i = 0, len = people.length; i < len; i++) {
+      peopleLookup[people[i].id] = people[i];
+    }
+
+    const connectionsLookup = {};
+    for (let i = 0, len = connections.length; i < len; i++) {
+      const source = connections[i].source;
+      if (!connectionsLookup[source]) {
+        connectionsLookup[source] = [];
+      }
+      connectionsLookup[source].push(connections[i]);
+    }
+
+    this.setState({ people, peopleLookup, connections, connectionsLookup });
+  }
+
+  formatPerson(rawPeople) {
+    const people = [];
     rawPeople.map((rawPerson) => {
       const {
         id = 0,
@@ -108,7 +127,11 @@ class Base extends Component {
 
       people.push(person);
     });
+    return people;
+  }
 
+  formatConnections(rawConnections) {
+    const connections = [];
     rawConnections.map((rawConnection) => {
       const {
         category,
@@ -131,22 +154,7 @@ class Base extends Component {
       };
       connections.push(connection);
     });
-
-    const peopleLookup = {};
-    for (let i = 0, len = people.length; i < len; i++) {
-      peopleLookup[people[i].id] = people[i];
-    }
-
-    const connectionsLookup = {};
-    for (let i = 0, len = connections.length; i < len; i++) {
-      const source = connections[i].source;
-      if (!connectionsLookup[source]) {
-        connectionsLookup[source] = [];
-      }
-      connectionsLookup[source].push(connections[i]);
-    }
-
-    this.setState({ people, peopleLookup, connections, connectionsLookup });
+    return connections;
   }
 
   getChildContext() {

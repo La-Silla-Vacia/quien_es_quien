@@ -36,13 +36,15 @@ export default class PersonView extends Component {
       };
     });
     this.setState({ show });
-    setTimeout(() => {this.setState({rerender: !this.state.rerender})}, 100);
+    setTimeout(() => {
+      this.setState({ rerender: !this.state.rerender })
+    }, 100);
     window.addEventListener('resize', this.handleResize);
   }
 
   componentDidUpdate(newProps) {
     if (this.props !== newProps) {
-      this.setState({rerender: !this.state.rerender});
+      this.setState({ rerender: !this.state.rerender });
     }
   }
 
@@ -59,7 +61,9 @@ export default class PersonView extends Component {
     const { show } = this.state;
     show[category] += 5;
     this.setState({ show });
-    setTimeout(this.handleResize, 100);
+    setTimeout(() => {
+      this.setState({ rerender: !this.state.rerender })
+    }, 100);
     // this.handleResize();
   }
 
@@ -175,6 +179,7 @@ export default class PersonView extends Component {
 
   handleSearchChange(value) {
     this.setState({ searchText: value.toLowerCase() });
+    setTimeout(() => {this.setState({rerender: !this.state.rerender})}, 100);
   }
 
   render(props, state) {
