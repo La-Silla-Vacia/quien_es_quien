@@ -7,6 +7,16 @@
   color: var(--color-black);
   border-left: var(--border-size) solid var(--color-white);
   border-right: var(--border-size) solid var(--color-white);
+
+  & a {
+    text-decoration: none;
+  }
+
+  & *,
+  & *::before,
+  & *::after {
+    box-sizing: border-box;
+  }
 }
 
 .header {

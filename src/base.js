@@ -163,29 +163,36 @@ class Base extends Component {
     const { peopleLookup, location } = this.state;
     const keys = [];
     const re = pathToRegexp('/person/:id', keys);
-    const personId = re.exec(location);
-    if (personId) {
-      const person = peopleLookup[personId[1]];
-      if (!person) return;
-      const { title, id } = person;
+    const url = re.exec(location);
+
+    if (url) {
+      const ids = url[1].split(',');
+      const personId = ids[ids.length - 1];
+
       const items = [
         {
           'title': 'Inicio',
           'link': '#/'
-        },
-        {
-          'title': title,
-          'link': `#/person/${id}`
         }
       ];
 
-      this.setState({ breadcrumbs: items });
+      ids.map((id) => {
+        const person = peopleLookup[id];
+        if (person) {
+          const { title, id } = person;
+          items.push({title, link: `#/person/${id}`})
+        }
+      });
+
+      return items;
+      // this.setState({ breadcrumbs: items });
     }
   }
 
   personView(props, state) {
     const { peopleLookup, connectionsLookup, params, breadcrumbs } = props;
-    const id = params.id;
+    const ids = params.id.split(',');
+    const id = ids[ids.length - 1];
     const person = peopleLookup[id];
     const connections = (connectionsLookup[id]) ? connectionsLookup[id] : [];
 
@@ -213,10 +220,13 @@ class Base extends Component {
   render(props, state) {
     const { people } = state;
     const { title } = strings;
+    const items = this.getBreadcrumbs();
+
     let content;
     if (people.length) {
       content = (
         <div className={s.wrap}>
+          <Breadcrumbs items={items} />
           <Router {...state}>
             <Route path="/" {...people} component={TableView} />
             <Route path="/person/:id" component={this.personView} />

@@ -5,6 +5,7 @@
     color: var(--brand-color);
     font-weight: var(--font-bold);
     font-size: 1.2em;
+    margin-bottom: 0.6em;
 
     & a {
       color: currentColor;

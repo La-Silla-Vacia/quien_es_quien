@@ -15,7 +15,8 @@ export default class PersonView extends Component {
       show: [],
       width: 320,
       height: 568,
-      searchText: ''
+      searchText: '',
+      rerender: false,
     };
 
     this.connections = {};
@@ -35,14 +36,14 @@ export default class PersonView extends Component {
       };
     });
     this.setState({ show });
-    this.handleResize;
+    setTimeout(() => {this.setState({rerender: !this.state.rerender})}, 100);
     window.addEventListener('resize', this.handleResize);
   }
 
-  shouldComponentUpdate() {
-    console.log('will update', this.connections);
-    // setTimeout(this.handleResize, 10)
-    // this.handleResize();
+  componentDidUpdate(newProps) {
+    if (this.props !== newProps) {
+      this.setState({rerender: !this.state.rerender});
+    }
   }
 
   handleResize() {
@@ -88,7 +89,14 @@ export default class PersonView extends Component {
       i++;
       if (!this.connections[name]) this.connections[name] = { targets: [] };
       return (
-        <Person key={id} className={s.person} color={color} {...child} profile collapsed>
+        <Person
+          key={id}
+          className={s.person}
+          color={color}
+          {...child}
+          profile
+          compact
+        >
           <div className={s.connectionAnchor} id={id} ref={(el) => this.connections[name].targets[index] = el} />
         </Person>
       )
@@ -136,6 +144,7 @@ export default class PersonView extends Component {
     return Object.keys(connections).map((key) => {
       const connection = connections[key];
       const { source, targets, color } = connection;
+      // console.log(targets);
       if (!source) return;
       const sourceBB = source.getBoundingClientRect();
       const halfSourceSize = source.offsetWidth / 2;
@@ -170,12 +179,14 @@ export default class PersonView extends Component {
 
   render(props, state) {
     const { person, breadcrumbs } = props;
-    const { width, height } = state;
+    const { width, height, rerender } = state;
     const titles = this.getTitles();
     const connections = this.getConnections();
     const wires = this.getWires();
+
     return (
       <div className={s.container}>
+        {rerender}
         <SearchBar onChange={this.handleSearchChange} />
         <Breadcrumbs items={breadcrumbs} />
         <div

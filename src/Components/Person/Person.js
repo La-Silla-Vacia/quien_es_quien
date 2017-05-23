@@ -22,8 +22,9 @@ export default class Person extends Component {
     this.handleResize();
     window.addEventListener('resize', this.handleResize);
 
-    const { collapsed } = this.props;
+    const { collapsed, componentDidMount, title } = this.props;
     if (collapsed) this.setState({ collapser: true });
+    if (componentDidMount) componentDidMount(title);
   }
 
   componentWillUnmount() {
@@ -53,22 +54,24 @@ export default class Person extends Component {
 
   getBio() {
     const { collapser, collapsed } = this.state;
-    const { bio } = this.props;
-    if (collapser && collapsed) return;
+    const { bio, compact } = this.props;
+    if (collapser && collapsed || compact) return;
     return (
       <div dangerouslySetInnerHTML={{ __html: bio }} />
     )
   }
 
   handleClick() {
+    const { compact, id } = this.props;
     const { collapser, collapsed } = this.state;
+    if (compact) window.location = window.location + `,${id}`;
     if (!collapser) return;
     this.setState({ collapsed: !collapsed });
   }
 
   render(props, state) {
     const { size, collapser } = state;
-    const { id, title, occupation, imgurl, numberOfConnections, lastUpdate, className, profile, color, children } = props;
+    const { id, title, occupation, imgurl, numberOfConnections, lastUpdate, className, profile, color, children, compact } = props;
     const labels = ['Información nueva'];
     if (lastUpdate) labels.push('Ahora tendencia');
 
@@ -79,7 +82,7 @@ export default class Person extends Component {
     if (profile) {
       return (
         <div
-          className={cx(className, s.container, s.profile, { [s.hasLabel]: color }, { [s.compact]: collapser })}
+          className={cx(className, s.container, s.profile, { [s.hasLabel]: color }, { [s.compact]: compact })}
           onClick={this.handleClick}
           key={id}
           style={style}
@@ -88,7 +91,7 @@ export default class Person extends Component {
           }}
         >
           <header className={s.header}>
-            <div className={s.photo} style={{backgroundImage: `url(${imgurl})`}} />
+            <div className={s.photo} style={{ backgroundImage: `url(${imgurl})` }} />
             <div className={s.overflow}>
               <h3 className={s.name}>{title}</h3>
               <span className={cx(s.text, { [s.hidden]: size <= 2 })}>{occupation}</span>
@@ -115,7 +118,7 @@ export default class Person extends Component {
         </div>
         <div className={s.cell}>
           <div className={s.inner}>
-            <div className={s.photo} style={{backgroundImage: `url(${imgurl})`}} />
+            <div className={s.photo} style={{ backgroundImage: `url(${imgurl})` }} />
             <div>
               <h3 className={s.name}>{title}</h3>
               <span className={cx(s.text, { [s.hidden]: size <= 2 })}>{occupation}</span>
