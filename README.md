@@ -30,9 +30,10 @@ yarn run deploy
 ## Embeding on LSV
 To embed on a webpage use this code:
 ```html
+<!-- START OF THE QUIEN ES QUIEN -->
 <div class="lsv-interactive" id="quien_es_quien">
 <img src="https://la-silla-vacia.github.io/quien_es_quien/screenshot.png" class="screenshot" style="width:100%;">
 </div>
 <script defer type="text/javascript" src="https://la-silla-vacia.github.io/quien_es_quien/script.js"></script>
-<!-- END OF OUR INTERACTIE -->
+<!-- END OF THE QUIEN ES QUIEN -->
 ```
