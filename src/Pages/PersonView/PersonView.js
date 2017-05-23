@@ -95,7 +95,6 @@ export default class PersonView extends Component {
       return (
         <Person
           key={id}
-          className={s.person}
           color={color}
           {...child}
           profile
@@ -179,7 +178,9 @@ export default class PersonView extends Component {
 
   handleSearchChange(value) {
     this.setState({ searchText: value.toLowerCase() });
-    setTimeout(() => {this.setState({rerender: !this.state.rerender})}, 100);
+    setTimeout(() => {
+      this.setState({ rerender: !this.state.rerender })
+    }, 100);
   }
 
   render(props, state) {
@@ -193,7 +194,6 @@ export default class PersonView extends Component {
       <div className={s.container}>
         {rerender}
         <SearchBar onChange={this.handleSearchChange} />
-        <Breadcrumbs items={breadcrumbs} />
         <div
           className={s.wrap}
           ref={(el) => {
@@ -203,9 +203,11 @@ export default class PersonView extends Component {
           <svg className={s.lines} width={width} height={height}>
             {wires}
           </svg>
-          <Person className={s.person} {...person} profile />
-          <div className={s.title_group}>
-            {titles}
+          <div className={s.leftGroup}>
+            <Person className={s.person} {...person} profile />
+            <div className={s.title_group}>
+              {titles}
+            </div>
           </div>
           <div className={s.connections}>
             {connections}

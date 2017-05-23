@@ -158,7 +158,6 @@ class Base extends Component {
   }
 
   getChildContext() {
-    // this.getBreadcrumbs();
     return {
       navigate: path => {
         window.location.hash = path;
@@ -174,8 +173,7 @@ class Base extends Component {
     const url = re.exec(location);
 
     if (url) {
-      const ids = url[1].split(',');
-      const personId = ids[ids.length - 1];
+      const ids = url[1].split(',').filter(String);
 
       const items = [
         {
@@ -184,11 +182,13 @@ class Base extends Component {
         }
       ];
 
+      let link = '#/person/';
       ids.map((id) => {
         const person = peopleLookup[id];
         if (person) {
           const { title, id } = person;
-          items.push({title, link: `#/person/${id}`})
+          link += `${id},`;
+          items.push({ title, link })
         }
       });
 
@@ -199,7 +199,7 @@ class Base extends Component {
 
   personView(props, state) {
     const { peopleLookup, connectionsLookup, params, breadcrumbs } = props;
-    const ids = params.id.split(',');
+    const ids = params.id.split(',').filter(String);
     const id = ids[ids.length - 1];
     const person = peopleLookup[id];
     const connections = (connectionsLookup[id]) ? connectionsLookup[id] : [];

@@ -7,8 +7,19 @@
   position: relative;
 }
 
+.leftGroup {
+  display: flex;
+  width: 50%;
+  align-items: center;
+}
+
 .group {
   margin-bottom: 1em;
+}
+
+.title_group {
+  min-width: 10em;
+  margin-left: 0.5em;
 }
 
 .title {
@@ -16,7 +27,7 @@
   border: var(--border-size) solid var(--border-color);
   font-size: 1em;
   font-weight: var(--font-bold);
-  margin: 0 0 0.25em;
+  margin: 0.25em 0;
   padding: 0.5em 0.75em;
   position: relative;
 }
@@ -55,4 +66,5 @@
 .connections {
   position: relative;
   z-index: 10;
+  width: 33%;
 }
