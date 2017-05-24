@@ -1,6 +1,8 @@
 import { h, render, Component } from 'preact';
 import cx from 'classnames';
 
+import strings from '../../strings.json';
+
 import s from './PersonView.css';
 import Person from "../../Components/Person";
 import SearchBar from "../../Components/SearchBar";
@@ -22,6 +24,7 @@ export default class PersonView extends Component {
     this.connections = {};
 
     this.handleResize = this.handleResize.bind(this);
+    this.handleQuickSearch = this.handleQuickSearch.bind(this);
     this.handleSearchChange = this.handleSearchChange.bind(this);
   }
 
@@ -67,28 +70,29 @@ export default class PersonView extends Component {
     // this.handleResize();
   }
 
+  handleQuickSearch(event) {
+    const value = event.target.value;
+    this.handleSearchChange(value);
+  }
+
   getPeople(connection) {
     const { name, color, connections } = connection;
     const { show, searchText } = this.state;
     const peopleToShow = (show[name]) ? show[name] : 3;
 
     let i = 0;
-    this.getWires();
+    // this.getWires();
     return connections.map((child, index) => {
       const { id } = child;
       if (searchText) {
         if (
           child.title.toLowerCase().indexOf(searchText) === -1 &&
-          child.occupation.toLowerCase().indexOf(searchText) === -1
+          child.occupation.toLowerCase().indexOf(searchText) === -1 &&
+          name.toLowerCase().indexOf(searchText) === -1
         ) return;
       }
 
-      if (peopleToShow === i) {
-        i += 0.1;
-        return (<div onClick={this.showMore.bind(this, name)}>Ver mas</div>);
-      } else if (peopleToShow < i) {
-        return;
-      }
+      if (peopleToShow <= i) return;
 
       i++;
       if (!this.connections[name]) this.connections[name] = { targets: [] };
@@ -112,7 +116,7 @@ export default class PersonView extends Component {
       const { name, color } = connection;
 
       return (
-        <h3 key={index} className={s.title}>
+        <h3 key={index} className={s.title} onClick={this.handleSearchChange.bind(this, name)}>
           {name}
           <div className={cx(s.connectionAnchor, s.connectionAnchor__source)}
                ref={(el) => {
@@ -128,10 +132,22 @@ export default class PersonView extends Component {
     const { connections } = this.props;
 
     return connections.map((connection, index) => {
-      const people = this.getPeople(connection);
+      const { name } = connection;
+      const rawPeople = this.getPeople(connection);
+      const people = [];
+      for (let i of rawPeople)
+        i && people.push(i); // copy each non-empty value to the 'temp' array
+      const viewMoreButton = (people.length === connection.connections.length) ? false : (
+        <button className={s.group__button} onClick={this.showMore.bind(this, name)}>
+          <svg viewBox="0 0 24 9">
+            <line x1="1" y1="1" x2="12.25" y2="8" strokeWidth={1} />
+            <line x1="11.75" y1="8" x2="23" y2="1" strokeWidth={1} />
+          </svg>
+        </button>);
       return (
         <div key={index} className={s.group}>
           {people}
+          {viewMoreButton}
         </div>
       )
     });
@@ -183,12 +199,21 @@ export default class PersonView extends Component {
     }, 100);
   }
 
+  getResetButton() {
+    const { searchText } = this.state;
+    if (!searchText) return;
+    return (
+      <button onClick={this.handleSearchChange.bind(this, '')}>Reset</button>
+    )
+  }
+
   render(props, state) {
     const { person, breadcrumbs } = props;
     const { width, height, rerender } = state;
     const titles = this.getTitles();
     const connections = this.getConnections();
     const wires = this.getWires();
+    const resetButton = this.getResetButton();
 
     return (
       <div className={s.container}>
@@ -207,6 +232,7 @@ export default class PersonView extends Component {
             <Person className={s.person} {...person} profile />
             <div className={s.title_group}>
               {titles}
+              {resetButton}
             </div>
           </div>
           <div className={s.connections}>

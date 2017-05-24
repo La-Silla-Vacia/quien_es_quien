@@ -5,11 +5,14 @@
   margin: 0 0 1em;
   padding: 0 0.5em 0 0;
   overflow: hidden;
+  overflow-x: scroll;
+  display: inline-flex;
+  width: 100%;
 }
 
 .item {
-  float: left;
   position: relative;
+  white-space: nowrap;
 
   &::before {
     content: '';

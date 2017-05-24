@@ -197,7 +197,7 @@ class Base extends Component {
     }
   }
 
-  personView(props, state) {
+  personView(props) {
     const { peopleLookup, connectionsLookup, params, breadcrumbs } = props;
     const ids = params.id.split(',').filter(String);
     const id = ids[ids.length - 1];
