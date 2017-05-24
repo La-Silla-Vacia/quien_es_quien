@@ -169,6 +169,7 @@ export default class PersonView extends Component {
           y: (targetBB.top + halfTargetSize) - containerTop
         };
 
+        if (targetCoordinates.x > 0 || targetCoordinates.y > 0)
         return (
           <line
             key={target.id}

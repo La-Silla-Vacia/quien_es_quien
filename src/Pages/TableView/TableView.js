@@ -47,7 +47,7 @@ export default class TableView extends Component {
       }
       i++;
       return (
-        <Person {...person} />
+        <Person key={person.id} {...person} />
       )
     });
   }
