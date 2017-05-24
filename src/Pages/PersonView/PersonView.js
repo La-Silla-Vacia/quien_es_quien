@@ -1,12 +1,9 @@
 import { h, render, Component } from 'preact';
 import cx from 'classnames';
 
-import strings from '../../strings.json';
-
 import s from './PersonView.css';
 import Person from "../../Components/Person";
 import SearchBar from "../../Components/SearchBar";
-import Breadcrumbs from "../../Components/Breadcrumbs/Breadcrumbs";
 
 export default class PersonView extends Component {
 
@@ -39,35 +36,28 @@ export default class PersonView extends Component {
       };
     });
     this.setState({ show });
-    setTimeout(() => {
-      this.setState({ rerender: !this.state.rerender })
-    }, 100);
+    this.rerender();
     window.addEventListener('resize', this.handleResize);
   }
 
   componentDidUpdate(newProps) {
     if (this.props !== newProps) {
       this.setState({ rerender: !this.state.rerender });
+      this.rerender();
     }
   }
 
   handleResize() {
-    console.log('handleResize');
     const element = this.rootElement;
-    if (!element) return;
-    const width = element.offsetWidth;
-    const height = element.offsetHeight;
-    this.setState({ width, height });
+    if (element)
+      this.setState({ width: element.offsetWidth, height: element.offsetHeight });
   }
 
   showMore(category) {
     const { show } = this.state;
     show[category] += 5;
     this.setState({ show });
-    setTimeout(() => {
-      this.setState({ rerender: !this.state.rerender })
-    }, 100);
-    // this.handleResize();
+    this.rerender();
   }
 
   handleQuickSearch(event) {
@@ -132,16 +122,17 @@ export default class PersonView extends Component {
     const { connections } = this.props;
 
     return connections.map((connection, index) => {
-      const { name } = connection;
+      const { name, color } = connection;
       const rawPeople = this.getPeople(connection);
       const people = [];
       for (let i of rawPeople)
         i && people.push(i); // copy each non-empty value to the 'temp' array
+
       const viewMoreButton = (people.length === connection.connections.length) ? false : (
         <button className={s.group__button} onClick={this.showMore.bind(this, name)}>
           <svg viewBox="0 0 24 9">
-            <line x1="1" y1="1" x2="12.25" y2="8" strokeWidth={1} />
-            <line x1="11.75" y1="8" x2="23" y2="1" strokeWidth={1} />
+            <line x1="1" y1="1" x2="12.25" y2="8" stroke={color} />
+            <line x1="11.75" y1="8" x2="23" y2="1" stroke={color} />
           </svg>
         </button>);
       return (
@@ -161,29 +152,30 @@ export default class PersonView extends Component {
 
     const connections = this.connections;
     return Object.keys(connections).map((key) => {
-      const connection = connections[key];
-      const { source, targets, color } = connection;
-      // console.log(targets);
+      const { source, targets, color } = connections[key];
       if (!source) return;
       const sourceBB = source.getBoundingClientRect();
       const halfSourceSize = source.offsetWidth / 2;
-      const sourceX = (sourceBB.left + halfSourceSize) - containerLeft;
-      const sourceY = (sourceBB.top + halfSourceSize) - containerTop;
+      const sourceCoordinates = {
+        x: (sourceBB.left + halfSourceSize) - containerLeft,
+        y: (sourceBB.top + halfSourceSize) - containerTop
+      };
       return targets.map((target) => {
         if (!target || !target.parentNode) return;
-        const id = `t${target.id}`;
         const targetBB = target.getBoundingClientRect();
         const halfTargetSize = target.offsetWidth / 2;
-        const targetX = (targetBB.left + halfTargetSize) - containerLeft;
-        const targetY = (targetBB.top + halfTargetSize) - containerTop;
+        const targetCoordinates = {
+          x: (targetBB.left + halfTargetSize) - containerLeft,
+          y: (targetBB.top + halfTargetSize) - containerTop
+        };
 
-        if (targetX < 0) return;
         return (
           <line
-            x1={sourceX}
-            y1={sourceY}
-            x2={targetX}
-            y2={targetY}
+            key={target.id}
+            x1={sourceCoordinates.x}
+            y1={sourceCoordinates.y}
+            x2={targetCoordinates.x}
+            y2={targetCoordinates.y}
             style={{ stroke: color }}
             className={s.line}
           />
@@ -194,21 +186,24 @@ export default class PersonView extends Component {
 
   handleSearchChange(value) {
     this.setState({ searchText: value.toLowerCase() });
+  }
+
+  getResetButton() {
+    const { searchText } = this.state;
+    if (searchText)
+      return (
+        <button onClick={this.handleSearchChange.bind(this, '')}>Reset</button>
+      )
+  }
+
+  rerender() {
     setTimeout(() => {
       this.setState({ rerender: !this.state.rerender })
     }, 100);
   }
 
-  getResetButton() {
-    const { searchText } = this.state;
-    if (!searchText) return;
-    return (
-      <button onClick={this.handleSearchChange.bind(this, '')}>Reset</button>
-    )
-  }
-
   render(props, state) {
-    const { person, breadcrumbs } = props;
+    const { person } = props;
     const { width, height, rerender } = state;
     const titles = this.getTitles();
     const connections = this.getConnections();

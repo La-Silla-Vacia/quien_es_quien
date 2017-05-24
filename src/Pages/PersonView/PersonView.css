@@ -31,7 +31,7 @@
       margin: 0 auto;
 
       & line {
-        stroke: var(--brand-color);
+        stroke-width: 1px;
       }
     }
   }
