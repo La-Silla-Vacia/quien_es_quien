@@ -26,10 +26,13 @@ export default class PersonView extends Component {
   }
 
   componentDidMount() {
-    const { show } = this.state;
-    const { connections } = this.props;
+    this.formatTypes();
+    window.addEventListener('resize', this.handleResize);
+  }
 
-    connections.map((connection) => {
+  formatTypes() {
+    const { show } = this.state;
+    this.props.connections.map((connection) => {
       show[connection.name] = 3;
       this.connections[connection.name] = {
         targets: []
@@ -37,12 +40,12 @@ export default class PersonView extends Component {
     });
     this.setState({ show });
     this.rerender();
-    window.addEventListener('resize', this.handleResize);
   }
 
   componentDidUpdate(newProps) {
     if (this.props !== newProps) {
       this.setState({ rerender: !this.state.rerender });
+      this.formatTypes();
       this.rerender();
     }
   }

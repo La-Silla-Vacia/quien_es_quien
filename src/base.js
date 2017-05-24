@@ -83,10 +83,15 @@ class Base extends Component {
     const connectionsLookup = {};
     for (let i = 0, len = connections.length; i < len; i++) {
       const source = connections[i].source;
+      const target = connections[i].target;
       if (!connectionsLookup[source]) {
         connectionsLookup[source] = [];
       }
+      if (!connectionsLookup[target]) {
+        connectionsLookup[target] = [];
+      }
       connectionsLookup[source].push(connections[i]);
+      connectionsLookup[target].push(connections[i]);
     }
 
     this.setState({ people, peopleLookup, connections, connectionsLookup });
@@ -203,17 +208,17 @@ class Base extends Component {
     const id = ids[ids.length - 1];
     const person = peopleLookup[id];
     const connections = (connectionsLookup[id]) ? connectionsLookup[id] : [];
-
     const types = [];
     if (connections)
       connections.map((rawConnection) => {
-        const { category, target, color } = rawConnection;
-        const connection = peopleLookup[target];
+        const { category, target, source, color } = rawConnection;
+        const connection = (peopleLookup[target].id === id) ? peopleLookup[source] : peopleLookup[target];
         let inArray;
         types.map((type) => {
           if (type.name === category) {
             inArray = true;
-            type.connections.push(connection);
+            if (type.connections.indexOf(connection) === -1)
+              type.connections.push(connection);
           }
         });
         // console.log(rawConnection);
