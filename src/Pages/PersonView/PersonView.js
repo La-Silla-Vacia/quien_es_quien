@@ -77,24 +77,16 @@ export default class PersonView extends Component {
     let i = 0;
     return connections.map((child, index) => {
       const { id } = child;
-      if (searchText) {
-        if (
-          child.title.toLowerCase().indexOf(searchText) === -1 &&
-          child.occupation.toLowerCase().indexOf(searchText) === -1 &&
-          name.toLowerCase().indexOf(searchText) === -1
-        ) return;
-      }
+      if (searchText &&
+        child.title.toLowerCase().indexOf(searchText) === -1 &&
+        child.occupation.toLowerCase().indexOf(searchText) === -1 &&
+        name.toLowerCase().indexOf(searchText) === -1
+      ) return;
       if (peopleToShow <= i) return;
       i++;
       if (!this.connections[name]) this.connections[name] = { targets: [] };
       return (
-        <Person
-          key={id}
-          color={color}
-          {...child}
-          profile
-          compact
-        >
+        <Person key={id} color={color} {...child} profile compact>
           <div className={s.connectionAnchor} id={id} ref={(el) => this.connections[name].targets[index] = el} />
         </Person>
       )
@@ -178,12 +170,7 @@ export default class PersonView extends Component {
       <div className={s.container}>
         {rerender}
         <SearchBar onChange={this.handleSearchChange} />
-        <div
-          className={s.wrap}
-          ref={(el) => {
-            this.rootElement = el
-          }}
-        >
+        <div className={s.wrap} ref={(el) => {this.rootElement = el}}>
           <ConnectionWires width={width} height={height} root={rootBB} connections={this.connections} />
           <div className={s.leftGroup}>
             <Person className={s.person} {...person} profile />
