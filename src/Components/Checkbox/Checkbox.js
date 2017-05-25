@@ -1,4 +1,4 @@
-import { h, render } from 'preact';
+import React from 'react';
 import cx from 'classnames';
 import s from './Checkbox.css';
 

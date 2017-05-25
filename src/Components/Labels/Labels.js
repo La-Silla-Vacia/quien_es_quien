@@ -1,4 +1,4 @@
-import { h, render, Component } from 'preact';
+import React, { Component } from 'react';
 import Label from './Label';
 
 import s from './Labels.css';

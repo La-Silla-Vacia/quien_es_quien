@@ -1,4 +1,4 @@
-import { h, render, Component } from 'preact';
+import React, { Component } from 'react';
 import cx from 'classnames';
 
 import s from './TableView.css';
@@ -37,27 +37,28 @@ export default class TableView extends Component {
     const { show, searchText } = this.state;
     const { people } = this.props;
     let i = 0;
-    return people.map((person, index) => {
-      if (i > show - 1) return;
-      if (searchText) {
-        if (
-          person.title.toLowerCase().indexOf(searchText) === -1 &&
-          person.occupation.toLowerCase().indexOf(searchText) === -1
-        ) return;
-      }
-      i++;
-      return (
-        <Person key={person.id} {...person} />
-      )
-    });
+    if (people)
+      return people.map((person, index) => {
+        if (i > show - 1) return;
+        if (searchText) {
+          if (
+            person.title.toLowerCase().indexOf(searchText) === -1 &&
+            person.occupation.toLowerCase().indexOf(searchText) === -1
+          ) return;
+        }
+        i++;
+        return (
+          <Person key={person.id} {...person} />
+        )
+      });
   }
 
   handleSearchChange(value) {
     this.setState({ searchText: value.toLowerCase() });
   }
 
-  render(props, state) {
-    const { width } = state;
+  render() {
+    const { width } = this.state;
     const rows = this.getRows();
     return (
       <div className={s.container}>

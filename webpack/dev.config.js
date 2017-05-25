@@ -10,12 +10,6 @@ const config = {
     //path: __dirname,
     filename: './script.js'
   },
-  resolve: {
-    alias: {
-      'react': 'preact',
-      'react-dom': 'preact-compat'
-    }
-  },
   devtool: 'inline-source-map',
   module: {
     loaders: [
@@ -25,7 +19,7 @@ const config = {
         loader: 'babel-loader',
         options: {
           presets: [['es2015', 'react'], 'stage-2'],
-          plugins: [["transform-react-jsx", { "pragma": "h" }]]
+          plugins: [["transform-react-jsx"]]
         }
       },
       {

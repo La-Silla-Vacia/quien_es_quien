@@ -1,31 +1,9 @@
-import { h, render, Component } from 'preact';
-import { Router, Route } from 'preact-enroute';
-import pathToRegexp from 'path-to-regexp';
-
-const getHash = hash => {
-  if (typeof hash === 'string' && hash.length) {
-    if (hash.substring(0, 1) === '#') {
-      return hash.substring(1);
-    }
-    return hash;
-  }
-  return '/';
-};
-
-const state = {
-  location: getHash(window.location.hash),
-  people: [],
-  connections: [],
-  width: 400,
-  peopleLookup: {},
-  currentPerson: false,
-  breadcrumbs: []
-};
+import React, { Component } from 'react';
+import { HashRouter, Route, Link } from 'react-router-dom';
 
 import TableView from './Pages/TableView';
 import PersonView from './Pages/PersonView';
 
-import SearchBar from './Components/SearchBar';
 import Breadcrumbs from './Components/Breadcrumbs';
 
 import s from './base.css';
@@ -36,21 +14,21 @@ class Base extends Component {
 
   constructor() {
     super();
-    this.state = state;
+    this.state = {
+      people: [],
+      connections: [],
+      width: 400,
+      peopleLookup: {},
+      currentPerson: false
+    };
   }
 
   componentWillMount() {
     this.setData();
-    this.getBreadcrumbs();
   }
 
   componentDidMount() {
     this.setState({ width: this.props.width });
-    window.addEventListener('popstate', () => {
-      const newLocation = getHash(window.location.hash);
-      this.setState({ location: newLocation });
-      this.getBreadcrumbs();
-    });
   }
 
   setData() {
@@ -138,120 +116,72 @@ class Base extends Component {
   formatConnections(rawConnections) {
     const connections = [];
     rawConnections.map((rawConnection) => {
-      const {
-        category,
-        color,
-        id,
-        size,
-        source,
-        subcategory,
-        target
-      } = rawConnection;
-
-      const connection = {
-        category,
-        color: (color) ? color.replace('0.45', 1).replace('0.3', 1) : color,
-        id,
-        size,
-        source,
-        subcategory,
-        target
-      };
+      const { category, color, id, size, source, subcategory, target } = rawConnection;
+      const newColor = (color) ? color.replace('0.45', 1).replace('0.3', 1) : color;
+      const connection = { category, color: newColor, id, size, source, subcategory, target };
       connections.push(connection);
     });
     return connections;
   }
 
-  getChildContext() {
-    return {
-      navigate: path => {
-        window.location.hash = path;
-        this.setState({ location: path });
-      },
-    };
+  breadCrumbs(people, params) {
+    return (
+      <Breadcrumbs peopleLookup={people} params={params} />
+    )
   }
 
-  getBreadcrumbs() {
-    const { peopleLookup, location } = this.state;
-    const keys = [];
-    const re = pathToRegexp('/person/:id', keys);
-    const url = re.exec(location);
-
-    if (url) {
-      const ids = url[1].split(',').filter(String);
-
-      const items = [
-        {
-          'title': 'Inicio',
-          'link': '#/'
-        }
-      ];
-
-      let link = '#/person/';
-      ids.map((id) => {
-        const person = peopleLookup[id];
-        if (person) {
-          const { title, id } = person;
-          link += `${id},`;
-          items.push({ title, link })
-        }
-      });
-
-      return items;
-      // this.setState({ breadcrumbs: items });
-    }
-  }
-
-  personView(props) {
-    const { peopleLookup, connectionsLookup, params, breadcrumbs } = props;
-    const ids = params.id.split(',').filter(String);
+  personView(props, params) {
+    const { peopleLookup, connectionsLookup, breadcrumbs } = props;
+    const ids = params.match.params.id.split(',').filter(String);
     const id = ids[ids.length - 1];
     const person = peopleLookup[id];
     const connections = (connectionsLookup[id]) ? connectionsLookup[id] : [];
     const types = [];
-    if (connections)
-      connections.map((rawConnection) => {
-        const { category, target, source, color } = rawConnection;
-        const connection = (peopleLookup[target].id === id) ? peopleLookup[source] : peopleLookup[target];
-        let inArray;
-        types.map((type) => {
-          if (type.name === category) {
-            inArray = true;
-            if (type.connections.indexOf(connection) === -1)
-              type.connections.push(connection);
-          }
-        });
-        if (!inArray) types.push({ name: category, color, connections: [connection] });
+    connections.map((rawConnection) => {
+      const { category, target, source, color } = rawConnection;
+      const connection = (peopleLookup[target].id === id) ? peopleLookup[source] : peopleLookup[target];
+      let inArray;
+      types.map((type) => {
+        if (type.name === category) {
+          inArray = true;
+          if (type.connections.indexOf(connection) === -1)
+            type.connections.push(connection);
+        }
       });
+      if (!inArray) types.push({ name: category, color, connections: [connection] });
+    });
 
     return (
       <PersonView person={person} breadcrumbs={breadcrumbs} connections={types} />
     )
   }
 
-  render(props, state) {
-    const { people } = state;
-    const { title } = strings;
-    const items = this.getBreadcrumbs();
+  tableView(people) {
+    return (
+      <TableView people={people} />
+    )
+  }
 
-    let content;
-    if (people.length) {
-      content = (
+  render() {
+    const { people, peopleLookup } = this.state;
+    const { title } = strings;
+
+    let content = (people.length) ?
+      (
         <div className={s.wrap}>
-          <Breadcrumbs items={items} />
-          <Router {...state}>
-            <Route path="/" {...people} component={TableView} />
-            <Route path="/person/:id" component={this.personView} />
-          </Router>
+          <HashRouter {...this.state}>
+            <div>
+              <Route path="/person/:id" component={this.breadCrumbs.bind(true, peopleLookup)} />
+              <Route exact path="/" component={this.tableView.bind(false, people)} />
+              <Route exact path="/person/:id" component={this.personView.bind(true, this.state)} />
+            </div>
+          </HashRouter>
         </div>
-      )
-    } else {
-      content = (
+      ) : (
         <div className={s.wrap}>
           <em>El "quién es quién" está siendo cargado</em>
         </div>
-      )
-    }
+      );
 
     return (
       <div className={s.container}>

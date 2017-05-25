@@ -1,4 +1,4 @@
-import { h, render, Component } from 'preact';
+import React, { Component } from 'react';
 import cx from 'classnames';
 
 import s from './PersonView.css';
@@ -16,6 +16,7 @@ export default class PersonView extends Component {
       height: 568,
       searchText: '',
       rerender: false,
+      duration: 200
     };
 
     this.connections = {};
@@ -138,6 +139,7 @@ export default class PersonView extends Component {
             <line x1="11.75" y1="8" x2="23" y2="1" stroke={color} />
           </svg>
         </button>);
+
       return (
         <div key={index} className={s.group}>
           {people}
@@ -173,17 +175,17 @@ export default class PersonView extends Component {
         };
 
         if (targetCoordinates.x > 0 || targetCoordinates.y > 0)
-        return (
-          <line
-            key={target.id}
-            x1={sourceCoordinates.x}
-            y1={sourceCoordinates.y}
-            x2={targetCoordinates.x}
-            y2={targetCoordinates.y}
-            style={{ stroke: color }}
-            className={s.line}
-          />
-        )
+          return (
+            <line
+              key={target.id}
+              x1={sourceCoordinates.x}
+              y1={sourceCoordinates.y}
+              x2={targetCoordinates.x}
+              y2={targetCoordinates.y}
+              style={{ stroke: color }}
+              className={s.line}
+            />
+          )
       });
     });
   }
@@ -207,9 +209,9 @@ export default class PersonView extends Component {
     }, 10);
   }
 
-  render(props, state) {
-    const { person } = props;
-    const { width, height, rerender } = state;
+  render() {
+    const { person } = this.props;
+    const { width, height, rerender } = this.state;
     const titles = this.getTitles();
     const connections = this.getConnections();
     const wires = this.getWires();

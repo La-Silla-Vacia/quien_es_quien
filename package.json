@@ -7,7 +7,12 @@
     "classnames": "^2.2.5",
     "lsv-components": "latest",
     "lsv-interactive": "latest",
-    "preact-enroute": "^1.2.3",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4",
+    "react-enroute": "^1.0.0",
+    "react-router": "^4.1.1",
+    "react-router-dom": "^4.1.1",
+    "velocity-react": "^1.3.3",
     "whatwg-fetch": "latest"
   },
   "scripts": {
@@ -53,7 +58,6 @@
     "postcss-responsive-type": "latest",
     "postcss-simple-vars": "latest",
     "postcss-smart-import": "^0.6.10",
-    "preact": "^7.2.1",
     "precss": "^1.4.0",
     "sass-loader": "6.0.3",
     "style-loader": "0.13.2",

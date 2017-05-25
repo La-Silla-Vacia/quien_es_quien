@@ -1,4 +1,4 @@
-import { h, render, Component } from 'preact';
+import React, { Component } from 'react';
 import s from './SearchBar.css';
 
 import strings from '../../strings.json';
@@ -20,8 +20,8 @@ export default class SearchBar extends Component {
     this.props.onChange(value);
   }
 
-  render(props, state) {
-    const { value } = state;
+  render() {
+    const { value } = this.state;
 
     return (
       <form className={s.container}>

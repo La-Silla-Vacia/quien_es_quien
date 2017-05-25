@@ -1,4 +1,4 @@
-import { h, render } from 'preact';
+import React from 'react';
 import s from './Labels.css';
 
 const Label = ({ children, ...props }) => (

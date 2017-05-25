@@ -1,4 +1,4 @@
-import { h, render, Component } from 'preact';
+import React, { Component } from 'react';
 import cx from 'classnames';
 
 import s from './Person.css';
@@ -69,9 +69,9 @@ export default class Person extends Component {
     this.setState({ collapsed: !collapsed });
   }
 
-  render(props, state) {
-    const { size, collapser } = state;
-    const { id, title, occupation, imgurl, numberOfConnections, lastUpdate, className, profile, color, children, compact } = props;
+  render() {
+    const { size, collapser } = this.state;
+    const { id, title, occupation, imgurl, numberOfConnections, lastUpdate, className, profile, color, children, compact } = this.props;
     const labels = ['Información nueva'];
     if (lastUpdate) labels.push('Ahora tendencia');
 

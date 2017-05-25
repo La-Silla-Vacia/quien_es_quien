@@ -1,4 +1,4 @@
-import { h, render } from 'preact';
+import React from 'react';
 import s from './Breadcrumbs.css';
 
 const Breadcrumb = ({ children, ...props }) => (
