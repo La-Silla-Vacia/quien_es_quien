@@ -4,6 +4,7 @@ import cx from 'classnames';
 import s from './PersonView.css';
 import Person from "../../Components/Person";
 import SearchBar from "../../Components/SearchBar";
+import ConnectionWires from "../../Components/ConnectionWires/ConnectionWires";
 
 export default class PersonView extends Component {
 
@@ -45,7 +46,6 @@ export default class PersonView extends Component {
 
   componentDidUpdate(newProps) {
     if (this.props !== newProps) {
-      this.setState({ rerender: !this.state.rerender });
       this.formatTypes();
       this.rerender();
     }
@@ -75,7 +75,6 @@ export default class PersonView extends Component {
     const peopleToShow = (show[name]) ? show[name] : 3;
 
     let i = 0;
-    // this.getWires();
     return connections.map((child, index) => {
       const { id } = child;
       if (searchText) {
@@ -85,9 +84,7 @@ export default class PersonView extends Component {
           name.toLowerCase().indexOf(searchText) === -1
         ) return;
       }
-
       if (peopleToShow <= i) return;
-
       i++;
       if (!this.connections[name]) this.connections[name] = { targets: [] };
       return (
@@ -149,47 +146,6 @@ export default class PersonView extends Component {
     });
   }
 
-  getWires() {
-    if (!this.rootElement) return;
-    const containerBB = this.rootElement.getBoundingClientRect();
-    const containerTop = containerBB.top;
-    const containerLeft = containerBB.left;
-
-    const connections = this.connections;
-    return Object.keys(connections).map((key) => {
-      const { source, targets, color } = connections[key];
-      if (!source) return;
-      const sourceBB = source.getBoundingClientRect();
-      const halfSourceSize = source.offsetWidth / 2;
-      const sourceCoordinates = {
-        x: (sourceBB.left + halfSourceSize) - containerLeft,
-        y: (sourceBB.top + halfSourceSize) - containerTop
-      };
-      return targets.map((target) => {
-        if (!target || !target.parentNode) return;
-        const targetBB = target.getBoundingClientRect();
-        const halfTargetSize = target.offsetWidth / 2;
-        const targetCoordinates = {
-          x: (targetBB.left + halfTargetSize) - containerLeft,
-          y: (targetBB.top + halfTargetSize) - containerTop
-        };
-
-        if (targetCoordinates.x > 0 || targetCoordinates.y > 0)
-          return (
-            <line
-              key={target.id}
-              x1={sourceCoordinates.x}
-              y1={sourceCoordinates.y}
-              x2={targetCoordinates.x}
-              y2={targetCoordinates.y}
-              style={{ stroke: color }}
-              className={s.line}
-            />
-          )
-      });
-    });
-  }
-
   handleSearchChange(value) {
     this.setState({ searchText: value.toLowerCase() });
     this.rerender();
@@ -214,8 +170,9 @@ export default class PersonView extends Component {
     const { width, height, rerender } = this.state;
     const titles = this.getTitles();
     const connections = this.getConnections();
-    const wires = this.getWires();
     const resetButton = this.getResetButton();
+
+    const rootBB = (this.rootElement) ? this.rootElement.getBoundingClientRect() : false;
 
     return (
       <div className={s.container}>
@@ -227,9 +184,7 @@ export default class PersonView extends Component {
             this.rootElement = el
           }}
         >
-          <svg className={s.lines} width={width} height={height}>
-            {wires}
-          </svg>
+          <ConnectionWires width={width} height={height} root={rootBB} connections={this.connections} />
           <div className={s.leftGroup}>
             <Person className={s.person} {...person} profile />
             <div className={s.title_group}>

@@ -38,14 +38,12 @@ export default class TableView extends Component {
     const { people } = this.props;
     let i = 0;
     if (people)
-      return people.map((person, index) => {
+      return people.map((person) => {
         if (i > show - 1) return;
-        if (searchText) {
-          if (
-            person.title.toLowerCase().indexOf(searchText) === -1 &&
-            person.occupation.toLowerCase().indexOf(searchText) === -1
-          ) return;
-        }
+        if (searchText &&
+          person.title.toLowerCase().indexOf(searchText) === -1 &&
+          person.occupation.toLowerCase().indexOf(searchText) === -1
+        ) return;
         i++;
         return (
           <Person key={person.id} {...person} />
@@ -74,11 +72,9 @@ export default class TableView extends Component {
             <div className={s.head} />
           </div>
 
-          {/*<div className={s.wrap}>*/}
           <div className={s.body} style={{ width }}>
             {rows}
           </div>
-          {/*</div>*/}
         </div>
       </div>
     )

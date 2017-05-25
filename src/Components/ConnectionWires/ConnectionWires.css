@@ -1,0 +1,14 @@
+@import "../../_variables.css";
+
+.container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.line {
+  transition: .2s;
+  stroke-width: 2;
+}
