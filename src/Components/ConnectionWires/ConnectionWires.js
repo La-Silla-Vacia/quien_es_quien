@@ -26,18 +26,14 @@ class ConnectionWires extends Component {
           y: (targetBB.top + halfTargetSize) - containerTop
         };
 
-        if (targetCoordinates.x > 0 || targetCoordinates.y > 0)
-          return (
-            <line
-              key={target.id}
-              x1={sourceCoordinates.x}
-              y1={sourceCoordinates.y}
-              x2={targetCoordinates.x}
-              y2={targetCoordinates.y}
-              style={{ stroke: color }}
-              className={s.line}
-            />
-          )
+        if (targetCoordinates.x < 0 || targetCoordinates.y < 0) return;
+        return (
+          <line key={target.id}
+                x1={sourceCoordinates.x} y1={sourceCoordinates.y}
+                x2={targetCoordinates.x} y2={targetCoordinates.y}
+                style={{ stroke: color }} className={s.line}
+          />
+        )
       });
     });
   }
