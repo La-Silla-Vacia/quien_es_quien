@@ -25,10 +25,20 @@
     width: 100%;
     display: block;
 
+    &:hover,
+    &:focus {
+      outline: none;
+
+      & svg {
+        transform: translateY(50%);
+      }
+    }
+
     & svg {
       height: 0.75em;
       display: block;
       margin: 0 auto;
+      transition: .2s;
 
       & line {
         stroke-width: 1px;

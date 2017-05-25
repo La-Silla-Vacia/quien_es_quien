@@ -221,7 +221,6 @@ class Base extends Component {
               type.connections.push(connection);
           }
         });
-        // console.log(rawConnection);
         if (!inArray) types.push({ name: category, color, connections: [connection] });
       });
 

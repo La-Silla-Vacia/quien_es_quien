@@ -190,6 +190,7 @@ export default class PersonView extends Component {
 
   handleSearchChange(value) {
     this.setState({ searchText: value.toLowerCase() });
+    this.rerender();
   }
 
   getResetButton() {
@@ -203,7 +204,7 @@ export default class PersonView extends Component {
   rerender() {
     setTimeout(() => {
       this.setState({ rerender: !this.state.rerender })
-    }, 100);
+    }, 10);
   }
 
   render(props, state) {
