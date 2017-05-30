@@ -26,12 +26,18 @@ class ConnectionWires extends Component {
           y: (targetBB.top + halfTargetSize) - containerTop
         };
 
+        const a = targetCoordinates.x - sourceCoordinates.x;
+        const b = targetCoordinates.y - sourceCoordinates.y;
+
+        const length = Math.sqrt( a*a + b*b );
+        const angleDeg = Math.atan2(targetCoordinates.y - sourceCoordinates.y, targetCoordinates.x - sourceCoordinates.x) * 180 / Math.PI;
+
         if (targetCoordinates.x < 0 || targetCoordinates.y < 0) return;
         return (
-          <line key={target.id}
-                x1={sourceCoordinates.x} y1={sourceCoordinates.y}
-                x2={targetCoordinates.x} y2={targetCoordinates.y}
-                stroke={color} className={s.line}
+          <rect key={target.id} width={length} height={1}
+                style={{transform: `rotate(${angleDeg}deg)` }}
+                x={sourceCoordinates.x} y={sourceCoordinates.y}
+                fill={color} className={s.line}
           />
         )
       });
