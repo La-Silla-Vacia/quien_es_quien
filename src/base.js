@@ -27,10 +27,6 @@ class Base extends Component {
     this.setData();
   }
 
-  componentDidMount() {
-    this.setState({ width: this.props.width });
-  }
-
   setData() {
     this.fetchData('data/data.json');
   }

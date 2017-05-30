@@ -9,6 +9,6 @@
 }
 
 .line {
-  transition: .2s;
+  transition: 2s;
   stroke-width: 2;
 }

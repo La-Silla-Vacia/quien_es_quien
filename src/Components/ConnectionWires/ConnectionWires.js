@@ -31,7 +31,7 @@ class ConnectionWires extends Component {
           <line key={target.id}
                 x1={sourceCoordinates.x} y1={sourceCoordinates.y}
                 x2={targetCoordinates.x} y2={targetCoordinates.y}
-                style={{ stroke: color }} className={s.line}
+                stroke={color} className={s.line}
           />
         )
       });

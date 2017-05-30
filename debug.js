@@ -1,5 +1,4 @@
 /*global require,console*/
-
 var lsv = require('lsv-interactive');
 import React from 'react';
 import { render } from 'react-dom';

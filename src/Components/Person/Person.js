@@ -70,7 +70,7 @@ export default class Person extends Component {
   }
 
   render() {
-    const { size, collapser } = this.state;
+    const { size } = this.state;
     const { id, title, occupation, imgurl, numberOfConnections, lastUpdate, className, profile, color, children, compact } = this.props;
     const labels = ['Información nueva'];
     if (lastUpdate) labels.push('Ahora tendencia');

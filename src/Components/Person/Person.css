@@ -4,6 +4,7 @@
   display: table-row;
   font-family: var(--font-text);
   position: relative;
+  transition: .2s;
 
   &:focus {
     outline: none;

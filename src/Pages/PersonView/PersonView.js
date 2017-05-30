@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import cx from 'classnames';
 
 import s from './PersonView.css';
@@ -61,7 +62,7 @@ export default class PersonView extends Component {
     const { show } = this.state;
     show[category] += 5;
     this.setState({ show });
-    this.rerender();
+    this.rerender(250);
   }
 
   handleQuickSearch(event) {
@@ -131,7 +132,12 @@ export default class PersonView extends Component {
 
       return (
         <div key={index} className={s.group}>
-          {people}
+          <CSSTransitionGroup
+            transitionName={'anim'}
+            transitionEnterTimeout={10}
+            transitionLeaveTimeout={300}>
+            {people}
+          </CSSTransitionGroup>
           {viewMoreButton}
         </div>
       )
@@ -151,10 +157,11 @@ export default class PersonView extends Component {
       )
   }
 
-  rerender() {
+  rerender(time) {
+    const duration = (time) ? time : 10;
     setTimeout(() => {
       this.setState({ rerender: !this.state.rerender })
-    }, 10);
+    }, duration);
   }
 
   render() {
@@ -170,7 +177,9 @@ export default class PersonView extends Component {
       <div className={s.container}>
         {rerender}
         <SearchBar onChange={this.handleSearchChange} />
-        <div className={s.wrap} ref={(el) => {this.rootElement = el}}>
+        <div className={s.wrap} ref={(el) => {
+          this.rootElement = el
+        }}>
           <ConnectionWires width={width} height={height} root={rootBB} connections={this.connections} />
           <div className={s.leftGroup}>
             <Person className={s.person} {...person} profile />
