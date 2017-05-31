@@ -4,7 +4,6 @@ import s from './ConnectionWires.css';
 class ConnectionWires extends Component {
   getWires() {
     const { root, connections } = this.props;
-    console.log(connections);
     if (!root) return;
     const containerTop = root.top;
     const containerLeft = root.left;

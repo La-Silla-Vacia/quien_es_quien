@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import cx from 'classnames';
 
 import s from './PersonView.css';
@@ -122,7 +121,7 @@ export default class PersonView extends Component {
       for (let i of rawPeople)
         i && people.push(i); // copy each non-empty value to the 'temp' array
 
-      const viewMoreButton = (people.length === connection.connections.length) ? false : (
+      const viewMoreButton = (!people.length || people.length === connection.connections.length) ? false : (
         <button className={s.group__button} onClick={this.showMore.bind(this, name)}>
           <svg viewBox="0 0 24 9">
             <line x1="1" y1="1" x2="12.25" y2="8" stroke={color} />
@@ -132,12 +131,7 @@ export default class PersonView extends Component {
 
       return (
         <div key={index} className={s.group}>
-          <CSSTransitionGroup
-            transitionName={'anim'}
-            transitionEnterTimeout={1}
-            transitionLeaveTimeout={1}>
             {people}
-          </CSSTransitionGroup>
           {viewMoreButton}
         </div>
       )
@@ -147,14 +141,6 @@ export default class PersonView extends Component {
   handleSearchChange(value) {
     this.setState({ searchText: value.toLowerCase() });
     this.rerender();
-  }
-
-  getResetButton() {
-    const { searchText } = this.state;
-    if (searchText)
-      return (
-        <button onClick={this.handleSearchChange.bind(this, '')}>Reset</button>
-      )
   }
 
   rerender(time) {
@@ -169,7 +155,6 @@ export default class PersonView extends Component {
     const { width, height, rerender } = this.state;
     const titles = this.getTitles();
     const connections = this.getConnections();
-    const resetButton = this.getResetButton();
 
     const rootBB = (this.rootElement) ? this.rootElement.getBoundingClientRect() : false;
 
@@ -185,7 +170,6 @@ export default class PersonView extends Component {
             <Person className={s.person} {...person} profile />
             <div className={s.title_group}>
               {titles}
-              {resetButton}
             </div>
           </div>
           <div className={s.connections}>

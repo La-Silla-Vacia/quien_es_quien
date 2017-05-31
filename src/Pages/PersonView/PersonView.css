@@ -85,17 +85,3 @@
   z-index: 10;
   width: 33%;
 }
-
-:global(.anim-enter) {
-  opacity: 1;
-  transition: 0s;
-}
-
-:global(.anim-enter.anim-enter-active) {
-  opacity: 0;
-  //height: 0;
-  //overflow: hidden;
-  //padding: 0;
-  //margin: 0;
-  //border: 0;
-}
