@@ -62,7 +62,7 @@ export default class PersonView extends Component {
     const { show } = this.state;
     show[category] += 5;
     this.setState({ show });
-    this.rerender(250);
+    this.rerender(10);
   }
 
   handleQuickSearch(event) {
@@ -134,8 +134,8 @@ export default class PersonView extends Component {
         <div key={index} className={s.group}>
           <CSSTransitionGroup
             transitionName={'anim'}
-            transitionEnterTimeout={10}
-            transitionLeaveTimeout={300}>
+            transitionEnterTimeout={1}
+            transitionLeaveTimeout={1}>
             {people}
           </CSSTransitionGroup>
           {viewMoreButton}
