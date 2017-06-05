@@ -10,6 +10,7 @@ export default class Person extends Component {
     super();
     this.state = {
       size: 400,
+      width: 400,
       collapser: false,
       collapsed: true
     };
@@ -49,7 +50,7 @@ export default class Person extends Component {
       sizeName = 10
     }
 
-    this.setState({ size: sizeName });
+    this.setState({ size: sizeName, width: size });
   }
 
   getBio() {
@@ -70,7 +71,7 @@ export default class Person extends Component {
   }
 
   render() {
-    const { size } = this.state;
+    const { size, width } = this.state;
     const { id, title, occupation, imgurl, numberOfConnections, lastUpdate, className, profile, color, children, compact } = this.props;
     const labels = ['Información nueva'];
     if (lastUpdate) labels.push('Ahora tendencia');
@@ -78,7 +79,6 @@ export default class Person extends Component {
     const bio = this.getBio();
 
     const style = (color) ? { borderLeftColor: color } : {};
-// console.log('c', connections);
     if (profile) {
       return (
         <div
@@ -103,6 +103,24 @@ export default class Person extends Component {
       )
     }
 
+    const labelsElement = (width < 1088) ? false : (
+      <div className={s.cell}>
+        <Labels items={labels} />
+      </div>
+    );
+
+    const occupationElement = (width < 1088) ? false : (
+      <div className={s.cell}>
+        <span className={s.text}>{occupation}</span>
+      </div>
+    );
+
+    const connectionElement = (width < 456) ? false : (
+      <div className={s.cell}>
+        <span className={s.text}>{numberOfConnections} </span> <span className={cx(s.text, { [s.hidden]: size > 1 })}> conexiones</span>
+      </div>
+    );
+
     return (
       <a
         tabIndex={0}
@@ -119,22 +137,15 @@ export default class Person extends Component {
         <div className={s.cell}>
           <div className={s.inner}>
             <div className={s.photo} style={{ backgroundImage: `url(${imgurl})` }} />
-            <div>
+            <div className={s.nameAndOccupation}>
               <h3 className={s.name}>{title}</h3>
               <span className={cx(s.text, { [s.hidden]: size <= 2 })}>{occupation}</span>
             </div>
           </div>
         </div>
-        <div className={cx(s.cell, { [s.hidden]: size > 2 })}>
-          <span className={s.text}>{occupation}</span>
-        </div>
-        <div className={s.cell}>
-          <span className={s.text}>{numberOfConnections}</span>
-          <span className={cx(s.text, { [s.hidden]: size > 1 })}> conexiones</span>
-        </div>
-        <div className={s.cell}>
-          <Labels items={labels} />
-        </div>
+        {occupationElement}
+        {connectionElement}
+        {labelsElement}
       </a>
     )
   }

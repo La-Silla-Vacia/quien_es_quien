@@ -57,6 +57,7 @@ export default class TableView extends Component {
 
   render() {
     const { width } = this.state;
+    console.log(width);
     const rows = this.getRows();
     return (
       <div className={s.container}>
@@ -65,11 +66,11 @@ export default class TableView extends Component {
           <div ref={(el) => {
             this.tableHead = el
           }} className={s.row}>
-            <div className={s.head}>Comparar</div>
+            <div className={s.head} style={{ width: '3.5em' }}>Comparar</div>
             <div className={s.head}>Información básica</div>
             <div className={cx(s.head, { [s.hidden]: width < 1088 })}>Ocupación</div>
-            <div className={s.head}>Total conexiones</div>
-            <div className={s.head} />
+            <div className={cx(s.head, { [s.hidden]: width < 456 })} style={{ width: '8em' }}>Total conexiones</div>
+            <div className={cx(s.head, { [s.hidden]: width < 688 })} />
           </div>
 
           <div className={s.body} style={{ width }}>

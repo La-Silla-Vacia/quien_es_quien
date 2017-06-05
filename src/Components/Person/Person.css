@@ -20,6 +20,7 @@
     font-size: 1em;
     font-weight: var(--font-bold);
     color: var(--color-black);
+    line-height: 1.5;
   }
 
 }
@@ -61,10 +62,19 @@
   background-position: center;
 }
 
+.nameAndOccupation {
+  line-height: 1;
+}
+
 .text {
   font-size: var(--font-small);
+  line-height: 1;
   color: var(--color-black);
   white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 21em;
+  display: inline-block;
+  overflow: hidden;
 }
 
 .hidden {
