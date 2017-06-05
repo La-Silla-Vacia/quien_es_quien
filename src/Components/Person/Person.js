@@ -49,7 +49,7 @@ export default class Person extends Component {
     } else {
       sizeName = 10
     }
-
+    console.log(sizeName);
     this.setState({ size: sizeName, width: size });
   }
 
@@ -103,21 +103,21 @@ export default class Person extends Component {
       )
     }
 
-    const labelsElement = (width < 1088) ? false : (
-      <div className={s.cell}>
-        <Labels items={labels} />
-      </div>
-    );
-
     const occupationElement = (width < 1088) ? false : (
-      <div className={s.cell}>
+      <div className={cx(s.cell, s['cell--occupation'])}>
         <span className={s.text}>{occupation}</span>
       </div>
     );
 
+    const labelsElement = (width < 625) ? false : (
+      <div className={cx(s.cell, s['cell--labels'])}>
+        <Labels items={labels} />
+      </div>
+    );
+
     const connectionElement = (width < 456) ? false : (
-      <div className={s.cell}>
-        <span className={s.text}>{numberOfConnections} </span> <span className={cx(s.text, { [s.hidden]: size > 1 })}> conexiones</span>
+      <div className={cx(s.cell, s['cell--connections'], { [s.grow]: width < 625 })}>
+        <span className={s.text}>{numberOfConnections} {( width > 768) ? 'conexiones' : false}</span>
       </div>
     );
 
@@ -134,13 +134,11 @@ export default class Person extends Component {
         <div className={cx(s.cell)}>
           <Checkbox labelHidden>{title}</Checkbox>
         </div>
-        <div className={s.cell}>
-          <div className={s.inner}>
-            <div className={s.photo} style={{ backgroundImage: `url(${imgurl})` }} />
-            <div className={s.nameAndOccupation}>
-              <h3 className={s.name}>{title}</h3>
-              <span className={cx(s.text, { [s.hidden]: size <= 2 })}>{occupation}</span>
-            </div>
+        <div className={cx(s.cell, s['cell--informacionBasica'], { [s.grow]: size > 2 }, { [s.xgrow]: width < 625 })}>
+          <div className={s.photo} style={{ backgroundImage: `url(${imgurl})` }} />
+          <div className={s.nameAndOccupation}>
+            <h3 className={s.name}>{title}</h3>
+            <span className={cx(s.text, { [s.hidden]: size <= 2 })}>{occupation}</span>
           </div>
         </div>
         {occupationElement}

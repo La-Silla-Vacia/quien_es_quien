@@ -11,14 +11,15 @@
 }
 
 .table {
-  display: table;
+  //display: table;
   width: 100%;
   border-collapse: separate;
   border-spacing: 0 .5em;
 }
 
 .row {
-  display: table-row;
+  display: flex;
+  justify-content: space-between;
 
   & .name {
     margin: 0;
@@ -32,8 +33,8 @@
 }
 
 .body {
-  display: table-row-group;
-  max-height: 50em;
+  display: block;
+  max-height: 30em;
   overflow: scroll;
 }
 
@@ -62,6 +63,10 @@
   &:first-child {
     border-left: var(--border-size) solid var(--border-color);
     padding-left: 0.5em;
+  }
+
+  &:nth-child(2n){
+    width: 20%;
   }
 
   &:last-child {

@@ -73,7 +73,7 @@ export default class TableView extends Component {
             <div className={cx(s.head, { [s.hidden]: width < 688 })} />
           </div>
 
-          <div className={s.body} style={{ width }}>
+          <div className={s.body}>
             {rows}
           </div>
         </div>

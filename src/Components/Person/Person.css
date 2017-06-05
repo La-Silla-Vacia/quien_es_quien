@@ -1,7 +1,7 @@
 @import "../../_variables.css";
 
 .container {
-  display: table-row;
+  display: flex;
   font-family: var(--font-text);
   position: relative;
   transition: .2s;
@@ -26,21 +26,59 @@
 }
 
 .cell {
-  display: table-cell;
-  vertical-align: middle;
+  display: flex;
+  align-items: center;
   border: var(--border-size) solid var(--border-color);
   border-left: 0;
   border-right: 0;
   background-color: var(--color-white);
   margin-bottom: 0.5em;
+  flex-grow: 1;
 
   &:first-child {
     border-left: var(--border-size) solid var(--border-color);
+    flex-grow: 0;
+    padding-right: 0.5em;
     padding-left: 0.5em;
   }
 
   &:last-child {
     border-right: var(--border-size) solid var(--border-color);
+  }
+
+  &--informacionBasica {
+    flex-basis: 30%;
+    flex-grow: 0;
+
+    &.grow {
+      flex-basis: 50%;
+    }
+
+    &.xgrow {
+      flex-grow: 1;
+    }
+
+    & .text {
+      width: calc(100% - 3em);
+    }
+  }
+
+  &--occupation {
+    flex-basis: 20%;
+  }
+
+  &--labels {
+    justify-content: flex-end;
+  }
+
+  &--connections {
+    &.grow {
+      flex-basis: 2em;
+      flex-grow: 0;
+      text-align: right;
+      justify-content: flex-end;
+      padding-right: 0.5em;
+    }
   }
 }
 
@@ -64,6 +102,7 @@
 
 .nameAndOccupation {
   line-height: 1;
+  flex-grow: 1;
 }
 
 .text {
