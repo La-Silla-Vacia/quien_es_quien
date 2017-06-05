@@ -5,6 +5,19 @@
   justify-content: space-between;
   align-items: center;
   position: relative;
+
+  &--vertical {
+    flex-direction: column;
+
+    & .leftGroup {
+      display: block;
+    }
+
+    & .leftGroup,
+    & .connections {
+      width: 100%;
+    }
+  }
 }
 
 .leftGroup {

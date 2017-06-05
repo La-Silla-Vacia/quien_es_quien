@@ -124,7 +124,7 @@
   border: var(--border-size) solid var(--border-color);
   background-color: #fff;
   padding: 0.5em 1em;
-  max-width: 30em;
+  /*max-width: 30em;*/
   display: block;
 }
 

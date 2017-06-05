@@ -71,7 +71,7 @@ export default class PersonView extends Component {
 
   getPeople(connection) {
     const { name, color, connections } = connection;
-    const { show, searchText } = this.state;
+    const { show, searchText, width } = this.state;
     const peopleToShow = (show[name]) ? show[name] : 3;
 
     let i = 0;
@@ -85,9 +85,13 @@ export default class PersonView extends Component {
       if (peopleToShow <= i) return;
       i++;
       if (!this.connections[name]) this.connections[name] = { targets: [] };
+      const anchor = (width < 740) ? false : (
+        <div className={s.connectionAnchor} id={id} ref={(el) => this.connections[name].targets[index] = el} />
+      );
+
       return (
         <Person key={id} color={color} {...child} profile compact>
-          <div className={s.connectionAnchor} id={id} ref={(el) => this.connections[name].targets[index] = el} />
+          {anchor}
         </Person>
       )
     });
@@ -131,7 +135,8 @@ export default class PersonView extends Component {
 
       return (
         <div key={index} className={s.group}>
-            {people}
+          <h4>{name}</h4>
+          {people}
           {viewMoreButton}
         </div>
       )
@@ -155,23 +160,32 @@ export default class PersonView extends Component {
     const { width, height, rerender } = this.state;
     const titles = this.getTitles();
     const connections = this.getConnections();
-
+    // console.log(width);
     const rootBB = (this.rootElement) ? this.rootElement.getBoundingClientRect() : false;
+
+    const wires = (width < 740) ? false : (
+      <ConnectionWires width={width} height={height} root={rootBB} connections={this.connections} />
+    );
+
+    const profile = (<Person className={s.person} {...person} profile />);
+    const heading = (width < 740) ? profile : (
+      <div className={s.leftGroup}>
+        {profile}
+        <div className={s.title_group}>
+          {titles}
+        </div>
+      </div>
+    );
 
     return (
       <div className={s.container}>
         {rerender}
         <SearchBar onChange={this.handleSearchChange} />
-        <div className={s.wrap} ref={(el) => {
+        <div className={cx(s.wrap, { [s['wrap--vertical']]: width < 740 })} ref={(el) => {
           this.rootElement = el
         }}>
-          <ConnectionWires width={width} height={height} root={rootBB} connections={this.connections} />
-          <div className={s.leftGroup}>
-            <Person className={s.person} {...person} profile />
-            <div className={s.title_group}>
-              {titles}
-            </div>
-          </div>
+          {wires}
+          {heading}
           <div className={s.connections}>
             {connections}
           </div>

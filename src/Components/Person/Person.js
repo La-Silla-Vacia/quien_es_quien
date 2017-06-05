@@ -49,7 +49,7 @@ export default class Person extends Component {
     } else {
       sizeName = 10
     }
-    console.log(sizeName);
+    // console.log(size, sizeName);
     this.setState({ size: sizeName, width: size });
   }
 
