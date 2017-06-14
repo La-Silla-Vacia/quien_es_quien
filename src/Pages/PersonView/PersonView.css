@@ -29,7 +29,9 @@
 }
 
 .group {
-  margin-bottom: 1em;
+  &--margin {
+    margin-bottom: 1em;
+  }
 
   &__button {
     padding: .25em;

@@ -101,9 +101,8 @@ export default class PersonView extends Component {
 
   getTitles() {
     const { connections } = this.props;
-    return connections.map((connection, index) => {
+    return connections.map((connection) => {
       const { name, color } = connection;
-
       return (
         <div key={name} style={{ backgroundColor: color }}
              className={cx(s.connectionAnchor, s.connectionAnchor__source)}
@@ -116,16 +115,20 @@ export default class PersonView extends Component {
   }
 
   getConnections() {
+    const { show } = this.state;
     const { connections } = this.props;
 
-    return connections.map((connection, index) => {
+    return connections.map((connection) => {
       const { name, color } = connection;
       const rawPeople = this.getPeople(connection);
       const people = [];
       for (let i of rawPeople)
         i && people.push(i); // copy each non-empty value to the 'temp' array
+      if (!people.length) return;
 
-      const viewMoreButton = (!people.length || people.length === connection.connections.length) ? false : (
+      const viewMore = (people.length === connection.connections.length || people.length < show[connection.name]);
+
+      const viewMoreButton = (viewMore) ? false : (
         <button className={s.group__button} onClick={this.showMore.bind(this, name)}>
           <svg viewBox="0 0 24 9">
             <line x1="1" y1="1" x2="12.25" y2="8" stroke={color} />
@@ -134,7 +137,7 @@ export default class PersonView extends Component {
         </button>);
 
       return (
-        <div key={index} className={s.group}>
+        <div key={connection.name} className={cx(s.group, {[s['group--margin']]: viewMore})}>
           <h4 className={t.sectionTitle}>{name}</h4>
           {people}
           {viewMoreButton}

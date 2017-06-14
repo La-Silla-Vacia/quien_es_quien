@@ -114,3 +114,17 @@
 .hidden {
   display: none;
 }
+
+.showMore {
+  background-color: var(--color-white);
+  padding: 1em;
+  border-radius: 0;
+  border: var(--border-size) solid var(--border-color);
+  width: 100%;
+  font-size: var(--font-small);
+
+  &:focus {
+    outline: none;
+    border-color: var(--brand-color);
+  }
+}

@@ -11,13 +11,14 @@ export default class TableView extends Component {
     super();
 
     this.state = {
-      show: 50,
+      show: 10,
       width: 400,
       searchText: ''
     };
 
     this.handleResize = this.handleResize.bind(this);
     this.handleSearchChange = this.handleSearchChange.bind(this);
+    this.increaseShownPeople = this.increaseShownPeople.bind(this);
   }
 
   componentDidMount() {
@@ -51,6 +52,10 @@ export default class TableView extends Component {
       });
   }
 
+  increaseShownPeople() {
+    this.setState({show: this.state.show + 10});
+  }
+
   handleSearchChange(value) {
     this.setState({ searchText: value.toLowerCase() });
   }
@@ -75,6 +80,7 @@ export default class TableView extends Component {
 
           <div className={s.body}>
             {rows}
+            <button className={s.showMore} onClick={this.increaseShownPeople}>Show more people</button>
           </div>
         </div>
       </div>
