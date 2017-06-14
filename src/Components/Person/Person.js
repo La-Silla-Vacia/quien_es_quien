@@ -95,6 +95,13 @@ export default class Person extends Component {
 
     const bio = this.getBio();
 
+    const nameAndOccupation = (
+      <div className={s.overflow}>
+        <h3 className={s.name}>{title}</h3>
+        <span className={cx(s.text, { [s.hidden]: size <= 2 })}>{occupation}</span>
+      </div>
+    );
+
     const style = (color) ? { borderLeftColor: color } : {};
     if (profile) {
       return (
@@ -109,10 +116,7 @@ export default class Person extends Component {
         >
           <header className={s.header}>
             <div className={s.photo} style={{ backgroundImage: `url(${imgurl})` }} />
-            <div className={s.overflow}>
-              <h3 className={s.name}>{title}</h3>
-              <span className={cx(s.text, { [s.hidden]: size <= 2 })}>{occupation}</span>
-            </div>
+            {nameAndOccupation}
           </header>
           {bio}
           {children}
@@ -153,10 +157,7 @@ export default class Person extends Component {
         </div>
         <div className={cx(s.cell, s['cell--informacionBasica'], { [s.grow]: size > 2 }, { [s.xgrow]: width < 625 })}>
           <div className={s.photo} style={{ backgroundImage: `url(${imgurl})` }} />
-          <div className={s.nameAndOccupation}>
-            <h3 className={s.name}>{title}</h3>
-            <span className={cx(s.text, { [s.hidden]: size <= 2 })}>{occupation}</span>
-          </div>
+          {nameAndOccupation}
         </div>
         {occupationElement}
         {connectionElement}
