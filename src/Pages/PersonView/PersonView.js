@@ -87,7 +87,7 @@ export default class PersonView extends Component {
       if (peopleToShow <= i) return;
       i++;
       if (!this.connections[name]) this.connections[name] = { targets: [] };
-      const anchor = (width < 740) ? false : (
+      const anchor = (width < 670) ? false : (
         <div className={s.connectionAnchor} id={id} ref={(el) => this.connections[name].targets[index] = el} />
       );
 
@@ -105,7 +105,8 @@ export default class PersonView extends Component {
       const { name, color } = connection;
 
       return (
-        <div key={name} style={{backgroundColor: color}} className={cx(s.connectionAnchor, s.connectionAnchor__source)}
+        <div key={name} style={{ backgroundColor: color }}
+             className={cx(s.connectionAnchor, s.connectionAnchor__source)}
              ref={(el) => {
                this.connections[name].source = el;
                this.connections[name].color = color;
@@ -162,12 +163,12 @@ export default class PersonView extends Component {
     // console.log(width);
     const rootBB = (this.rootElement) ? this.rootElement.getBoundingClientRect() : false;
 
-    const wires = (width < 740) ? false : (
+    const wires = (width < 670) ? false : (
       <ConnectionWires width={width} height={height} root={rootBB} connections={this.connections} />
     );
 
     const profile = (<Person className={s.person} {...person} profile />);
-    const heading = (width < 740) ? profile : (
+    const heading = (width < 670) ? profile : (
       <div className={s.leftGroup}>
         {profile}
         <div className={s.title_group}>
@@ -180,12 +181,12 @@ export default class PersonView extends Component {
       <div className={s.container}>
         {rerender}
         <SearchBar onChange={this.handleSearchChange} />
-        <div className={cx(s.wrap, { [s['wrap--vertical']]: width < 740 })} ref={(el) => {
+        <div className={cx(s.wrap, { [s['wrap--vertical']]: width < 670 })} ref={(el) => {
           this.rootElement = el
         }}>
           {wires}
           {heading}
-          <div className={s.connections}>
+          <div className={cx(s.connections, { [s.margin]: width < 670 })}>
             {connections}
           </div>
         </div>

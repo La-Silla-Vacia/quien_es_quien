@@ -62,7 +62,7 @@
 }
 
 .title_group {
-  min-width: 5em;
+  min-width: 1em;
 }
 
 .title {
@@ -99,5 +99,9 @@
 .connections {
   position: relative;
   z-index: 10;
-  width: 33%;
+  width: 40%;
+}
+
+.margin {
+  margin-top: 1em;
 }
