@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import cx from 'classnames';
 
 import s from './Person.css';
-import Checkbox from "../Checkbox/Checkbox";
-import Labels from "../Labels/Labels";
+import t from '../../_typography.css';
+import Checkbox from '../Checkbox';
+import Labels from '../Labels';
 
 export default class Person extends Component {
   constructor() {
@@ -55,10 +56,26 @@ export default class Person extends Component {
 
   getBio() {
     const { collapser, collapsed } = this.state;
-    const { bio, compact } = this.props;
+    const { bio, compact, slug } = this.props;
     if (collapser && collapsed || compact) return;
+
+    // split on double line breaks
+// note that we actually split on triple to account for the trailing
+// line break at the end of a paragraph
+    let doc = bio[0];
+    const parts = doc.split("\n");
+
+// rejoin with paragraph tags
+    doc = parts.join("</p><p>");
+
+// wrap the entire thing in open/close paragraphs
+    doc = "<p>" + doc + "</p>";
+
     return (
-      <div dangerouslySetInnerHTML={{ __html: bio }} />
+      <div className={s.bio}>
+        <div dangerouslySetInnerHTML={{ __html: doc }} />
+        <a href={`/${slug}`} className={t.link}>+ VER PERFIL</a>
+      </div>
     )
   }
 

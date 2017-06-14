@@ -57,7 +57,7 @@ export default class TableView extends Component {
 
   render() {
     const { width } = this.state;
-    console.log(width);
+    // console.log(width);
     const rows = this.getRows();
     return (
       <div className={s.container}>

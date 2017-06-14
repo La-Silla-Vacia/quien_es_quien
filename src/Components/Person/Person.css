@@ -22,7 +22,6 @@
     color: var(--color-black);
     line-height: 1.5;
   }
-
 }
 
 .cell {
@@ -131,7 +130,6 @@
 .compact {
   padding: 0.25em 0.25em 0.25em 0.5em;
   margin-top: 0.25em;
-  margin-bottom: .25em;
   cursor: pointer;
 
   & .photo {
@@ -142,6 +140,10 @@
 
   & .name {
     font-size: 0.9em;
+  }
+
+  &:not(:last-child) {
+    margin-bottom: .25em;
   }
 }
 
@@ -157,4 +159,15 @@
 
 .hasLabel {
   border-left: 0.3em solid;
+}
+
+.bio {
+  & p {
+    &:first-child {
+      margin-top: 0;
+    }
+    &:last-child {
+      margin-bottom: 0.25em;
+    }
+  }
 }

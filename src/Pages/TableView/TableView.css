@@ -34,8 +34,9 @@
 
 .body {
   display: block;
-  max-height: 30em;
+  max-height: 60vh;
   overflow: scroll;
+  resize: vertical;
 }
 
 .foot {

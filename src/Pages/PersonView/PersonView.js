@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import cx from 'classnames';
 
 import s from './PersonView.css';
+import t from '../../_typography.css';
 import Person from "../../Components/Person";
 import SearchBar from "../../Components/SearchBar";
 import ConnectionWires from "../../Components/ConnectionWires/ConnectionWires";
@@ -30,6 +31,7 @@ export default class PersonView extends Component {
   componentDidMount() {
     this.formatTypes();
     window.addEventListener('resize', this.handleResize);
+    this.handleResize();
   }
 
   formatTypes() {
@@ -103,14 +105,11 @@ export default class PersonView extends Component {
       const { name, color } = connection;
 
       return (
-        <h3 key={index} className={s.title} onClick={this.handleSearchChange.bind(this, name)}>
-          {name}
-          <div className={cx(s.connectionAnchor, s.connectionAnchor__source)}
-               ref={(el) => {
-                 this.connections[name].source = el;
-                 this.connections[name].color = color;
-               }} />
-        </h3>
+        <div key={name} style={{backgroundColor: color}} className={cx(s.connectionAnchor, s.connectionAnchor__source)}
+             ref={(el) => {
+               this.connections[name].source = el;
+               this.connections[name].color = color;
+             }} />
       )
     });
   }
@@ -135,7 +134,7 @@ export default class PersonView extends Component {
 
       return (
         <div key={index} className={s.group}>
-          <h4>{name}</h4>
+          <h4 className={t.sectionTitle}>{name}</h4>
           {people}
           {viewMoreButton}
         </div>
@@ -157,7 +156,7 @@ export default class PersonView extends Component {
 
   render() {
     const { person } = this.props;
-    const { width, height, rerender } = this.state;
+    const { width, height, rerender } = this.state
     const titles = this.getTitles();
     const connections = this.getConnections();
     // console.log(width);

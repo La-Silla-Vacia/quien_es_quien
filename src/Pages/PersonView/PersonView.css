@@ -32,7 +32,8 @@
   margin-bottom: 1em;
 
   &__button {
-    padding: 0;
+    padding: .25em;
+    cursor: pointer;
     border: 0;
     background: transparent;
     width: 100%;
@@ -61,14 +62,12 @@
 }
 
 .title_group {
-  min-width: 10em;
-  margin-left: 0.5em;
+  min-width: 5em;
 }
 
 .title {
   background-color: var(--color-white);
   border: var(--border-size) solid var(--border-color);
-  font-size: 1em;
   font-weight: var(--font-bold);
   margin: 0.25em 0;
   padding: 0.5em 0.75em;
@@ -88,8 +87,12 @@
 
   &__source {
     left: inherit;
-    right: 0;
-    transform: translate(50%, -50%);
+    transform: translateX(-50%);
+    position: relative;
+    margin: 1.5em 0;
+    border: 0;
+    width: 1em;
+    height: 1em;
   }
 }
 
