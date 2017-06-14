@@ -74,33 +74,19 @@ class Base extends Component {
   formatPerson(rawPeople) {
     const people = [];
     rawPeople.map((rawPerson) => {
-      const {
-        id = 0,
-        label = 'Sin definir',
-        Ocupación = 'Sin definir',
-        imgurl,
-        perfilito = ['Sin definir'],
-        slug,
-        nconnections = 0,
-        nRelPersonal = 0,
-        nRelLaboral = 0,
-        nRelRivalidad = 0,
-        nRelAlianza = 0,
-        hilos
-      } = rawPerson;
       const person = {
-        id,
-        title: label,
-        occupation: Ocupación,
-        imgurl,
-        bio: perfilito,
-        slug,
-        numberOfConnections: nconnections,
-        numberOfPersonalConnections: nRelPersonal,
-        numberOfWorkConnections: nRelLaboral,
-        numberOfRivalryConnections: nRelRivalidad,
-        numberOfAllianceConnections: nRelAlianza,
-        connections: hilos,
+        id: rawPerson.id,
+        title: rawPerson.label,
+        occupation: (rawPerson.Ocupación) ? rawPerson.Ocupación : 'Sin definir',
+        imgurl: rawPerson.imgurl,
+        bio: (rawPerson.perfilito) ? rawPerson.perfilito : ['Sin definir'],
+        slug: rawPerson.slug,
+        numberOfConnections: rawPerson.nconnections,
+        numberOfPersonalConnections: rawPerson.nRelPersonal,
+        numberOfWorkConnections: rawPerson.nRelLaboral,
+        numberOfRivalryConnections:rawPerson.nRelRivalidad,
+        numberOfAllianceConnections: rawPerson.nRelAlianza,
+        connections: rawPerson.hilos,
         lastUpdate: '20170510'
       };
 
