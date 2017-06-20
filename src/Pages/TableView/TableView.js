@@ -63,6 +63,7 @@ export default class TableView extends Component {
       const index = selected.indexOf(id);
       if (index > -1) selected.splice(index, 1);
     }
+    console.log(selected);
     this.setState({ selected });
   }
 

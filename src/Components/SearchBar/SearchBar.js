@@ -21,7 +21,7 @@ export default class SearchBar extends Component {
   }
 
   render() {
-    const { value } = this.state;
+    const value = (typeof this.props.value === 'string') ? this.props.value : this.state.value;
 
     return (
       <form className={s.container}>

@@ -28,26 +28,12 @@ export default class PersonView extends Component {
   }
 
   componentDidMount() {
-    // this.formatTypes();
     window.addEventListener('resize', this.handleResize);
     this.handleResize();
   }
 
-  formatTypes() {
-    const { show } = this.state;
-    this.props.connections.map((connection) => {
-      show[connection.name] = 3;
-      this.connections[connection.name] = {
-        targets: []
-      };
-    });
-    this.setState({ show });
-    this.rerender();
-  }
-
   componentDidUpdate(newProps) {
     if (this.props !== newProps) {
-      // this.formatTypes();
       this.rerender();
     }
   }
@@ -71,29 +57,18 @@ export default class PersonView extends Component {
   }
 
   getPeople(connections) {
-    // const { name, color, connections } = connection;
-    const { show, searchText, width } = this.state;
-    const peopleToShow = show;
-    console.log('n', connections);
-    let i = 0;
-    return connections.map((child, index) => {
+    const { show, searchText } = this.state;
+    return connections.map((child) => {
       const { id } = child;
       if (searchText &&
         child.title.toLowerCase().indexOf(searchText) === -1 &&
         child.occupation.toLowerCase().indexOf(searchText) === -1 &&
         name.toLowerCase().indexOf(searchText) === -1
       ) return;
-      if (peopleToShow <= i) return;
-      i++;
+      if (show <= i) return;
       if (!this.connections[name]) this.connections[name] = { targets: [] };
-      const anchor = (width < 670) ? false : (
-        <div className={s.connectionAnchor} id={id} ref={(el) => this.connections[name].targets[index] = el} />
-      );
-
       return (
-        <Person key={id} {...child} profile compact>
-          {anchor}
-        </Person>
+        <Person key={id} {...child} profile compact />
       )
     });
   }
@@ -107,7 +82,6 @@ export default class PersonView extends Component {
       )
     }
 
-    // return connections.map((connection) => {
     const rawPeople = this.getPeople(connections);
     const people = [];
     for (let i of rawPeople)
@@ -131,7 +105,6 @@ export default class PersonView extends Component {
         {viewMoreButton}
       </div>
     )
-    // });
   }
 
   handleSearchChange(value) {
@@ -161,7 +134,7 @@ export default class PersonView extends Component {
 
     const persons = this.getPersons();
     const heading = (width < 670) ? persons : (
-      <div key={'bier'} className={s.leftGroup}>
+      <div className={s.leftGroup}>
         {persons}
       </div>
     );

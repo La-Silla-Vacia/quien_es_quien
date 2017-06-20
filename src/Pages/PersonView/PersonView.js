@@ -48,6 +48,7 @@ export default class PersonView extends Component {
 
   componentDidUpdate(newProps) {
     if (this.props !== newProps) {
+      this.setState({ searchText: '' });
       this.formatTypes();
       this.rerender();
     }
@@ -137,7 +138,7 @@ export default class PersonView extends Component {
         </button>);
 
       return (
-        <div key={connection.name} className={cx(s.group, {[s['group--margin']]: viewMore})}>
+        <div key={connection.name} className={cx(s.group, { [s['group--margin']]: viewMore })}>
           <h4 className={t.sectionTitle}>{name}</h4>
           {people}
           {viewMoreButton}
@@ -160,7 +161,7 @@ export default class PersonView extends Component {
 
   render() {
     const { person } = this.props;
-    const { width, height, rerender } = this.state
+    const { width, height, rerender, searchText } = this.state
     const titles = this.getTitles();
     const connections = this.getConnections();
     // console.log(width);
@@ -183,7 +184,7 @@ export default class PersonView extends Component {
     return (
       <div className={s.container}>
         {rerender}
-        <SearchBar onChange={this.handleSearchChange} />
+        <SearchBar value={searchText} onChange={this.handleSearchChange} />
         <div className={cx(s.wrap, { [s['wrap--vertical']]: width < 670 })} ref={(el) => {
           this.rootElement = el
         }}>
