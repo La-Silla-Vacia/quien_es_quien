@@ -1,0 +1,109 @@
+@import "../../_variables.css";
+
+.wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+
+  &--vertical {
+    flex-direction: column;
+
+    & .leftGroup {
+      display: block;
+    }
+
+    & .leftGroup,
+    & .connections {
+      width: 100%;
+    }
+  }
+}
+
+.leftGroup {
+  display: flex;
+  width: 50%;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.group {
+  &--margin {
+    margin-bottom: 1em;
+  }
+
+  &__button {
+    padding: .25em;
+    cursor: pointer;
+    border: 0;
+    background: transparent;
+    width: 100%;
+    display: block;
+
+    &:hover,
+    &:focus {
+      outline: none;
+
+      & svg {
+        transform: translateY(50%);
+      }
+    }
+
+    & svg {
+      height: 0.75em;
+      display: block;
+      margin: 0 auto;
+      transition: .2s;
+
+      & line {
+        stroke-width: 1px;
+      }
+    }
+  }
+}
+
+.title_group {
+  min-width: 1em;
+}
+
+.title {
+  background-color: var(--color-white);
+  border: var(--border-size) solid var(--border-color);
+  font-weight: var(--font-bold);
+  margin: 0.25em 0;
+  padding: 0.5em 0.75em;
+  position: relative;
+}
+
+.connectionAnchor {
+  width: 0.75em;
+  height: 0.75em;
+  background: var(--color-white);
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: -2px;
+  transform: translate(-50%, -50%);
+  border: var(--border-size) solid var(--brand-color);
+
+  &__source {
+    left: inherit;
+    transform: translateX(-50%);
+    position: relative;
+    margin: 1.5em 0;
+    border: 0;
+    width: 1em;
+    height: 1em;
+  }
+}
+
+.connections {
+  position: relative;
+  z-index: 10;
+  width: 40%;
+}
+
+.margin {
+  margin-top: 1em;
+}

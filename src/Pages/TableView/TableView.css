@@ -34,7 +34,8 @@
 
 .body {
   display: block;
-  max-height: 60vh;
+  min-height: 28em;
+  max-height: calc(80vh - 10em);
   overflow: scroll;
   resize: vertical;
 }
@@ -127,4 +128,20 @@
     outline: none;
     border-color: var(--brand-color);
   }
+}
+
+.compareButton {
+  width: 5em;
+  height: 5em;
+  font-size: var(--font-small);
+  border-radius: 50%;
+  background-color: var(--brand-color);
+  border: 2px solid var(--color-white);
+  position: absolute;
+  bottom: 3em;
+  left: 5.75em;
+  color: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

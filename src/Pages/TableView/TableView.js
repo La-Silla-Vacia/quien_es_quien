@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import cx from 'classnames';
-
+import strings from '../../strings.json';
 import s from './TableView.css';
 import Person from "../../Components/Person";
 import SearchBar from "../../Components/SearchBar";
@@ -13,12 +14,14 @@ export default class TableView extends Component {
     this.state = {
       show: 10,
       width: 400,
+      selected: [],
       searchText: ''
     };
 
     this.handleResize = this.handleResize.bind(this);
     this.handleSearchChange = this.handleSearchChange.bind(this);
     this.increaseShownPeople = this.increaseShownPeople.bind(this);
+    this.handlePersonSelect = this.handlePersonSelect.bind(this);
   }
 
   componentDidMount() {
@@ -47,13 +50,24 @@ export default class TableView extends Component {
         ) return;
         i++;
         return (
-          <Person key={person.id} {...person} />
+          <Person onSelect={this.handlePersonSelect} key={person.id} {...person} />
         )
       });
   }
 
+  handlePersonSelect(id, e) {
+    const { selected } = this.state;
+    if (e) {
+      selected.push(id);
+    } else {
+      const index = selected.indexOf(id);
+      if (index > -1) selected.splice(index, 1);
+    }
+    this.setState({ selected });
+  }
+
   increaseShownPeople() {
-    this.setState({show: this.state.show + 10});
+    this.setState({ show: this.state.show + 10 });
   }
 
   handleSearchChange(value) {
@@ -61,7 +75,10 @@ export default class TableView extends Component {
   }
 
   render() {
-    const { width } = this.state;
+    const { width, selected } = this.state;
+    const compareButton = (selected.length) ? (
+      <Link to={`/compare/${selected.join(',')}`} className={s.compareButton}>{strings.compare}</Link>
+    ) : false;
     // console.log(width);
     const rows = this.getRows();
     return (
@@ -71,7 +88,7 @@ export default class TableView extends Component {
           <div ref={(el) => {
             this.tableHead = el
           }} className={s.row}>
-            <div className={s.head} style={{ width: '3.5em' }}>Comparar</div>
+            <div className={s.head} style={{ width: '3.5em' }}>{strings.compare}</div>
             <div className={s.head}>Información básica</div>
             <div className={cx(s.head, { [s.hidden]: width < 1088 })}>Ocupación</div>
             <div className={cx(s.head, { [s.hidden]: width < 456 })} style={{ width: '8em' }}>Total conexiones</div>
@@ -80,7 +97,8 @@ export default class TableView extends Component {
 
           <div className={s.body}>
             {rows}
-            <button className={s.showMore} onClick={this.increaseShownPeople}>Show more people</button>
+            {compareButton}
+            <button className={s.showMore} onClick={this.increaseShownPeople}>{strings.seeMorePeople}</button>
           </div>
         </div>
       </div>

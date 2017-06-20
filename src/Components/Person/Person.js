@@ -18,6 +18,7 @@ export default class Person extends Component {
 
     this.handleResize = this.handleResize.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.handleSelect = this.handleSelect.bind(this);
   }
 
   componentDidMount() {
@@ -87,6 +88,11 @@ export default class Person extends Component {
     this.setState({ collapsed: !collapsed });
   }
 
+  handleSelect(e) {
+    const { id, onSelect } = this.props;
+    if (onSelect) onSelect(id, e);
+  }
+
   render() {
     const { size, width } = this.state;
     const { id, title, occupation, imgurl, numberOfConnections, lastUpdate, className, profile, color, children, compact } = this.props;
@@ -144,7 +150,6 @@ export default class Person extends Component {
 
     return (
       <a
-        tabIndex={0}
         key={id}
         href={`#/person/${id}`}
         className={cx(className, s.container)}
@@ -153,7 +158,7 @@ export default class Person extends Component {
         }}
       >
         <div className={cx(s.cell)}>
-          <Checkbox labelHidden>{title}</Checkbox>
+          <Checkbox callback={this.handleSelect} labelHidden>{title}</Checkbox>
         </div>
         <div className={cx(s.cell, s['cell--informacionBasica'], { [s.grow]: size > 2 }, { [s.xgrow]: width < 625 })}>
           <div className={s.photo} style={{ backgroundImage: `url(${imgurl})` }} />
