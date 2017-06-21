@@ -58,7 +58,7 @@ export default class PersonView extends Component {
 
   getPeople(connections) {
     const { show, searchText } = this.state;
-    return connections.map((child) => {
+    return connections.map((child, i) => {
       const { id } = child;
       if (searchText &&
         child.title.toLowerCase().indexOf(searchText) === -1 &&

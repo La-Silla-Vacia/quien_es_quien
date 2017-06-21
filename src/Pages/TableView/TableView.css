@@ -35,7 +35,7 @@
 .body {
   display: block;
   min-height: 28em;
-  max-height: calc(80vh - 10em);
+  //max-height: calc(80vh - 10em);
   overflow: scroll;
   resize: vertical;
 }

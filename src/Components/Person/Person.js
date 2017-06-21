@@ -75,7 +75,7 @@ export default class Person extends Component {
     return (
       <div className={s.bio}>
         <div dangerouslySetInnerHTML={{ __html: doc }} />
-        <a href={`/${slug}`} className={t.link}>+ VER PERFIL</a>
+        <a href={`http://lasillavacia.com/${slug}`} className={t.link}>+ VER PERFIL</a>
       </div>
     )
   }
