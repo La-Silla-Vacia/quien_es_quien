@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { HashRouter, Route } from 'react-router-dom';
 
-import TableView from './Pages/TableView';
-import PersonView from './Pages/PersonView';
-import CompareView from './Pages/CompareView';
+import TableView from './Views/TableView';
+import PersonView from './Views/PersonView';
+import CompareView from './Views/CompareView';
 
 import Breadcrumbs from './Components/Breadcrumbs';
 
