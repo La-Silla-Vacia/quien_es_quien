@@ -80,7 +80,8 @@ export default class TableView extends Component {
   }
 
   render() {
-    const { width, selected, mutualConnections } = this.state;
+    const { show, width, selected, mutualConnections } = this.state;
+    const { people } = this.props;
     const text = (selected.length === 1) ? strings.oneMorePerson : (
       <div><span className={s.compareButton__number}>{mutualConnections}</span> {strings.mutualConnections}</div>);
     let compareButton;
@@ -96,6 +97,9 @@ export default class TableView extends Component {
 
     // console.log(width);
     const rows = this.getRows();
+    const showMoreButton = (show < people.length) ? (
+      <button className={s.showMore} onClick={this.increaseShownPeople}>{strings.seeMorePeople}</button>
+    ) : false;
     return (
       <div className={s.container}>
         <SearchBar onChange={this.handleSearchChange} />
@@ -113,7 +117,7 @@ export default class TableView extends Component {
           <div className={s.body}>
             {rows}
             {compareButton}
-            <button className={s.showMore} onClick={this.increaseShownPeople}>{strings.seeMorePeople}</button>
+            {showMoreButton}
           </div>
         </div>
       </div>
