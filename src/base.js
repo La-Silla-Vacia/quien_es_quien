@@ -157,9 +157,20 @@ class Base extends Component {
     )
   }
 
-  tableView(state) {
+  tableView(state, params) {
+    const rawIds = params.match.params.id;
+    const ids = (rawIds) ? rawIds.split(',').filter(String) : false;
+    let customState = state;
+    if (ids) {
+      const originalPeople = state.people;
+      const people = [];
+      for (let person of originalPeople) {
+        if(ids.indexOf(person.id) !== -1) people.push(person);
+      }
+      customState.people = people;
+    }
     return (
-      <TableView {...state} />
+      <TableView {...customState} />
     )
   }
 
@@ -174,6 +185,7 @@ class Base extends Component {
             <div>
               <Route path="/person/:id" component={this.breadCrumbs.bind(true, peopleLookup)} />
               <Route exact path="/" component={this.tableView.bind(true, this.state)} />
+              <Route exact path="/limit/:id" component={this.tableView.bind(true, this.state)} />
               <Route exact path="/person/:id" component={this.personView.bind(true, this.state)} />
               <Route exact path="/compare/:id" component={this.compareView.bind(this, this.state)} />
             </div>
