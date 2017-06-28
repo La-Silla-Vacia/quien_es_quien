@@ -97,7 +97,7 @@ export default class TableView extends Component {
 
     // console.log(width);
     const rows = this.getRows();
-    const showMoreButton = (show < people.length) ? (
+    const showMoreButton = (show < people.length && show === rows.filter(n => n).length) ? (
       <button className={s.showMore} onClick={this.increaseShownPeople}>{strings.seeMorePeople}</button>
     ) : false;
     return (
