@@ -25,7 +25,12 @@
   width: 50%;
   align-items: center;
   position: relative;
+  flex-direction: column;
   z-index: 1;
+
+  & > div {
+    margin-bottom: 1em;
+  }
 }
 
 .group {

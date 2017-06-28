@@ -6,6 +6,8 @@ import s from './TableView.css';
 import Person from "../../Components/Person";
 import SearchBar from "../../Components/SearchBar";
 
+import getMutualConnections from '../../functions/getMutualConnections';
+
 export default class TableView extends Component {
 
   constructor() {
@@ -15,6 +17,7 @@ export default class TableView extends Component {
       show: 10,
       width: 400,
       selected: [],
+      mutualConnections: 0,
       searchText: ''
     };
 
@@ -63,8 +66,9 @@ export default class TableView extends Component {
       const index = selected.indexOf(id);
       if (index > -1) selected.splice(index, 1);
     }
-    console.log(selected);
-    this.setState({ selected });
+
+    const mutualConnections = getMutualConnections(selected, this.props);
+    this.setState({ selected, mutualConnections: mutualConnections.length });
   }
 
   increaseShownPeople() {
@@ -76,10 +80,20 @@ export default class TableView extends Component {
   }
 
   render() {
-    const { width, selected } = this.state;
-    const compareButton = (selected.length) ? (
-      <Link to={`/compare/${selected.join(',')}`} className={s.compareButton}>{strings.compare}</Link>
-    ) : false;
+    const { width, selected, mutualConnections } = this.state;
+    const text = (selected.length === 1) ? strings.oneMorePerson : (
+      <div><span className={s.compareButton__number}>{mutualConnections}</span> {strings.mutualConnections}</div>);
+    let compareButton;
+    if (selected.length && (selected.length > 1 && mutualConnections > 0)) {
+      compareButton = (
+        <Link to={`/compare/${selected.join(',')}`} className={s.compareButton}>{text}</Link>
+      )
+    } else if (selected.length) {
+      compareButton = (
+        <div className={s.compareButton}>{text}</div>
+      )
+    }
+
     // console.log(width);
     const rows = this.getRows();
     return (
@@ -90,7 +104,7 @@ export default class TableView extends Component {
             this.tableHead = el
           }} className={s.row} style={{ display: 'block' }}>
             <div className={s.head} style={{ width: '8em' }}>{strings.compare}</div>
-            <div className={s.head} style={{ width: '24em' }}>Información básica</div>
+            <div className={s.head} style={{ width: '24em' }}>{strings.basicInformation}</div>
             <div className={cx(s.head, { [s.hidden]: width < 1088 })} style={{ width: '25.5em' }}>Ocupación</div>
             <div className={cx(s.head, { [s.hidden]: width < 456 })} style={{ width: '8em' }}>Total conexiones</div>
             <div className={cx(s.head, { [s.hidden]: width < 688 })} />
