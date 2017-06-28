@@ -36,8 +36,8 @@
   display: block;
   min-height: 28em;
   //max-height: calc(80vh - 10em);
-  overflow: scroll;
-  resize: vertical;
+  //overflow: scroll;
+  //resize: vertical;
 }
 
 .foot {
@@ -162,5 +162,12 @@
     & div {
       transform: scale(1.075);
     }
+  }
+
+  @media only screen and (max-width: 580px) {
+    font-size: .75em;
+    bottom: 6em;
+    right: 2em;
+    left: inherit;
   }
 }

@@ -8,6 +8,10 @@
   padding: 0 0.5em var(--size-checkbox) calc(var(--size-checkbox) + 1em);
   height: 100%;
   margin: 0 -0.5em;
+
+  @media only screen and (max-width: 420px) {
+    padding: 1.25em;
+  }
 }
 
 .input,

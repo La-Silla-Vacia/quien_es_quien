@@ -13,6 +13,15 @@
       display: block;
     }
 
+    & > div {
+      margin-bottom: 1em;
+      width: 100%;
+
+      & > div p {
+        display: none;
+      }
+    }
+
     & .leftGroup,
     & .connections {
       width: 100%;
