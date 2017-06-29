@@ -177,7 +177,9 @@ class Base extends Component {
     const types = [];
     connections.map((rawConnection) => {
       const { category, target, source, color } = rawConnection;
+      if (!peopleLookup[target]) return;
       const connection = (peopleLookup[target].id === id) ? peopleLookup[source] : peopleLookup[target];
+      if (!connection) return;
       let inArray;
       types.map((type) => {
         if (type.name === category) {

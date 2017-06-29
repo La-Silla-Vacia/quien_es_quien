@@ -58,6 +58,7 @@
 
     &.xgrow {
       flex-grow: 1;
+      max-width: calc(100% - 2.5em);
     }
 
     & .text {
