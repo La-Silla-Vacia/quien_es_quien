@@ -36,7 +36,7 @@ To embed on a webpage use this code:
 <img src="https://raw.githubusercontent.com/la-silla-vacia/lsv-interactive/master/misc/lsvi-loading.gif"
      alt="Interactive is loading" style="width:100%;max-width: 320px;margin: 4em auto;display: block;">
 </div>
-<script defer type="text/javascript" src="https://la-silla-vacia.github.io/quien_es_quien/script.js"></script>
+<script defer type="text/javascript" src="https://cdn.rawgit.com/La-Silla-Vacia/quien_es_quien/gh-pages/script.js"></script>
 <!-- END OF THE QUIEN ES QUIEN -->
 ```
 
@@ -50,7 +50,7 @@ If you want to load it on a given page, you can provide it with additional data.
      alt="Interactive is loading" style="width:100%;max-width: 320px;margin: 4em auto;display: block;">
 </div>
 <script>window.quien_es_quien__data = {show: 'person/56475'}</script>
-<script defer type="text/javascript" src="https://la-silla-vacia.github.io/quien_es_quien/script.js"></script>
+<script defer type="text/javascript" src="https://cdn.rawgit.com/La-Silla-Vacia/quien_es_quien/gh-pages/script.js"></script>
 <!-- END OF THE QUIEN ES QUIEN -->
 ```
 
