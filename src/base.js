@@ -57,7 +57,7 @@ class Base extends Component {
         this.fetchData(uri);
       }
     } else {
-      console.log('doesnt exist', now);
+      // console.log('doesnt exist', now);
       this.fetchData(uri);
     }
   }
@@ -139,11 +139,13 @@ class Base extends Component {
         views
       };
     });
+
     people.sort(function (a, b) {
-      return (a.numberOfConnections < b.numberOfConnections) ? 1 : ((b.numberOfConnections < a.numberOfConnections) ? -1 : 0);
-    });
-    people.sort(function (a, b) {
-      return (a.views < b.views) ? 1 : ((b.views < a.views) ? -1 : 0);
+      if (a.labels.length === b.labels.length) {
+        return (a.numberOfConnections < b.numberOfConnections) ? 1 : ((b.numberOfConnections < a.numberOfConnections) ? -1 : 0);
+      } else {
+        return (a.labels.length < b.labels.length) ? 1 : ((b.labels.length < a.labels.length) ? -1 : 0);
+      }
     });
 
     return people;
