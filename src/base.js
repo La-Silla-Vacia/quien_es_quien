@@ -43,7 +43,23 @@ class Base extends Component {
   }
 
   setData() {
-    this.fetchData('http://desarrollo.lasillavacia.com/quienesquien/personas/nodesjsonv2');
+    const uri = 'http://desarrollo.lasillavacia.com/quienesquien/personas/nodesjsonv2';
+    const now = Math.floor(new Date().getTime() / 1000);
+    const retrieveData = localStorage.getItem('qesq_data');
+    const dataTime = localStorage.getItem('qesq_data-time');
+    if (retrieveData && dataTime) {
+      // if it's newer than 15 minutes, show
+      if (dataTime > now - 900) {
+        setTimeout(() => {
+          this.formatData(JSON.parse(retrieveData));
+        }, 50);
+      } else {
+        this.fetchData(uri);
+      }
+    } else {
+      console.log('doesnt exist', now);
+      this.fetchData(uri);
+    }
   }
 
   fetchData(uri) {
@@ -51,6 +67,9 @@ class Base extends Component {
       .then((response) => {
         return response.json();
       }).then((json) => {
+      const now = Math.floor(new Date().getTime() / 1000);
+      localStorage.setItem('qesq_data', JSON.stringify(json));
+      localStorage.setItem('qesq_data-time', now);
       this.formatData(json);
     }).catch((ex) => {
       console.log('parsing failed', ex)
