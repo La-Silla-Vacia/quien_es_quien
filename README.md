@@ -1,29 +1,7 @@
-Source files for quien_es_quien
+Quien es quien
 =====
 
-## Description
-
-Please provide a short description of this project
 ![](https://raw.githubusercontent.com/la-silla-vacia/quien_es_quien/master/screenshot.png)
-
-## Data
-Please link to any external data used, as well as scripts for cleaning and analyzing that data, all of which should live in the `/data` directory.
-
-## Installation
-After cloning the repository run:
-```console
-yarn install
-```
-
-To start watching the project and opening in the browser run:
-```console
-yarn start
-```
-
-To deploy to GitHub pages run:
-```console
-yarn run deploy
-```
 
 ---
 
@@ -75,3 +53,23 @@ If you want to load it on a given page, you can provide it with additional data.
 <script defer type="text/javascript" src="https://la-silla-vacia.github.io/quien_es_quien/script.js"></script>
 <!-- END OF THE QUIEN ES QUIEN -->
 ```
+
+---
+
+## Want to work on it?
+After cloning the repository run:
+```console
+yarn install
+```
+
+To start watching the project and opening in the browser run:
+```console
+yarn start
+```
+
+To deploy to GitHub pages run:
+```console
+yarn run deploy
+```
+
+---
