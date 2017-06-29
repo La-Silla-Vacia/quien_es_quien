@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { HashRouter, Route } from 'react-router-dom';
+import { HashRouter, Route, Redirect } from 'react-router-dom';
 
 import TableView from './Views/TableView';
 import PersonView from './Views/PersonView';
@@ -22,13 +22,24 @@ class Base extends Component {
       connections: [],
       width: 400,
       peopleLookup: {},
-      currentPerson: false
+      currentPerson: false,
+      redirectTo: false,
+      redirected: false
     };
     self = this;
   }
 
   componentWillMount() {
     this.setData();
+  }
+
+  componentDidMount() {
+    if (typeof quien_es_quien__data === 'object') {
+      const data = quien_es_quien__data;
+      if (data.show) {
+        this.setState({ 'redirectTo': data.show });
+      }
+    }
   }
 
   setData() {
@@ -165,7 +176,7 @@ class Base extends Component {
       const originalPeople = state.people;
       const people = [];
       for (let person of originalPeople) {
-        if(ids.indexOf(person.id) !== -1) people.push(person);
+        if (ids.indexOf(person.id) !== -1) people.push(person);
       }
       customState.people = people;
     }
@@ -192,7 +203,7 @@ class Base extends Component {
   }
 
   render() {
-    const { people, peopleLookup } = this.state;
+    const { people, peopleLookup, redirected, redirectTo } = this.state;
     const { title } = strings;
 
     let content = (people.length) ?
@@ -200,6 +211,7 @@ class Base extends Component {
         <div className={s.wrap}>
           <HashRouter {...this.state}>
             <div>
+              {(!redirected && redirectTo) ? (<Redirect to={redirectTo} push />) : false}
               <Route path="/person/:id" component={this.breadCrumbs.bind(true, peopleLookup)} />
               <Route exact path="/" component={this.tableView.bind(true, this.state)} />
               <Route exact path="/hilos/:id" component={this.hilosView.bind(true, this.state)} />
