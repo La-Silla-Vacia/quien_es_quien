@@ -48,6 +48,9 @@
   &--informacionBasica {
     flex-basis: 30%;
     flex-grow: 0;
+    &:not(.grow) {
+      max-width: 20.5em;
+    }
 
     &.grow {
       flex-basis: 50%;
@@ -64,6 +67,10 @@
 
   &--occupation {
     flex-basis: 20%;
+
+    &:not(.grow) {
+      max-width: 22em;
+    }
   }
 
   &--labels {

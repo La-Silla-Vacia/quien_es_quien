@@ -39,6 +39,11 @@
 
   & > div {
     margin-bottom: 1em;
+    width: 100%;
+
+    & > div p {
+      display: none;
+    }
   }
 }
 

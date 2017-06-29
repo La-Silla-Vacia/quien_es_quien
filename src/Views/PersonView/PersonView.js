@@ -79,6 +79,7 @@ export default class PersonView extends Component {
 
     let i = 0;
     return connections.map((child, index) => {
+      if (!child) return;
       const { id } = child;
       if (searchText &&
         child.title.toLowerCase().indexOf(searchText) === -1 &&

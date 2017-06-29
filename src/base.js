@@ -43,7 +43,7 @@ class Base extends Component {
   }
 
   setData() {
-    this.fetchData('data/data.json');
+    this.fetchData('http://desarrollo.lasillavacia.com/quienesquien/personas/nodesjsonv2');
   }
 
   fetchData(uri) {
@@ -87,36 +87,77 @@ class Base extends Component {
   }
 
   formatPerson(rawPeople) {
-    const people = [];
-    rawPeople.map((rawPerson) => {
-      const person = {
-        id: rawPerson.id,
-        title: rawPerson.label,
-        occupation: (rawPerson.Ocupación) ? rawPerson.Ocupación : 'Sin definir',
-        imgurl: rawPerson.imgurl,
-        bio: (rawPerson.perfilito) ? rawPerson.perfilito : ['Sin definir'],
-        slug: rawPerson.slug,
-        numberOfConnections: rawPerson.nconnections,
-        numberOfPersonalConnections: rawPerson.nRelPersonal,
-        numberOfWorkConnections: rawPerson.nRelLaboral,
-        numberOfRivalryConnections: rawPerson.nRelRivalidad,
-        numberOfAllianceConnections: rawPerson.nRelAlianza,
-        hilos: rawPerson.hilos,
-        lastUpdate: '20170510'
-      };
+    const people = rawPeople.map((rawPerson) => {
+      const labels = [];
+      const now = Math.floor(new Date().getTime() / 1000);
+      const changed = Number(rawPerson.changed);
+      const created = Number(rawPerson.created);
+      const views = Number(rawPerson.views);
+      const dayInSeconds = 86400;
+      if (created > (now - dayInSeconds * 21)) {
+        labels.push('Nuevo');
+        // console.log(rawPerson.name, created);
+      } else if (changed > (now - dayInSeconds * 21)) {
+        labels.push('Actualizado');
+        // console.log(rawPerson.name, changed);
+      }
 
-      people.push(person);
+      if (views > 30000) {
+        labels.push('Popular');
+        // console.log(rawPerson.name, views);
+      }
+
+      return {
+        id: rawPerson.id,
+        title: rawPerson.name,
+        occupation: (rawPerson.occupation) ? rawPerson.occupation : 'Sin definir',
+        imgurl: rawPerson.photo,
+        bio: (rawPerson.perfil) ? rawPerson.perfil : ['Sin definir'],
+        slug: rawPerson.slug,
+        numberOfConnections: rawPerson.nConnections,
+        hilos: rawPerson.hilos,
+        labels: labels,
+        views
+      };
     });
+    people.sort(function (a, b) {
+      return (a.numberOfConnections < b.numberOfConnections) ? 1 : ((b.numberOfConnections < a.numberOfConnections) ? -1 : 0);
+    });
+    people.sort(function (a, b) {
+      return (a.views < b.views) ? 1 : ((b.views < a.views) ? -1 : 0);
+    });
+
     return people;
   }
 
   formatConnections(rawConnections) {
     const connections = [];
-    rawConnections.map((rawConnection) => {
-      const { category, color, id, size, source, subcategory, target } = rawConnection;
-      const newColor = (color) ? color.replace('0.45', 1).replace('0.3', 1) : color;
-      const connection = { category, color: newColor, id, size, source, subcategory, target };
+    rawConnections.map((rawConnection, index) => {
+      const { nombrecategoria, sourceid, targetid, nombretipo } = rawConnection;
+      let color = "rgb(153, 130, 188)";
+      let category = nombrecategoria;
+      if (['Familia', 'Amistad'].indexOf(nombrecategoria) !== -1) {
+        category = 'Relación personal';
+        color = 'rgb(249, 191, 118)';
+      } else if (['Trabajo'].indexOf(nombrecategoria) !== -1) {
+        category = 'Relación laboral';
+        color = 'rgb(148, 178, 197)';
+      } else if (['Alianza'].indexOf(nombrecategoria) !== -1) {
+        color = 'rgb(153, 130, 188)';
+      } else if (['Rivalidad'].indexOf(nombrecategoria) !== -1) {
+        color = 'rgb(251, 128, 114)';
+      }
+
+      const connection = {
+        category: category,
+        color: color,
+        name: nombretipo,
+        id: index + 1,
+        source: sourceid,
+        target: targetid
+      };
       connections.push(connection);
+      // console.log(connection);
     });
     return connections;
   }

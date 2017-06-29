@@ -10,7 +10,7 @@ function findMutualConnections(ids, newProps) {
     for (let rawConnection of connections) {
       const { target, source } = rawConnection;
       const connection = (peopleLookup[target].id === id) ? peopleLookup[source] : peopleLookup[target];
-
+      if (!connection) continue;
       if (allConnIds.indexOf(connection.id) === -1) {
         allConnIds.push(connection.id);
       }

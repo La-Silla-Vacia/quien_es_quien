@@ -60,21 +60,9 @@ export default class Person extends Component {
     const { bio, compact, slug } = this.props;
     if (collapser && collapsed || compact) return;
 
-    // split on double line breaks
-// note that we actually split on triple to account for the trailing
-// line break at the end of a paragraph
-    let doc = bio[0];
-    const parts = doc.split("\n");
-
-// rejoin with paragraph tags
-    doc = parts.join("</p><p>");
-
-// wrap the entire thing in open/close paragraphs
-    doc = "<p>" + doc + "</p>";
-
     return (
       <div className={s.bio}>
-        <div dangerouslySetInnerHTML={{ __html: doc }} />
+        <div dangerouslySetInnerHTML={{ __html: bio }} />
         <a href={`http://lasillavacia.com/${slug}`} className={t.link}>+ VER PERFIL</a>
       </div>
     )
@@ -95,10 +83,7 @@ export default class Person extends Component {
 
   render() {
     const { size, width } = this.state;
-    const { id, title, occupation, imgurl, numberOfConnections, lastUpdate, className, profile, color, children, compact } = this.props;
-    const labels = ['Información nueva'];
-    if (lastUpdate) labels.push('Ahora tendencia');
-
+    const { id, title, occupation, imgurl, numberOfConnections, className, profile, color, children, compact, labels } = this.props;
     const bio = this.getBio();
 
     const nameAndOccupation = (
