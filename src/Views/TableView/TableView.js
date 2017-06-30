@@ -48,10 +48,12 @@ export default class TableView extends Component {
 
   getRows() {
     const { show, searchText } = this.state;
-    const { people } = this.props;
+    const { people, allPeople } = this.props;
     let i = 0;
-    if (people)
-      return people.map((person) => {
+    let lPeople = people;
+    if (searchText.length) lPeople = allPeople;
+    if (lPeople)
+      return lPeople.map((person) => {
         if (i > show - 1) return;
         if (searchText &&
           person.title.toLowerCase().indexOf(searchText) === -1 &&

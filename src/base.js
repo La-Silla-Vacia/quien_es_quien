@@ -257,6 +257,7 @@ class Base extends Component {
         if (ids.indexOf(person.id) !== -1) nPeople.push(person);
       }
       customState.people = nPeople;
+      customState.allPeople = originalPeople;
     }
     return (
       <TableView {...customState} />
