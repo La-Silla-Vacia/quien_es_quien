@@ -1,11 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import s from './Breadcrumbs.css';
 
 const Breadcrumb = ({ children, ...props }) => (
   <li className={s.item}>
-    <a href={props.href}>
+    <Link to={props.href}>
       { children }
-    </a>
+    </Link>
   </li>
 );
 

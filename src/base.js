@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { HashRouter, Route, Redirect } from 'react-router-dom';
+import { MemoryRouter, Route, Redirect } from 'react-router-dom';
 
 import TableView from './Views/TableView';
 import PersonView from './Views/PersonView';
@@ -10,8 +10,6 @@ import Breadcrumbs from './Components/Breadcrumbs';
 import getMutualConnections from './functions/getMutualConnections';
 
 import s from './base.css';
-import t from './_typography.css';
-import strings from './strings.json';
 let self;
 class Base extends Component {
 
@@ -115,10 +113,8 @@ class Base extends Component {
       const dayInSeconds = 86400;
       if (created > (now - dayInSeconds * 21)) {
         labels.push('Nuevo');
-        // console.log(rawPerson.name, created);
       } else if (changed > (now - dayInSeconds * 21)) {
         labels.push('Actualizado');
-        // console.log(rawPerson.name, changed);
       }
 
       if (views > 30000) {
@@ -190,7 +186,7 @@ class Base extends Component {
   }
 
   personView(props, params) {
-    const { peopleLookup, connectionsLookup, breadcrumbs } = props;
+    const { peopleLookup, connectionsLookup } = props;
     const ids = params.match.params.id.split(',').filter(String);
     const id = ids[ids.length - 1];
     const person = peopleLookup[id];
@@ -212,8 +208,10 @@ class Base extends Component {
       if (!inArray) types.push({ name: category, color, connections: [connection] });
     });
 
+    const breads = ids.join(',');
+
     return (
-      <PersonView person={person} breadcrumbs={breadcrumbs} connections={types} />
+      <PersonView person={person} breadcrumbs={breads} connections={types} />
     )
   }
 
@@ -272,7 +270,7 @@ class Base extends Component {
     let content = (people.length) ?
       (
         <div className={s.wrap}>
-          <HashRouter {...this.state}>
+          <MemoryRouter {...this.state}>
             <div>
               {(!redirected && redirectTo) ? (<Redirect to={redirectTo} push />) : false}
               <Route path="/person/:id" component={this.breadCrumbs.bind(true, peopleLookup)} />
@@ -282,7 +280,7 @@ class Base extends Component {
               <Route exact path="/person/:id" component={this.personView.bind(true, this.state)} />
               <Route exact path="/compare/:id" component={this.compareView.bind(this, this.state)} />
             </div>
-          </HashRouter>
+          </MemoryRouter>
         </div>
       ) : (
         <div className={s.wrap}>

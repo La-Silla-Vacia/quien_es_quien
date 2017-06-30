@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import cx from 'classnames';
 
 import s from './Person.css';
@@ -83,7 +84,7 @@ export default class Person extends Component {
 
   render() {
     const { size, width } = this.state;
-    const { id, title, occupation, imgurl, numberOfConnections, className, profile, color, children, compact, labels } = this.props;
+    const { id, title, occupation, imgurl, numberOfConnections, className, profile, color, children, compact, labels, breads } = this.props;
     const bio = this.getBio();
 
     const nameAndOccupation = (
@@ -94,7 +95,26 @@ export default class Person extends Component {
     );
 
     const style = (color) ? { borderLeftColor: color } : {};
-    if (profile) {
+    if (compact) {
+      return (
+        <Link
+          className={cx(className, s.container, s.profile, { [s.hasLabel]: color }, { [s.compact]: compact })}
+          to={`${breads},${id}`}
+          key={id}
+          style={style}
+          ref={(person) => {
+            this.rootElement = person;
+          }}
+        >
+          <header className={s.header}>
+            <div className={s.photo} style={{ backgroundImage: `url(${imgurl})` }} />
+            {nameAndOccupation}
+          </header>
+          {bio}
+          {children}
+        </Link>
+      )
+    } else if (profile) {
       return (
         <div
           className={cx(className, s.container, s.profile, { [s.hasLabel]: color }, { [s.compact]: compact })}
@@ -134,9 +154,9 @@ export default class Person extends Component {
     );
 
     return (
-      <a
+      <Link
         key={id}
-        href={`#/person/${id}`}
+        to={`/person/${id}`}
         className={cx(className, s.container)}
         ref={(person) => {
           this.rootElement = person;
@@ -152,7 +172,7 @@ export default class Person extends Component {
         {occupationElement}
         {connectionElement}
         {labelsElement}
-      </a>
+      </Link>
     )
   }
 }

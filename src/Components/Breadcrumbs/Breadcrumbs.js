@@ -11,14 +11,14 @@ export default class Breadcrumbs extends Component {
     const items = [
       {
         'title': 'Inicio',
-        'link': '#/'
+        'link': '/'
       }
     ];
 
     if (url) {
       const ids = url.split(',').filter(String);
 
-      let link = '#/person/';
+      let link = '/person/';
       ids.map((id) => {
         const person = peopleLookup[id];
         if (person) {

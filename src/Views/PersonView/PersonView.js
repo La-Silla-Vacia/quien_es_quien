@@ -75,6 +75,7 @@ export default class PersonView extends Component {
   getPeople(connection) {
     const { name, color, connections } = connection;
     const { show, searchText, width } = this.state;
+    const { breadcrumbs } = this.props;
     const peopleToShow = (show[name]) ? show[name] : 3;
 
     let i = 0;
@@ -94,7 +95,7 @@ export default class PersonView extends Component {
       );
 
       return (
-        <Person key={id} color={color} {...child} profile compact>
+        <Person key={id} breads={breadcrumbs} color={color} {...child} profile compact>
           {anchor}
         </Person>
       )
