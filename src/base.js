@@ -268,7 +268,6 @@ class Base extends Component {
 
   render() {
     const { people, peopleLookup, redirected, redirectTo } = this.state;
-    const { title } = strings;
 
     let content = (people.length) ?
       (
@@ -293,9 +292,6 @@ class Base extends Component {
 
     return (
       <div className={s.container}>
-        <header className={s.header}>
-          <h2 className={t.title__main}><a href="#/">{title}</a></h2>
-        </header>
         {content}
       </div>
     );
