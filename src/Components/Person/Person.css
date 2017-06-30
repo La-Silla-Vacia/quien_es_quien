@@ -58,7 +58,7 @@
 
     &.xgrow {
       flex-grow: 1;
-      max-width: calc(100% - 2.5em);
+      max-width: 100%;
     }
 
     & .text {
@@ -180,6 +180,7 @@
 .link {
   display: flex;
   width: 100%;
+  overflow: hidden;
 
   .cell:first-child {
     border-left: 0;
