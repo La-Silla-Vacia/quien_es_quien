@@ -144,9 +144,8 @@ export default class Person extends Component {
     );
 
     return (
-      <Link
+      <div
         key={id}
-        to={`/person/${id}`}
         className={cx(className, s.container)}
         ref={(person) => {
           this.rootElement = person;
@@ -155,14 +154,16 @@ export default class Person extends Component {
         <div className={cx(s.cell)}>
           <Checkbox callback={this.handleSelect} labelHidden>{title}</Checkbox>
         </div>
-        <div className={cx(s.cell, s['cell--informacionBasica'], { [s.grow]: size > 2 }, { [s.xgrow]: width < 625 })}>
-          <div className={s.photo} style={{ backgroundImage: `url(${imgurl})` }} />
-          {nameAndOccupation}
-        </div>
-        {occupationElement}
-        {connectionElement}
-        {labelsElement}
-      </Link>
+        <Link className={s.link} to={`/person/${id}`}>
+          <div className={cx(s.cell, s['cell--informacionBasica'], { [s.grow]: size > 2 }, { [s.xgrow]: width < 625 })}>
+            <div className={s.photo} style={{ backgroundImage: `url(${imgurl})` }} />
+            {nameAndOccupation}
+          </div>
+          {occupationElement}
+          {connectionElement}
+          {labelsElement}
+        </Link>
+      </div>
     )
   }
 }

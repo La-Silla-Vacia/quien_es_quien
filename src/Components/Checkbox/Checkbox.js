@@ -10,14 +10,14 @@ class Checkbox extends Component {
   }
 
   handleChange(e) {
-    const {callback} = this.props;
+    const { callback } = this.props;
     if (callback) callback(e.target.checked);
   }
 
   render() {
     const { id, labelHidden, children } = this.props;
     return (
-      <div className={cx(s.container, { [s.noLabel]: labelHidden })}>
+      <div className={cx(s.container, { [s.noLabel]: labelHidden })} onClick={this.handleClick}>
         <input className={cx(s.input)} onChange={this.handleChange} id={`select-${id}`} type="checkbox" />
         <label className={cx(s.label)} htmlFor={`select-${id}`}>
           <span className={s.content}>{children}</span>
