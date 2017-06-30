@@ -25,6 +25,8 @@ class Base extends Component {
       redirected: false
     };
     self = this;
+
+    this.changeRoute = this.changeRoute.bind(this);
   }
 
   componentWillMount() {
@@ -37,7 +39,13 @@ class Base extends Component {
       if (data.show) {
         this.setState({ 'redirectTo': data.show });
       }
+      data.switch = this.changeRoute;
     }
+  }
+
+  changeRoute(to) {
+    this.setState({ redirected: false, redirectTo: to });
+    console.log('changing route to: ', to);
   }
 
   setData() {
@@ -264,15 +272,29 @@ class Base extends Component {
     )
   }
 
-  render() {
-    const { people, peopleLookup, redirected, redirectTo } = this.state;
+  getRedirect() {
+    const { redirected, redirectTo } = this.state;
+    if (redirectTo && !redirected) {
+      this.setState({redirected: true});
+      return (
+        <Redirect to={redirectTo} />
+      )
+    }
+  }
 
+  render() {
+    const { people, peopleLookup } = this.state;
+    const redirect = this.getRedirect();
     let content = (people.length) ?
       (
         <div className={s.wrap}>
-          <MemoryRouter {...this.state}>
+          <MemoryRouter
+            {...this.state}
+            // initialEntries={[{ pathname: redirectTo } ]}
+            // initialIndex={1}
+          >
             <div>
-              {(!redirected && redirectTo) ? (<Redirect to={redirectTo} push />) : false}
+              {redirect}
               <Route path="/person/:id" component={this.breadCrumbs.bind(true, peopleLookup)} />
               <Route exact path="/" component={this.tableView.bind(true, this.state)} />
               <Route exact path="/hilos/:id" component={this.hilosView.bind(true, this.state)} />

@@ -18,7 +18,6 @@ export default class Person extends Component {
     };
 
     this.handleResize = this.handleResize.bind(this);
-    this.handleClick = this.handleClick.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
   }
 
@@ -69,14 +68,6 @@ export default class Person extends Component {
     )
   }
 
-  handleClick() {
-    const { compact, id } = this.props;
-    const { collapser, collapsed } = this.state;
-    if (compact) window.location = window.location + `,${id}`;
-    if (!collapser) return;
-    this.setState({ collapsed: !collapsed });
-  }
-
   handleSelect(e) {
     const { id, onSelect } = this.props;
     if (onSelect) onSelect(id, e);
@@ -118,7 +109,6 @@ export default class Person extends Component {
       return (
         <div
           className={cx(className, s.container, s.profile, { [s.hasLabel]: color }, { [s.compact]: compact })}
-          onClick={this.handleClick}
           key={id}
           style={style}
           ref={(person) => {
