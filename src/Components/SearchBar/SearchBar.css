@@ -43,6 +43,7 @@
   left: 0.5em;
   width: calc(var(--size-input) * 0.7);
   height: calc(var(--size-input) * 0.7);
+  overflow: visible !important;
 
   &__circle {
     fill: none;

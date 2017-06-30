@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { MemoryRouter, Route, Redirect } from 'react-router-dom';
+import { MemoryRouter, Route } from 'react-router-dom';
+import Redirect from './Components/Redirect';
 
 import TableView from './Views/TableView';
 import PersonView from './Views/PersonView';
@@ -47,7 +48,7 @@ class Base extends Component {
 
   changeRoute(to) {
     this.setState({ redirected: false, redirectTo: to });
-    console.log('changing route to: ', to);
+    // console.log('changing route to: ', to);
   }
 
   setData() {
@@ -243,14 +244,19 @@ class Base extends Component {
   tableView(state, params) {
     const rawIds = params.match.params.id;
     const ids = (rawIds) ? rawIds.split(',').filter(String) : false;
-    let customState = state;
+    let customState = {
+      people: state.people,
+      connections: state.connections,
+      connectionsLookup: state.connectionsLookup,
+      peopleLookup: state.peopleLookup
+    };
     if (ids) {
       const originalPeople = state.people;
-      const people = [];
+      const nPeople = [];
       for (let person of originalPeople) {
-        if (ids.indexOf(person.id) !== -1) people.push(person);
+        if (ids.indexOf(person.id) !== -1) nPeople.push(person);
       }
-      customState.people = people;
+      customState.people = nPeople;
     }
     return (
       <TableView {...customState} />
@@ -274,30 +280,24 @@ class Base extends Component {
     )
   }
 
-  getRedirect() {
-    const { redirected, redirectTo } = this.state;
-    if (redirectTo && !redirected) {
-      this.setState({redirected: true});
-      console.log(redirectTo);
-      return (
-        <Redirect to={redirectTo} />
-      )
-    }
+  getRedirect(params) {
+    return (
+      <Redirect {...this.state} params={params} />
+    )
   }
 
   render() {
     const { people, peopleLookup } = this.state;
-    const redirect = this.getRedirect();
+    // console.log(people);
+    // const redirect = this.getRedirect();
     let content = (people.length) ?
       (
         <div className={s.wrap}>
           <MemoryRouter
             {...this.state}
-            // initialEntries={[{ pathname: redirectTo } ]}
-            // initialIndex={1}
           >
             <div>
-              {redirect}
+              <Route path="/" component={this.getRedirect.bind(this)} />
               <Route path="/person/:id" component={this.breadCrumbs.bind(true, peopleLookup)} />
               <Route path="/compare/:id" component={this.breadCrumbs.bind(true, false)} />
               <Route exact path="/" component={this.tableView.bind(true, this.state)} />
