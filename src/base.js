@@ -37,7 +37,9 @@ class Base extends Component {
     if (typeof quien_es_quien__data === 'object') {
       const data = quien_es_quien__data;
       if (data.show) {
-        this.setState({ 'redirectTo': data.show });
+        setTimeout(() => {
+          this.setState({ 'redirectTo': data.show });
+        }, 60);
       }
       data.switch = this.changeRoute;
     }
@@ -276,6 +278,7 @@ class Base extends Component {
     const { redirected, redirectTo } = this.state;
     if (redirectTo && !redirected) {
       this.setState({redirected: true});
+      console.log(redirectTo);
       return (
         <Redirect to={redirectTo} />
       )
@@ -296,6 +299,7 @@ class Base extends Component {
             <div>
               {redirect}
               <Route path="/person/:id" component={this.breadCrumbs.bind(true, peopleLookup)} />
+              <Route path="/compare/:id" component={this.breadCrumbs.bind(true, false)} />
               <Route exact path="/" component={this.tableView.bind(true, this.state)} />
               <Route exact path="/hilos/:id" component={this.hilosView.bind(true, this.state)} />
               <Route exact path="/limit/:id" component={this.tableView.bind(true, this.state)} />

@@ -113,8 +113,8 @@ export default class TableView extends Component {
           <div ref={(el) => {
             this.tableHead = el
           }} className={s.row} style={{ display: 'block' }}>
-            <div className={s.head} style={{ width: '8.5em' }}>{strings.compare}</div>
-            <div className={s.head} style={{ width: (width > 1088) ? '21em' : '27em' }}>{strings.basicInformation}</div>
+            <div className={s.head} style={{ width: '9em' }}>{strings.compare}</div>
+            <div className={s.head} style={{ width: (width > 1088) ? '20.5em' : '27em' }}>{strings.basicInformation}</div>
             <div className={cx(s.head, { [s.hidden]: width < 1088 })} style={{ width: '27.5em' }}>Ocupación</div>
             <div className={cx(s.head, { [s.hidden]: width < 456 })} style={{ width: '8em' }}>Total conexiones</div>
             <div className={cx(s.head, { [s.hidden]: width < 688 })} />
