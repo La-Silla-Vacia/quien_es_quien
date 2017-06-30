@@ -56,6 +56,13 @@ If you want to load it on a given page, you can provide it with additional data.
 
 ---
 
+If you need to change the route from a function, you can call: 
+```javascript
+quien_es_quien__data.switch('/your/destination');
+```
+
+---
+
 ## Want to work on it?
 After cloning the repository run:
 ```console
