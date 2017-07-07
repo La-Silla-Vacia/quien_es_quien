@@ -141,7 +141,7 @@ export default class PersonView extends Component {
 
       return (
         <div key={connection.name} className={cx(s.group, { [s['group--margin']]: viewMore })}>
-          <h4 className={t.sectionTitle}>{name}</h4>
+          <h4 className={connection.name == "Relación laboral"? t.sectionTitleWork: connection.name == "Relación personal" ? t.sectionTitlePersonal: connection.name == "Alianza" ? t.sectionTitleAlliance : t.sectionTitleRivalry}>{name}</h4>
           {people}
           {viewMoreButton}
         </div>

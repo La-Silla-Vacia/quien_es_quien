@@ -20,6 +20,23 @@
   font-size: 0.875em;
 }
 
+.sectionTitlePersonal{
+  color: rgb(249, 191, 118);
+}
+
+.sectionTitleWork{
+  color: rgb(148, 178, 197);
+}
+
+.sectionTitleAlliance{
+  color: rgb(153, 130, 188);
+}
+
+.sectionTitleRivalry{
+  color: rgb(251, 128, 114);
+}
+
+
 .link {
   color: map(colors, primary, base);
   font-weight: 900;

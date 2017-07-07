@@ -25,6 +25,6 @@
 }
 
 .wrap {
-  background-color: var(--brand-color--light);
+  background-color: var(--brand-color--dark);
   padding: 1em;
 }
