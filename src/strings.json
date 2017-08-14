@@ -6,5 +6,6 @@
   "oneMorePerson": "Seleccionar una persona más para compararlos",
   "compare": "Comparar",
   "mutualConnections": "conexiones mutuas",
-  "basicInformation": "Información básica"
+  "basicInformation": "Información básica",
+  "noPersonsFound": "No se encontraron personas"
 }

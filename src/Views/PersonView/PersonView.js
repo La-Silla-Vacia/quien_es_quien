@@ -3,6 +3,7 @@ import cx from 'classnames';
 
 import s from './PersonView.css';
 import t from '../../_typography.css';
+import strings from '../../strings.json';
 import Person from "../../Components/Person";
 import SearchBar from "../../Components/SearchBar";
 import ConnectionWires from "../../Components/ConnectionWires/ConnectionWires";
@@ -142,7 +143,7 @@ export default class PersonView extends Component {
 
       return (
         <div key={connection.name} className={cx(s.group, { [s['group--margin']]: viewMore })}>
-          <h4 className={connection.name == "Relación laboral"? t.sectionTitleWork: connection.name == "Relación personal" ? t.sectionTitlePersonal: connection.name == "Alianza" ? t.sectionTitleAlliance : t.sectionTitleRivalry}>{name}</h4>
+          <h4 style={{ color: connection.color }}>{name}</h4>
           {people}
           {viewMoreButton}
         </div>
@@ -170,7 +171,7 @@ export default class PersonView extends Component {
     const { width, height, rerender, searchText } = this.state;
     const titles = this.getTitles();
     const connections = this.getConnections();
-    const result = (connections.length) ? connections : (<h4>No se encontraron personas</h4>);
+    const result = (connections.length) ? connections : (<h4 className={t.sectionTitle}>{strings.noPersonsFound}</h4>);
     // console.log(width);
     const rootBB = (this.rootElement) ? this.rootElement.getBoundingClientRect() : false;
 
