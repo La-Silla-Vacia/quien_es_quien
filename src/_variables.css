@@ -1,7 +1,8 @@
 :root {
   /* Colors */
   --brand-color: #675FB5;
-  --brand-color--light: rgba(103, 95, 181, .75);
+  --brand-color--dark: #444848;
+  --brand-color--light: #f7f7fb;
   --color-black: map(colors, primary, dark);
   --color-white: #fff;
 
