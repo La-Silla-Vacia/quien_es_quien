@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import cx from 'classnames';
 
 import s from './PersonView.css';
+import p from '../../Components/Person/Person.css';
 import t from '../../_typography.css';
 import strings from '../../strings.json';
 import Person from "../../Components/Person";
@@ -82,7 +83,7 @@ export default class PersonView extends Component {
     let i = 0;
     return connections.map((child, index) => {
       if (!child) return;
-      const { id } = child;
+      const { id, relationDescription } = child;
       if (searchText &&
         child.title.toLowerCase().indexOf(searchText) === -1 &&
         child.occupation.toLowerCase().indexOf(searchText) === -1 &&
@@ -91,8 +92,9 @@ export default class PersonView extends Component {
       if (peopleToShow <= i) return;
       i++;
       if (!this.connections[name]) this.connections[name] = { targets: [] };
+      // console.log(relationDescription);
       const anchor = (width < 670) ? false : (
-        <div className={s.connectionAnchor} id={id} ref={(el) => this.connections[name].targets[index] = el} />
+        <div className={cx(s.connectionAnchor, p.popup, p['popup--compact'])} data-description={relationDescription} id={id} ref={(el) => this.connections[name].targets[index] = el} />
       );
       // console.log(connection);
 
@@ -124,6 +126,7 @@ export default class PersonView extends Component {
     const { connections } = this.props;
 
     return connections.map((connection) => {
+      // console.log(connection);
       const { name, color } = connection;
       const rawPeople = this.getPeople(connection);
       const people = [];

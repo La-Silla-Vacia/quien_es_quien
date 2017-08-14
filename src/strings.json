@@ -8,5 +8,6 @@
   "mutualConnections": "conexiones mutuas",
   "basicInformation": "Información básica",
   "noPersonsFound": "No se encontraron personas",
-  "viewProfileLinkText": "+ VER PERFIL"
+  "viewProfileLinkText": "+ VER PERFIL",
+  "undefined": "Sin definir"
 }

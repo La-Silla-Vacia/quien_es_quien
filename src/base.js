@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { MemoryRouter, Route } from 'react-router-dom';
 import Redirect from './Components/Redirect';
 
+import strings from './strings.json';
+
 import TableView from './Views/TableView';
 import PersonView from './Views/PersonView';
 import CompareView from './Views/CompareView';
@@ -109,7 +111,6 @@ class Base extends Component {
       }
       connectionsLookup[source].push(connections[i]);
       connectionsLookup[target].push(connections[i]);
-      // console.log(connections[i]);
     }
 
     this.setState({ people, peopleLookup, connections, connectionsLookup });
@@ -205,10 +206,11 @@ class Base extends Component {
     const connections = (connectionsLookup[id]) ? connectionsLookup[id] : [];
     const types = [];
     connections.map((rawConnection) => {
-      const { category, target, source, color } = rawConnection;
+      const { category, target, source, name, color } = rawConnection;
       if (!peopleLookup[target]) return;
       const connection = (peopleLookup[target].id === id) ? peopleLookup[source] : peopleLookup[target];
       if (!connection) return;
+      connection.relationDescription = (name) ? name : strings.undefined;
       let inArray;
       types.map((type) => {
         if (type.name === category) {

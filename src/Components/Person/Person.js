@@ -60,7 +60,8 @@ export default class Person extends Component {
     return (
       <div className={s.bio}>
         <div dangerouslySetInnerHTML={{ __html: bio }} />
-        {(!compact) ? (<a href={`http://lasillavacia.com/${slug}`} className={t.link}>{strings.viewProfileLinkText}</a>) : false}
+        {(!compact) ? (
+          <a href={`http://lasillavacia.com/${slug}`} className={t.link}>{strings.viewProfileLinkText}</a>) : false}
       </div>
     )
   }
@@ -70,14 +71,16 @@ export default class Person extends Component {
     if (onSelect) onSelect(id, e);
   }
 
-  handleInfoClick(e) {
+  static handleInfoClick(e) {
     e.preventDefault();
   }
 
   render() {
     const { size, width } = this.state;
-    const { id, bio, title, occupation, imgurl, numberOfConnections, className, profile, color, children, compact, labels, breads } = this.props;
+    const { id, bio, title, occupation, imgurl, numberOfConnections, className, profile, color, children, compact, labels, breads, relationDescription } = this.props;
     const formattedBio = this.getBio();
+
+    console.log(relationDescription);
 
     const nameAndOccupation = (
       <div className={s.overflow}>
@@ -110,7 +113,11 @@ export default class Person extends Component {
           }}
         >
           {basics}
-          <button onClick={this.handleInfoClick} className={s.info} data-bio={bio.replace(/<\/?[^>]+(>|$)/g, "").replace(/&#13;/g, "\n").slice(0,225)}>
+          <button
+            onClick={Person.handleInfoClick}
+            className={cx(s.info, s.popup)}
+            data-description={bio.replace(/<\/?[^>]+(>|$)/g, "").replace(/&#13;/g, "\n").slice(0, 225)}
+          >
             i
           </button>
         </Link>
