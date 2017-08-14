@@ -4,6 +4,7 @@ import cx from 'classnames';
 
 import s from './Person.css';
 import t from '../../_typography.css';
+import strings from '../../strings.json';
 import Checkbox from '../Checkbox';
 import Labels from '../Labels';
 
@@ -12,9 +13,7 @@ export default class Person extends Component {
     super();
     this.state = {
       size: 400,
-      width: 400,
-      collapser: false,
-      collapsed: true
+      width: 400
     };
 
     this.handleResize = this.handleResize.bind(this);
@@ -56,14 +55,12 @@ export default class Person extends Component {
   }
 
   getBio() {
-    const { collapser, collapsed } = this.state;
     const { bio, compact, slug } = this.props;
-    if (collapser && collapsed || compact) return;
 
     return (
       <div className={s.bio}>
         <div dangerouslySetInnerHTML={{ __html: bio }} />
-        <a href={`http://lasillavacia.com/${slug}`} className={t.link}>+ VER PERFIL</a>
+        {(!compact) ? (<a href={`http://lasillavacia.com/${slug}`} className={t.link}>{strings.viewProfileLinkText}</a>) : false}
       </div>
     )
   }
@@ -73,10 +70,14 @@ export default class Person extends Component {
     if (onSelect) onSelect(id, e);
   }
 
+  handleInfoClick(e) {
+    e.preventDefault();
+  }
+
   render() {
     const { size, width } = this.state;
-    const { id, title, occupation, imgurl, numberOfConnections, className, profile, color, children, compact, labels, breads } = this.props;
-    const bio = this.getBio();
+    const { id, bio, title, occupation, imgurl, numberOfConnections, className, profile, color, children, compact, labels, breads } = this.props;
+    const formattedBio = this.getBio();
 
     const nameAndOccupation = (
       <div className={s.overflow}>
@@ -86,6 +87,16 @@ export default class Person extends Component {
     );
 
     const style = (color) ? { borderLeftColor: color } : {};
+    const basics = (
+      <div>
+        <header className={s.header}>
+          <div className={s.photo} style={{ backgroundImage: `url(${imgurl})` }} />
+          {nameAndOccupation}
+        </header>
+        {(!compact) ? formattedBio : false}
+        {children}
+      </div>
+    );
     if (compact) {
       const link = (breads) ? `${breads},${id}` : `/person/${id}`;
       return (
@@ -98,12 +109,10 @@ export default class Person extends Component {
             this.rootElement = person;
           }}
         >
-          <header className={s.header}>
-            <div className={s.photo} style={{ backgroundImage: `url(${imgurl})` }} />
-            {nameAndOccupation}
-          </header>
-          {bio}
-          {children}
+          {basics}
+          <button onClick={this.handleInfoClick} className={s.info} data-bio={bio.replace(/<\/?[^>]+(>|$)/g, "").replace(/&#13;/g, "\n").slice(0,225)}>
+            i
+          </button>
         </Link>
       )
     } else if (profile) {
@@ -116,12 +125,7 @@ export default class Person extends Component {
             this.rootElement = person;
           }}
         >
-          <header className={s.header}>
-            <div className={s.photo} style={{ backgroundImage: `url(${imgurl})` }} />
-            {nameAndOccupation}
-          </header>
-          {bio}
-          {children}
+          {basics}
         </div>
       )
     }

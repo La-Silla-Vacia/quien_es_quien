@@ -9,5 +9,5 @@ html, body {
 
 .lsv-interactive {
   width: 100%;
-  overflow: hidden;
+  /*overflow: hidden;*/
 }
