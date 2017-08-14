@@ -89,7 +89,7 @@ export default class PersonView extends Component {
     if (!people.length) return;
 
     const viewMore = (people.length === connections.length || people.length < show);
-    const color = 'red';
+    const color = '#fff';
     const viewMoreButton = (viewMore) ? false : (
       <button className={s.group__button} onClick={this.showMore.bind(this, name)}>
         <svg viewBox="0 0 24 9">
@@ -122,9 +122,10 @@ export default class PersonView extends Component {
   getPersons() {
     const { persons } = this.props;
     return persons.map((person) => {
-      return (
-        <Person key={person.id} className={s.person} {...person} profile />
-      )
+      if (person)
+        return (
+          <Person key={person.id} className={s.person} {...person} profile />
+        )
     });
   }
 

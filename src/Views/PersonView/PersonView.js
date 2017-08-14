@@ -93,6 +93,7 @@ export default class PersonView extends Component {
       const anchor = (width < 670) ? false : (
         <div className={s.connectionAnchor} id={id} ref={(el) => this.connections[name].targets[index] = el} />
       );
+      // console.log(connection);
 
       return (
         <Person key={id} breads={breadcrumbs} color={color} {...child} profile compact>
@@ -146,7 +147,10 @@ export default class PersonView extends Component {
           {viewMoreButton}
         </div>
       )
-    });
+    })
+      .filter((n) => {
+        return n !== undefined
+      });
   }
 
   handleSearchChange(value) {
@@ -163,9 +167,10 @@ export default class PersonView extends Component {
 
   render() {
     const { person } = this.props;
-    const { width, height, rerender, searchText } = this.state
+    const { width, height, rerender, searchText } = this.state;
     const titles = this.getTitles();
     const connections = this.getConnections();
+    const result = (connections.length) ? connections : (<h4>No se encontraron personas</h4>);
     // console.log(width);
     const rootBB = (this.rootElement) ? this.rootElement.getBoundingClientRect() : false;
 
@@ -193,7 +198,7 @@ export default class PersonView extends Component {
           {wires}
           {heading}
           <div className={cx(s.connections, { [s.margin]: width < 670 })}>
-            {connections}
+            {result}
           </div>
         </div>
       </div>

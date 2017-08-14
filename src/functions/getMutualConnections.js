@@ -27,7 +27,7 @@ function findMutualConnections(ids, newProps) {
     removed = 0;
     count = 0;
     const personLoopConnections = personConnections.map((item) => {
-      return item.id
+      if (item) return item.id
     });
 
     for (let j = 0; j < allConnIds.length; j++) {
@@ -50,4 +50,5 @@ function findMutualConnections(ids, newProps) {
     return peopleLookup[connection];
   });
 }
+
 export default findMutualConnections;

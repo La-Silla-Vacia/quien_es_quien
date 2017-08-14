@@ -18,6 +18,7 @@
   font-weight: 500;
   line-height: 1.1;
   font-size: 0.875em;
+  color: var(--color-white);
 }
 
 .link {

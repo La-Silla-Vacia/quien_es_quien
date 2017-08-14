@@ -52,7 +52,7 @@
 
 .head {
   font-size: var(--font-small);
-  color: #000;
+  color: var(--color-white);
 }
 
 .cell {

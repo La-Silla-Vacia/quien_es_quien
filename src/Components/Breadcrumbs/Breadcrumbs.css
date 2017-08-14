@@ -61,17 +61,17 @@
     &:focus,
     &:hover {
       outline: none;
-      background-color: var(--brand-color--light);
+      background-color: var(--brand-color);
       text-decoration: none;
+      color: var(--color-white);
 
       &::after {
-        border-left-color: var(--brand-color--light);
+        border-left-color: var(--brand-color);
       }
     }
 
-    &:focus,
     &:active {
-      color: var(--brand-color);
+      text-decoration: underline;
     }
   }
 

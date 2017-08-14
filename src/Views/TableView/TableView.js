@@ -48,22 +48,19 @@ export default class TableView extends Component {
 
   getRows() {
     const { show, searchText } = this.state;
-    const { people, allPeople } = this.props;
+    const { people } = this.props;
     let i = 0;
-    let lPeople = people;
-    if (searchText.length) lPeople = allPeople;
-    if (lPeople)
-      return lPeople.map((person) => {
-        if (i > show - 1) return;
-        if (searchText &&
-          person.title.toLowerCase().indexOf(searchText) === -1 &&
-          person.occupation.toLowerCase().indexOf(searchText) === -1
-        ) return;
-        i++;
-        return (
-          <Person onSelect={this.handlePersonSelect} key={person.id} {...person} />
-        )
-      });
+    return people.map((person) => {
+      if (i > show - 1) return;
+      if (searchText &&
+        person.title.toLowerCase().indexOf(searchText) === -1 &&
+        person.occupation.toLowerCase().indexOf(searchText) === -1
+      ) return;
+      i++;
+      return (
+        <Person onSelect={this.handlePersonSelect} key={person.id} {...person} />
+      )
+    });
   }
 
   handlePersonSelect(id, e) {
@@ -103,7 +100,6 @@ export default class TableView extends Component {
       )
     }
 
-    // console.log(width);
     const rows = this.getRows();
     const showMoreButton = (show < people.length && show === rows.filter(n => n).length) ? (
       <button className={s.showMore} onClick={this.increaseShownPeople}>{strings.seeMorePeople}</button>
@@ -116,7 +112,8 @@ export default class TableView extends Component {
             this.tableHead = el
           }} className={s.row} style={{ display: 'block' }}>
             <div className={s.head} style={{ width: '9em' }}>{strings.compare}</div>
-            <div className={s.head} style={{ width: (width > 1088) ? '20.5em' : '27em' }}>{strings.basicInformation}</div>
+            <div className={s.head}
+                 style={{ width: (width > 1088) ? '20.5em' : '27em' }}>{strings.basicInformation}</div>
             <div className={cx(s.head, { [s.hidden]: width < 1088 })} style={{ width: '27.5em' }}>Ocupación</div>
             <div className={cx(s.head, { [s.hidden]: width < 456 })} style={{ width: '8em' }}>Total conexiones</div>
             <div className={cx(s.head, { [s.hidden]: width < 688 })} />

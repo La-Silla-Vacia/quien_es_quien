@@ -87,10 +87,11 @@ export default class Person extends Component {
 
     const style = (color) ? { borderLeftColor: color } : {};
     if (compact) {
+      const link = (breads) ? `${breads},${id}` : `/person/${id}`;
       return (
         <Link
           className={cx(className, s.container, s.profile, { [s.hasLabel]: color }, { [s.compact]: compact })}
-          to={`${breads},${id}`}
+          to={link}
           key={id}
           style={style}
           ref={(person) => {

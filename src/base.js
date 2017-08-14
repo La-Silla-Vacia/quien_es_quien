@@ -109,6 +109,7 @@ class Base extends Component {
       }
       connectionsLookup[source].push(connections[i]);
       connectionsLookup[target].push(connections[i]);
+      // console.log(connections[i]);
     }
 
     this.setState({ people, peopleLookup, connections, connectionsLookup });
@@ -171,7 +172,7 @@ class Base extends Component {
         category = 'Relación laboral';
         color = 'rgb(148, 178, 197)';
       } else if (['Alianza'].indexOf(nombrecategoria) !== -1) {
-        color = 'rgb(153, 130, 188)';
+        color = 'rgb(86, 96, 225)';
       } else if (['Rivalidad'].indexOf(nombrecategoria) !== -1) {
         color = 'rgb(251, 128, 114)';
       }
