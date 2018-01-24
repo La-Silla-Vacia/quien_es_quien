@@ -230,7 +230,8 @@
   }
 
   &:hover,
-  &:focus {
+  &:focus,
+  &[data-open] {
     outline: none;
 
     &::before,

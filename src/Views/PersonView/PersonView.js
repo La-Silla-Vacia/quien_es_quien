@@ -94,7 +94,7 @@ export default class PersonView extends Component {
       if (!this.connections[name]) this.connections[name] = { targets: [] };
       // console.log(relationDescription);
       const anchor = (width < 670) ? false : (
-        <div className={cx(s.connectionAnchor, p.popup, p['popup--compact'])} data-description={relationDescription} id={id} ref={(el) => this.connections[name].targets[index] = el} />
+        <div className={cx(s.connectionAnchor, p.popup, p['popup--compact'])} data-description={relationDescription} id={`p-${id}`} ref={(el) => this.connections[name].targets[index] = {el, relationDescription}} />
       );
       // console.log(connection);
 
@@ -175,7 +175,8 @@ export default class PersonView extends Component {
     const titles = this.getTitles();
     const connections = this.getConnections();
     const result = (connections.length) ? connections : (<h4 className={t.sectionTitle}>{strings.noPersonsFound}</h4>);
-    // console.log(width);
+    // console.log(titles);
+
     const rootBB = (this.rootElement) ? this.rootElement.getBoundingClientRect() : false;
 
     const wires = (width < 670) ? false : (

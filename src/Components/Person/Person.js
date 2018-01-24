@@ -80,7 +80,7 @@ export default class Person extends Component {
     const { id, bio, title, occupation, imgurl, numberOfConnections, className, profile, color, children, compact, labels, breads, relationDescription } = this.props;
     const formattedBio = this.getBio();
 
-    console.log(relationDescription);
+    // console.log(relationDescription);
 
     const nameAndOccupation = (
       <div className={s.overflow}>

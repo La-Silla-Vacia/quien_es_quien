@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import s from './ConnectionWires.css';
 
 class ConnectionWires extends Component {
+  wires = [];
+
   getWires() {
     const { root, connections } = this.props;
     if (!root) return;
@@ -23,8 +25,22 @@ class ConnectionWires extends Component {
     });
   }
 
+  handleMouseEnter = (i, id) => {
+    this.wires[i].setAttribute('height', 5);
+    const el = document.getElementById(id);
+    if (el) el.setAttribute('data-open', true);
+  };
+
+  handleMouseLeave = (i, id) => {
+    this.wires[i].setAttribute('height', 2);
+    const el = document.getElementById(id);
+    if (el) el.removeAttribute('data-open');
+  };
+
   mapTargets(targets, sourceCoordinates, containerOffset, color) {
-    return targets.map((target) => {
+    return targets.map((targetObj, i) => {
+      const target = targetObj.el;
+      const description = targetObj.relationDescription;
       if (!target || !target.parentNode) return;
       const targetBB = target.getBoundingClientRect();
       const halfTargetSize = target.offsetWidth / 2;
@@ -41,9 +57,13 @@ class ConnectionWires extends Component {
 
       if (targetCoordinates.x < 0 || targetCoordinates.y < 0) return;
       return (
-        <rect key={target.id} width={length} height={1}
+        <rect key={target.id} width={length} height={2}
               style={{transform: `rotate(${angleDeg}deg)` }}
               x={sourceCoordinates.x} y={sourceCoordinates.y}
+              ref={(ref) => {this.wires[`${target.id}-${i}`] = ref}}
+              onMouseEnter={this.handleMouseEnter.bind(false, `${target.id}-${i}`, target.id)}
+              onMouseLeave={this.handleMouseLeave.bind(false, `${target.id}-${i}`, target.id)}
+              title={description}
               fill={color} className={s.line}
         />
       )

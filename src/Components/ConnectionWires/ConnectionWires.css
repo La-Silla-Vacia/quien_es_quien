@@ -9,6 +9,6 @@
 }
 
 .line {
-  transition: .4s;
+  transition: .2s;
   transform-origin: left;
 }
