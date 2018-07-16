@@ -54,7 +54,7 @@ class Base extends Component {
   }
 
   setData() {
-    const uri = 'http://lasillavacia.com/quienesquien/personas/nodesjsonv2';
+    const uri = 'https://lasillavacia.com/quienesquien/personas/nodesjsonv2';
     const now = Math.floor(new Date().getTime() / 1000);
     const retrieveData = localStorage.getItem('qesq_data');
     const dataTime = localStorage.getItem('qesq_data-time');
