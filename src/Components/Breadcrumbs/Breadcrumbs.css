@@ -23,6 +23,7 @@
     border: var(--border-size) solid var(--border-color);
     border-right: 0;
     border-left: 0;
+    left: 0;
     z-index: 3;
     pointer-events: none;
   }
