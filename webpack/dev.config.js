@@ -1,4 +1,3 @@
-const path = require('path');
 const webpack = require('webpack'); //to access built-in plugins
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 
@@ -11,29 +10,36 @@ const config = {
     filename: './script.js'
   },
   devtool: 'inline-source-map',
+  mode: 'development',
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js$/,
         exclude: /(node_modules|bower_components)/,
         loader: 'babel-loader',
         options: {
-          presets: [['es2015', 'react'], 'stage-2'],
-          plugins: [["transform-react-jsx"]]
+          presets: ['@babel/preset-react'],
+          plugins: ['@babel/plugin-proposal-class-properties']
         }
       },
       {
-        test: /\.json$/,
-        loaders: ['json-loader']
-      },
-      {
         test: /\.css$/,
-        loader: ['style-loader', 'style-loader','css-loader?importLoaders=1'],
+        loader: ['style-loader', 'style-loader', { loader: 'css-loader', options: { importLoaders: 1 } }],
         include: /global/,
       },
       {
         test: /\.css$/,
-        loader: ['style-loader', 'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]&sourceMap!postcss-loader'],
+        loader: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1,
+              modules: true
+            }
+          },
+          'postcss-loader'
+        ],
         exclude: /global/,
       },
       {
@@ -57,7 +63,7 @@ const config = {
       // ./public directory is being served
       host: 'localhost',
       port: 3000,
-      server: { baseDir: [''] }
+      server: { baseDir: ['./'] }
     })
   ]
 };

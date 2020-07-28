@@ -7,29 +7,36 @@ const config = {
     // path: path.resolve(__dirname, '../dist'),
     filename: './dist/script.js'
   },
+  mode: 'development',
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js$/,
         exclude: /(node_modules|bower_components)/,
         loader: 'babel-loader',
         options: {
-          presets: [['es2015', 'react'], 'stage-2'],
-          plugins: [["transform-react-jsx"]]
+          presets: ['@babel/preset-react'],
+          plugins: ['@babel/plugin-proposal-class-properties']
         }
       },
       {
-        test: /\.json$/,
-        loaders: ['json-loader']
-      },
-      {
         test: /\.css$/,
-        loader: ['style-loader', 'style-loader','css-loader?importLoaders=1'],
+        loader: ['style-loader', 'style-loader', { loader: 'css-loader', options: { importLoaders: 1 } }],
         include: /global/,
       },
       {
         test: /\.css$/,
-        loader: ['style-loader', 'css-loader?modules&importLoaders=1&localIdentName=lsvi__[hash:base64:7]!postcss-loader'],
+        loader: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1,
+              modules: true
+            }
+          },
+          'postcss-loader'
+        ],
         exclude: /global/,
       },
       {
@@ -52,15 +59,6 @@ const config = {
       minimize: true,
       debug: false
     }),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false,
-      },
-      output: {
-        comments: false,
-      },
-      sourceMap: false,
-    })
   ]
 };
 
