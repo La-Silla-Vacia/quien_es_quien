@@ -54,7 +54,10 @@ class Base extends Component {
   }
 
   setData() {
-    const uri = '//lasillavacia.com/quienesquien/personas/nodesjsonv2';
+    let uri = '//lasillavacia.com/quienesquien/personas/nodesjsonv2';
+    if (process.env.NODE_ENV === 'development') {
+      uri = 'https://cors-anywhere.herokuapp.com/https://lasillavacia.com/quienesquien/personas/nodesjsonv2';
+    }
     const now = Math.floor(new Date().getTime() / 1000);
     const retrieveData = localStorage.getItem('qesq_data');
     const dataTime = localStorage.getItem('qesq_data-time');
