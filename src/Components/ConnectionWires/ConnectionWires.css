@@ -10,5 +10,5 @@
 
 .line {
   transition: .2s;
-  transform-origin: center;
+  transform-origin: left center;
 }
