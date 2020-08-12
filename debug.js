@@ -15,9 +15,14 @@ lsv("quien_es_quien", function (interactive) {
     return;
   }
 
+  let options = {};
+  if (typeof quien_es_quien__data === 'object') {
+    options = quien_es_quien__data;
+  }
+
   //MARKUP
   render((
-    <Base {...interactive} />
+    <Base {...interactive} {...options} />
   ), interactive.el);
 
 }, true); // change this last param to true if you want to skip the DOM checks

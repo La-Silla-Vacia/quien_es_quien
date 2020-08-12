@@ -37,13 +37,15 @@ class Base extends Component {
   }
 
   componentDidMount() {
+    const { show } = this.props;
+    if (show) {
+      setTimeout(() => {
+        this.setState({ 'redirectTo': data.show });
+      }, 60);
+    }
+
     if (typeof quien_es_quien__data === 'object') {
       const data = quien_es_quien__data;
-      if (data.show) {
-        setTimeout(() => {
-          this.setState({ 'redirectTo': data.show });
-        }, 60);
-      }
       data.switch = this.changeRoute;
     }
   }
@@ -54,7 +56,8 @@ class Base extends Component {
   }
 
   setData() {
-    let uri = '//lasillavacia.com/quienesquien/personas/nodesjsonv2';
+    const { customUri } = this.props;
+    let uri = customUri || '//lasillavacia.com/quienesquien/personas/nodesjsonv2';
     if (process.env.NODE_ENV === 'development') {
       uri = 'https://cors-anywhere.herokuapp.com/https://lasillavacia.com/quienesquien/personas/nodesjsonv2';
     }

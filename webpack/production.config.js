@@ -5,9 +5,9 @@ const config = {
   entry: ['whatwg-fetch', './debug.js'],
   output: {
     // path: path.resolve(__dirname, '../dist'),
-    filename: './dist/script.js'
+    filename: './script.js'
   },
-  mode: 'development',
+  mode: 'production',
   module: {
     rules: [
       {
