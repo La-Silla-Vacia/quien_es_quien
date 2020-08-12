@@ -21,3 +21,5 @@ lsv("quien_es_quien", function (interactive) {
   ), interactive.el);
 
 }, true); // change this last param to true if you want to skip the DOM checks
+
+window.initQuienEsQuien = (domNode, params = {}) => render((<Base {...params} />), domNode);

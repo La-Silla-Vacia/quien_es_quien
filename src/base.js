@@ -96,7 +96,6 @@ class Base extends Component {
 
     const people = this.formatPerson(rawPeople);
     const connections = this.formatConnections(rawConnections);
-
     const peopleLookup = {};
     for (let i = 0, len = people.length; i < len; i++) {
       peopleLookup[people[i].id] = people[i];

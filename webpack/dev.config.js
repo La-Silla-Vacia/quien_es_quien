@@ -6,8 +6,8 @@ const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const config = {
   entry: ['whatwg-fetch', './debug.js'],
   output: {
-    //path: __dirname,
-    filename: './script.js'
+    path: __dirname,
+    filename: '../script.js'
   },
   devtool: 'inline-source-map',
   mode: 'development',
